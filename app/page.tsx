@@ -8,33 +8,9 @@ import SectionPromoHome1 from "@/section/sectionPromoHome1";
 export default function Home() {
   return (
     <>
-      <div className="bg-white  w-screen h-screen">
-        <div className="pt-4 flex justify-around items-start">
-          <div>
-            <Image src="/images/logo.svg" alt="Logo" width={100} height={100} />
-          </div>
-
-          <div>
-            <Serchbar />
-          </div>
-
-          <div className="flex ">
-            <div>
-              <TablerShoppingCart className="mr-4" />
-            </div>
-
-            <div>
-              <TablerUserCircle />
-            </div>
-          </div>
-        </div>
-
+      <div className="min-h-screen w-full bg-white">
         <div>
-          <Menu />
-        </div>
-
-        <div>
-          <SectionPromoHome1/>
+          <SectionPromoHome1 />
         </div>
 
         <div className="px-20">
@@ -44,23 +20,36 @@ export default function Home() {
               Categorias destacadas
             </h3>
           </span>
-
-          <div className="px-4 py-8 text-[#022954] ">
-            <div className="flex justify-between items-center">
-            <div>
-                <h4 className="font-bold">Ventilador</h4>
-                <p>
-                Lorem ipsum dolor sit amet consectetur adipiscing elit hendrerit  scelerisque.
-                </p>
-              </div>
-              <div>
-                
-              </div>
-            </div>
-              
-          </div>
         </div>
 
+        <div className="flex justify-center items-center mx-4">
+          <div className="px-4 py-8 text-[#022954] ">
+            <div className="flex justify-between items-center">  
+
+              <div>
+                <h4 className="font-bold">Ventilador</h4>
+                <p>
+                  Lorem ipsum dolor sit amet consectetur adipiscing elit
+                  hendrerit scelerisque.
+                </p>
+              </div>
+              <div className="flex items-center ">
+                <div className="relative w-[400px] h-[400px]">
+                  <div className="w-full h-full">
+                    <Image
+                      src="/images/vent.png"
+                      alt="Electrodomésticos"
+                      fill
+                      className="object-contain"
+                    />
+                  </div>
+
+                  
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </>
   );

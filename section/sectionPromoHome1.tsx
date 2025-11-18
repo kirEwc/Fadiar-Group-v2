@@ -4,7 +4,7 @@ import "@fontsource/just-me-again-down-here";
 export default function SectionPromoHome1() {
   return (
     <>
-      <div id="blanco" className="bg-white w-full h-82 relative ">
+      <div id="blanco" className="bg-white w-full h-82 relative text-white">
         <div
           id="azul"
           className="bg-[#022854] w-full h-60 py-4 flex justify-center items-center"
