@@ -2,6 +2,8 @@ import Menu from "@/component/menu/menu";
 import Serchbar from "@/component/searchBar/searchBar";
 import { TablerShoppingCart, TablerUserCircle } from "@/icons/icons";
 import Image from "next/image";
+import "@fontsource/just-me-again-down-here";
+import SectionPromoHome1 from "@/section/sectionPromoHome1";
 
 export default function Home() {
   return (
@@ -31,30 +33,34 @@ export default function Home() {
           <Menu />
         </div>
 
-        <div id="blanco"className="bg-white w-full h-80 relative">
-          <div id="azul" className="bg-[#062D54] w-full h-60 py-4 flex justify-center items-center">       
-            
-
-              <div className="flex h-full w-4xl justify-center">
-              <div id="lorem" className="flex justify-center items-center w-2/4">lorem</div>
-              <div id="sazon" className="w-2/4">
-              <h1>echakle sason a la olla</h1>
-              <div id="img" className="absolute top-0 left-24 h-full w-full flex justify-center items-center">
-          <Image
-            src="/images/pot.svg"
-            alt="Logo"
-            width={0}
-            height={0}
-            className="h-full w-auto block"
-          />
+        <div>
+          <SectionPromoHome1/>
         </div>
+
+        <div className="px-20">
+          <span className="text-[#022954]">
+            Entra y consulta
+            <h3 className="text-[#D69F04] text-lg font-bold">
+              Categorias destacadas
+            </h3>
+          </span>
+
+          <div className="px-4 py-8 text-[#022954] ">
+            <div className="flex justify-between items-center">
+            <div>
+                <h4 className="font-bold">Ventilador</h4>
+                <p>
+                Lorem ipsum dolor sit amet consectetur adipiscing elit hendrerit  scelerisque.
+                </p>
               </div>
-
-
+              <div>
+                
               </div>
-
+            </div>
+              
           </div>
         </div>
+
       </div>
     </>
   );
