@@ -5,6 +5,7 @@ import BottomShadow from "@/component/ui/bottomShadow";
 
 import SectionMoreproducts from "@/section/sectionMoreproducts";
 import SectionPromoHome2 from "@/section/sectionPromoHome2";
+import Footer from "@/component/footer/footer";
 
 
 export default function Home() {
@@ -29,6 +30,10 @@ export default function Home() {
 
         <div className="mt-10">
           <SectionPromoHome2/>
+        </div>
+
+        <div>
+          <Footer />
         </div>
 
       </div>
