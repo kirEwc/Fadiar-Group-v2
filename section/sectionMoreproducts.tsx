@@ -7,7 +7,7 @@ export default function SectionMoreproducts() {
       <div className="px-20">
         <span className="text-[#022954] font-bold">
           Entra y consulta
-          <h3 className="text-[#D69F04] text-lg font-bold">
+          <h3 className="text-accent text-lg font-bold">
             Categorias destacadas
           </h3>
         </span>

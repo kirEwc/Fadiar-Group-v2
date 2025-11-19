@@ -9,7 +9,7 @@
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-primary: #022854;
-  --color-accent: #D69F04;
+  --color-accent: #d69f04;
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
 }

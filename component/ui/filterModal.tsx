@@ -158,11 +158,11 @@ export const FilterSection: React.FC<FilterSectionProps> = ({
             <div
               ref={trackRef}
               onClick={handleTrackClick}
-              className="relative h-2 bg-gradient-to-r from-gray-200/60 to-gray-300/60 rounded-full cursor-pointer"
+              className="relative h-2 bg-linear-to-r from-gray-200/60 to-gray-300/60 rounded-full cursor-pointer"
             >
               {/* Active range */}
               <div
-                className="absolute h-full bg-gradient-to-r from-[#003F7F] to-[#0059B3] rounded-full transition-all duration-150"
+                className="absolute h-full bg-linear-to-r from-[#003F7F] to-[#0059B3] rounded-full transition-all duration-150"
                 style={{
                   left: `${getPercentage(valueMin)}%`,
                   width: `${getPercentage(valueMax) - getPercentage(valueMin)}%`,

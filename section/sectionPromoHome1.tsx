@@ -7,7 +7,7 @@ export default function SectionPromoHome1() {
       <div id="blanco" className="bg-white w-full h-82 relative text-white">
         <div
           id="azul"
-          className="bg-[#022854] w-full h-60 py-4 flex justify-center items-center"
+          className="bg-primary w-full h-60 py-4 flex justify-center items-center"
         >
           <div className="flex h-full w-4xl justify-center mx-1">
             <div id="lorem" className="flex justify-center flex-col w-3/4 ">
