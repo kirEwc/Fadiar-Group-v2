@@ -155,7 +155,8 @@ export default function Products(){
 
 
     return(
-        <main className="flex w-full h-auto">
+        <main className="flex w-full h-auto flex-col">
+            <div id="main" className="flex flex-row">
 
             <div id="Sidebar" className="w-1/4 mx-4">
 
@@ -211,8 +212,6 @@ export default function Products(){
 
             </div>
 
-
-
             <div id="content" className="w-3/4 relative overflow-hidden">
                 <div className="relative overflow-hidden">
                     <SectionPromoHome1 />
@@ -241,6 +240,33 @@ export default function Products(){
                 </div>
                 <div className="flex justify-center my-10">
                   <Pagination totalPages={5} />
+                </div>
+            </div>
+        </div>
+
+{/* Aqui estoy esperando que se vea el banner del billete y simule el espacio para ver el resto de cosas. h-96 */}
+            <div id="Banner dolar" className="w-full h-96 bg-blue-800">
+
+            </div>
+
+            <div id="Mas recientes" className="w-full h-auto mt-20">
+              <div className="flex flex-col items-start mb-5 pl-10">
+              <h2 className="text-xl text-[#022954] mb-2">Mas recientes</h2>
+              <h1 className="text-2xl text-[#D69F04] font-bold mb-2">Últimos productos</h1>
+              </div>
+
+                <div id="products" className="grid 2xl:grid-cols-6 2xl:grid-rows-1 gap-4 md:ml-5 xl:mx-20">
+                    {products.slice(0, 6).map((product) => (
+                    <Card
+                      key={product.id}
+                      category={product.category}
+                      title={product.title}
+                      brand={product.brand}
+                      warranty={product.warranty}
+                      price={product.price}
+                      image={product.image}
+                    />
+                ))}
                 </div>
             </div>
 

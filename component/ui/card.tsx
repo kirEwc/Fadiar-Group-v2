@@ -18,7 +18,7 @@ export default function Card({
     image 
 }: CardProps) {
     return (
-        <div className="bg-white block max-w-sm p-4 border border-gray-300 rounded-2xl shadow-sm">
+        <div className="bg-white block max-w-72 p-4 border border-gray-300 rounded-2xl shadow-sm">
             <img className="rounded-2xl w-full mb-4" src={image} alt={title} />
 
             <div className="space-y-2">
