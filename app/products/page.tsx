@@ -1,7 +1,7 @@
 
 "use client";
 import BottomShadow from "@/component/ui/bottomShadow";
-import SectionPromoHome1 from "@/section/sectionPromoHome1";
+import SectionPromoHome1 from "@/section/home/sectionPromoHome1";
 import { FilterSection } from "@/component/ui/filterModal";
 import { useState } from "react";
 import Card from "@/component/ui/card";

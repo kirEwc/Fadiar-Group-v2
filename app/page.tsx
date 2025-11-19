@@ -1,8 +1,8 @@
 import "@fontsource/just-me-again-down-here";
-import SectionPromoHome1 from "@/section/sectionPromoHome1";
+import SectionPromoHome1 from "@/section/home/sectionPromoHome1";
 import BottomShadow from "@/component/ui/bottomShadow";
-import SectionMoreproducts from "@/section/sectionMoreproducts";
-import SectionPromoHome2 from "@/section/sectionPromoHome2";
+import SectionMoreproducts from "@/section/home/sectionMoreproducts";
+import SectionPromoHome2 from "@/section/home/sectionPromoHome2";
 
 
 
