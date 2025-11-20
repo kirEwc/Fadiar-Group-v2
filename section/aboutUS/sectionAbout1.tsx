@@ -40,10 +40,19 @@ export const SectionAbout1 = () => {
               diam natoque ultrices ornare lectus. Tortor viverra condimentum
               vestibulum commodo. Sed proin dictum risus in nam.
             </p>
-            <p className="mt-7">
-              Para más información sobre la empresa matriz consulte el siguiente
-              sitio web:<span className="text-accent font-bold"> www.fadiar.com </span>
-            </p>
+       <p className="mt-7">
+  Para más información sobre la empresa matriz consulte el siguiente
+  sitio web:
+  <a
+    href="https://www.fadiar.com"
+    target="_blank"
+    rel="noopener noreferrer"
+    className="text-accent font-bold cursor-pointer"
+  >
+    {" "}www.fadiar.com
+  </a>
+</p>
+
           </div>
         </div>
 
