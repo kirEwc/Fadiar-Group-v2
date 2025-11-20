@@ -19,7 +19,7 @@ const About = () => {
         <SectionAbout3 />
       </div>
 
-      <div>
+      <div className="mt-10">
         <SectionAbout4 />
       </div>
     </>

@@ -6,16 +6,16 @@ import { ArrowDownToLine } from "lucide-react";
 export const SectionAbout3 = () => {
   return (
     <>
-      <div className="flex items-center justify-center w-full h-72 ">
+      <div className="flex flex-col  md:flex-row items-center justify-center w-full h-72  my-50 md:my-0">
         <div>
           <img
             src="/images/mobile.svg"
             alt="Group"
-            className="w-full h-72 object-cover"
+            className="w-full  h-72 object-cover"
           />
         </div>
 
-        <div className="w-140">
+        <div className="mx-4 md:mx-0 md:w-140">
           <p className="text-gray-500 text-md">Al alcance de su mano</p>
           <h1 className="text-3xl font-bold">
             Descargue nuestra App{" "}
@@ -27,10 +27,11 @@ export const SectionAbout3 = () => {
           </p>
           <div className="mt-8">
             <ButtonPromoHome1 
-            name="Download" 
+            name="Descargar"
             color="#022854" 
             icon={<ArrowDownToLine  />}
             iconPosition="left"
+            className = "inline-flex items-center sm:gap-2 rounded-xl px-6 sm:px-6 py-2 gap-1 sm:py-3 text-sm font-inter font-semibold text-white shadow-md transition hover:opacity-90 hover:-translate-y-0.5 hover:shadow-lg cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white/60"
             />
           </div>
         </div>
