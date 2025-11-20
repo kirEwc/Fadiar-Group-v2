@@ -8,7 +8,7 @@ export const faqData = [
     answer: 'Lorem ipsum dolores fugiat et voluptatum Quis eum voluptates quos ut beatae dolores et iste assumenda non beatae quis.'
   },
   {
-    question: '¿Lorem ipsum dolor sit amet. ?',
+    question: '¿Lorem ipsum dolor sit amet.?',
     answer: 'Lorem ipsum dolores fugiat et voluptatum Quis eum voluptates quos ut beatae dolores et iste assumenda non beatae quis.'
   },
   {
@@ -20,7 +20,7 @@ export const faqData = [
     answer: 'Lorem ipsum dolores fugiat et voluptatum Quis eum voluptates quos ut beatae dolores et iste assumenda non beatae quis.'
   },
   {
-    question: '¿Lorem ipsum dolor sit amet. ?',
+    question: '¿Lorem ipsum dolor sit amet.?',
     answer: 'Lorem ipsum dolores fugiat et voluptatum Quis eum voluptates quos ut beatae dolores et iste assumenda non beatae quis.'
   }
 ];
