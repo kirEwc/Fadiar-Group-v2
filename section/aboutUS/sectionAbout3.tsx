@@ -15,7 +15,7 @@ export const SectionAbout3 = () => {
           />
         </div>
 
-        <div className="mx-4 md:mx-0 md:w-140">
+        <div className="mx-4 mt-2 md:mt-0 md:mx-0 md:w-140">
           <p className="text-gray-500 text-md">Al alcance de su mano</p>
           <h1 className="text-3xl font-bold">
             Descargue nuestra App{" "}
