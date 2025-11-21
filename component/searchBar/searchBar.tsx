@@ -8,7 +8,7 @@ export default function Serchbar() {
   return (
     <>
       <div>
-        <div className="flex justify-center w-full md:w-xl py-1 ">
+        <div className="flex justify-center w-full md:w-xl  ">
           <div className="flex items-end w-full max-w-xl border-b border-gray-400 pb-1">
             <input
               type="text"

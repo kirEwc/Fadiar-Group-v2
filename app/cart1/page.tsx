@@ -4,7 +4,7 @@ import { CheckoutStepper } from "@/component/ui/stepper";
 
 export default function Cart1() {
   return (
-    <div className=" mx-4 md:px-25 2xl:px-35">
+    <div className=" mx-4 md:px-25 2xl:px-28">
       <div className="mt-5">
         <p className="text-xs text-gray-400 mb-4">
           <span className="text-gray-400">Home - </span>
@@ -14,7 +14,7 @@ export default function Cart1() {
       </div>
 
       <div className="flex justify-center items-center">
-        <div className=" w-140  lg:ml-15">
+        <div className=" w-140  lg:ml-20">
           <CheckoutStepper currentStep={0} />
         </div>
       </div>
