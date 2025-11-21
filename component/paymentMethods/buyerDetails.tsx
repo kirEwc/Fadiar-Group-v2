@@ -1,58 +1,39 @@
 "use client";
-import { ChevronDown, ChevronUp } from "lucide-react";
-import { useEffect, useRef, useState } from "react";
+import { useState } from "react";
+import { InputField } from "../inputField/inputField";
+import PhoneInput from "../phoneInput/phoneInput";
 
 export default function BuyerDetails() {
-  const [countries, setCountries] = useState<any[]>([]);
-  const [selectedCountry, setSelectedCountry] = useState({
-    name: "Cuba",
-    code: "CU",
+  // Estados para los datos del formulario
+  const [formData, setFormData] = useState({
+    nombre: "",
+    apellidos: "",
+    email: "",
+    telefono: "",
+    telefonoCountry: "",
+    direccion: "",
+    nota: "",
   });
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-  const dropdownRef = useRef<HTMLDivElement>(null);
 
-  // Cargar banderas una vez
-  useEffect(() => {
-    async function loadFlags() {
-      try {
-        const res = await fetch("https://restcountries.com/v3.1/all?fields=name,cca2,flags");
-        if (!res.ok) throw new Error("Error al cargar países");
+  // Función para manejar cambios en los inputs
+  const handleInputChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
 
-        const data = await res.json();
-
-        if (!Array.isArray(data)) throw new Error("Datos inválidos recibidos");
-
-        const mapped = data.map((c: any) => ({
-          name: c.name.common,
-          code: c.cca2,
-          flag: c.flags.png,
-        }));
-
-        setCountries(mapped);
-      } catch (err) {
-        console.error("ERROR:", err);
-      }
-    }
-
-    loadFlags();
-  }, []);
-
-  // Cerrar dropdown al hacer clic fuera
-  useEffect(() => {
-    function handleClickOutside(event: MouseEvent) {
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
-        setIsDropdownOpen(false);
-      }
-    }
-
-    if (isDropdownOpen) {
-      document.addEventListener("mousedown", handleClickOutside);
-    }
-
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, [isDropdownOpen]);
+  // Función para manejar cambios en el teléfono
+  const handlePhoneChange = (value: string, countryCode: string) => {
+    setFormData((prev) => ({
+      ...prev,
+      telefono: value,
+      telefonoCountry: countryCode,
+    }));
+  };
 
 
   return (
@@ -67,96 +48,51 @@ export default function BuyerDetails() {
         <div className="w-full space-y-6 mt-4">
           {/* Grid de 2 columnas */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            {/* Nombre */}
-            <input
+            <InputField
               type="text"
               placeholder="Nombre"
-              className="w-full rounded-2xl px-4 py-3 bg-[#F5F7FA] text-gray-700 placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-accent"
+              name="nombre"
+              value={formData.nombre}
+              onChange={handleInputChange}
             />
-
-            {/* Apellidos */}
-            <input
+            <InputField
               type="text"
               placeholder="Apellidos"
-              className="w-full rounded-2xl px-4 py-3 bg-[#F5F7FA] text-gray-700 placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-accent"
+              name="apellidos"
+              value={formData.apellidos}
+              onChange={handleInputChange}
             />
-
-            {/* Correo */}
-            <input
+            <InputField
               type="email"
               placeholder="Correo Electrónico"
-              className="w-full rounded-2xl px-4 py-3 bg-[#F5F7FA] text-gray-700 placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-accent"
+              name="email"
+              value={formData.email}
+              onChange={handleInputChange}
             />
 
             {/* Teléfono con bandera */}
-            <div ref={dropdownRef} className="relative w-full">
-              <div className="w-full flex items-center gap-2 rounded-2xl px-4 py-3 bg-[#F5F7FA] text-gray-700 focus-within:ring-2 focus-within:ring-accent">
-                <button
-                  type="button"
-                  onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-                  className="flex items-center gap-1 hover:opacity-80 transition-opacity"
-                >
-                  <img
-                    src={`https://flagcdn.com/32x24/${selectedCountry.code.toLowerCase()}.png`}
-                    alt={`Bandera de ${selectedCountry.name}`}
-                    className="w-6 h-auto"
-                  />
-                  {isDropdownOpen ? (
-                    <ChevronUp className="h-3 w-3 min-w-5 min-h-4" />
-                  ) : (
-                    <ChevronDown className="h-3 w-3 min-w-5 min-h-4" />
-                  )}
-                </button>
-                <span className="text-gray-600 ml-4">|</span>
-                <input
-                  type="text"
-                  placeholder="Teléfono"
-                  className="flex-1 bg-transparent outline-none text-gray-700 placeholder:text-gray-500"
-                />
-              </div>
-
-              {/* Dropdown de países */}
-              {isDropdownOpen && (
-                <div className="absolute z-10 mt-2 w-full max-h-60 overflow-y-auto bg-white rounded-2xl shadow-lg border border-gray-200">
-                  {countries.length > 0 ? (
-                    countries.map((country) => (
-                      <button
-                        key={country.code}
-                        type="button"
-                        onClick={() => {
-                          setSelectedCountry(country);
-                          setIsDropdownOpen(false);
-                        }}
-                        className="w-full flex items-center gap-3 px-4 py-2 hover:bg-gray-100 transition-colors text-left"
-                      >
-                        <img
-                          src={country.flag}
-                          alt={`Bandera de ${country.name}`}
-                          className="w-6 h-auto"
-                        />
-                        <span className="text-gray-700">{country.name}</span>
-                      </button>
-                    ))
-                  ) : (
-                    <div className="px-4 py-2 text-gray-500">Cargando países...</div>
-                  )}
-                </div>
-              )}
-            </div>
-            
+            <PhoneInput
+              value={formData.telefono}
+              onChange={handlePhoneChange}
+              placeholder="Teléfono"
+            />
           </div>
 
-          {/* Dirección */}
-          <input
+          <InputField
             type="text"
             placeholder="Dirección"
-            className="w-full rounded-2xl px-4 py-3 bg-[#F5F7FA] text-gray-700 placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-accent"
+            name="direccion"
+            value={formData.direccion}
+            onChange={handleInputChange}
           />
 
           {/* Nota */}
           <textarea
             placeholder="Nota"
             rows={5}
+            name="nota"
+            value={formData.nota}
+            onChange={handleInputChange}
             className="w-full rounded-2xl px-4 py-3 bg-[#F5F7FA] text-gray-700 placeholder:text-gray-500 resize-none focus:outline-none focus:ring-2 focus:ring-accent"
           />
         </div>
