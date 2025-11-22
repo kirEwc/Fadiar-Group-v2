@@ -1,5 +1,6 @@
 import Image from "next/image";
 import "@fontsource/just-me-again-down-here";
+import BottomShadow from "@/component/ui/bottomShadow";
 
 export default function SectionPromoHome1() {
   return (
@@ -35,17 +36,34 @@ export default function SectionPromoHome1() {
 
               <div
                 id="img"
-                className="relative flex justify-center items-center top-[-35] z-10"
+                className="relative flex justify-center items-center top-[-35] "
               >
                 <Image
                   src="/images/pot.png"
                   alt="Electrodomésticos"
                   width={1600}
                   height={1600}
-                  className="w-62 ml-2 md:scale-110 md:w-100"
+                  className="ml-2 scale-100 w-75 md:scale-110 md:w-100 z-20"
                   loading="lazy"
 
                 />
+                {/* Sombra pegada a la imagen */}
+                <div id="arrocera" className="absolute -bottom-3 w-full flex justify-center ">
+                  <BottomShadow 
+                  width="180px" 
+                  height="30px" 
+                  opacity={0.9} 
+                  className="left-8 top-[-28]  sm:top-[-30] md:left-0 md:top-[-20] lg:left-0 lg:top-[-20] z-10"
+                  />
+                </div>
+                <div id="shadow-reina" className="absolute -bottom-3 w-full flex justify-center">
+                    <BottomShadow 
+                    width="180px" 
+                    height="40px" 
+                    opacity={0.9} 
+                    className="left-38 top-[-46] sm:left-38 md:top-[-36] lg:left-38 lg:top-[-35] xl:left-40 z-10"
+                    />
+                </div>
               </div>
             </div>
           </div>
