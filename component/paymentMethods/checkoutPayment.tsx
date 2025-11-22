@@ -25,6 +25,7 @@ export default function CheckoutPayment() {
               <span className="text-md">Subtotal:</span>
               <span className="font-medium">$ 582 USD</span>
             </div>
+             
 
             <div>
               <div className="flex justify-between items-center px-6 py-4 text-[#022954]">
