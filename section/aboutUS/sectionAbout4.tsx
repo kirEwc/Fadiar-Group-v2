@@ -3,7 +3,7 @@ export const SectionAbout4 = () => {
     <>
       <div className="bg-primary w-full h-72 relative">
 
-        <div className="absolute mt-12 text-center w-full md:ml-60 md:w-80 text-3xl">
+        <div className="absolute font-bold mt-12 text-center w-full md:ml-30 2xl:ml-60 md:w-90 text-3xl">
           <h1>
             <span className="text-accent">Pague de forma Segura</span>{" "}
             <span className="text-white">Presencial y en efectivo</span>

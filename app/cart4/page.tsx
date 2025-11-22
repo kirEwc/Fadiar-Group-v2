@@ -1,11 +1,12 @@
-import PaymentMethods from "@/component/paymentMethods/paymentMethods";
+import BeneficiaryPaymentDetails from "@/component/beneficiaryPaymentDetails/beneficiaryPaymentDetails";
+import PaymentConfirmation from "@/component/paymentConfirmation/paymentConfirmation";
 import { CheckoutStepper } from "@/component/ui/stepper";
 import { SectionAbout3 } from "@/section/aboutUS/sectionAbout3";
 import { SectionAbout4 } from "@/section/aboutUS/sectionAbout4";
 
-export default function Cart2() {
+export default function Cart4() {
   return (
-    <div>
+    <>
       <div className="   md:px-25 ">
         <div className="mx-4">
           <div className="mt-10 ">
@@ -20,22 +21,23 @@ export default function Cart2() {
 
           <div className="flex justify-center items-center ">
             <div className=" w-140  lg:ml-25">
-              <CheckoutStepper currentStep={1} />
+              <CheckoutStepper currentStep={3} />
             </div>
           </div>
-        </div>
 
-        <div className="mt-20 ">
-          <PaymentMethods />
+          <div className="mt-15">
+            <PaymentConfirmation />
+          </div>
         </div>
 
         <div className="sm:py-20  mt-70 sm:mt-20">
           <SectionAbout3 />
         </div>
       </div>
+
       <div className="sm:hidden mt-60">
         <SectionAbout4 />
       </div>
-    </div>
+    </>
   );
 }

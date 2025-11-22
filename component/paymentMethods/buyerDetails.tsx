@@ -4,18 +4,18 @@ import { InputField } from "../inputField/inputField";
 import PhoneInput from "../phoneInput/phoneInput";
 
 export default function BuyerDetails() {
-  // Estados para los datos del formulario
+  // Form data state
   const [formData, setFormData] = useState({
-    nombre: "",
-    apellidos: "",
+    firstName: "",
+    lastName: "",
     email: "",
-    telefono: "",
-    telefonoCountry: "",
-    direccion: "",
-    nota: "",
+    phone: "",
+    phoneCountry: "",
+    address: "",
+    note: "",
   });
 
-  // Función para manejar cambios en los inputs
+  // Function to handle input changes
   const handleInputChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
@@ -26,12 +26,12 @@ export default function BuyerDetails() {
     }));
   };
 
-  // Función para manejar cambios en el teléfono
+  // Function to handle phone changes
   const handlePhoneChange = (value: string, countryCode: string) => {
     setFormData((prev) => ({
       ...prev,
-      telefono: value,
-      telefonoCountry: countryCode,
+      phone: value,
+      phoneCountry: countryCode,
     }));
   };
 
@@ -46,20 +46,20 @@ export default function BuyerDetails() {
           Propietario de la cuenta desde donde se realiza la compra
         </p>
         <div className="w-full space-y-6 mt-4">
-          {/* Grid de 2 columnas */}
+          {/* 2 column grid */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <InputField
               type="text"
               placeholder="Nombre"
-              name="nombre"
-              value={formData.nombre}
+              name="firstName"
+              value={formData.firstName}
               onChange={handleInputChange}
             />
             <InputField
               type="text"
               placeholder="Apellidos"
-              name="apellidos"
-              value={formData.apellidos}
+              name="lastName"
+              value={formData.lastName}
               onChange={handleInputChange}
             />
             <InputField
@@ -70,9 +70,9 @@ export default function BuyerDetails() {
               onChange={handleInputChange}
             />
 
-            {/* Teléfono con bandera */}
+            {/* Phone with flag */}
             <PhoneInput
-              value={formData.telefono}
+              value={formData.phone}
               onChange={handlePhoneChange}
               placeholder="Teléfono"
             />
@@ -81,17 +81,17 @@ export default function BuyerDetails() {
           <InputField
             type="text"
             placeholder="Dirección"
-            name="direccion"
-            value={formData.direccion}
+            name="address"
+            value={formData.address}
             onChange={handleInputChange}
           />
 
-          {/* Nota */}
+          {/* Note */}
           <textarea
             placeholder="Nota"
             rows={5}
-            name="nota"
-            value={formData.nota}
+            name="note"
+            value={formData.note}
             onChange={handleInputChange}
             className="w-full rounded-2xl px-4 py-3 bg-[#F5F7FA] text-gray-700 placeholder:text-gray-500 resize-none focus:outline-none focus:ring-2 focus:ring-accent"
           />

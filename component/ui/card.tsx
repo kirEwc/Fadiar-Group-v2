@@ -1,5 +1,4 @@
 "use client";
-import { usePathname } from "next/navigation";
 import { ShoppingCart, Trash2 } from "lucide-react";
 
 interface CardProps {
@@ -10,8 +9,9 @@ interface CardProps {
   price: string;
   image: string;
   position?: "horizontal" | "vertical";
-
-  maxWidthVertical?: string; // <-- nueva prop opcional
+  maxWidthVertical?: string;
+  actionIcon?: "cart" | "delete" | "none";
+  quantityProducts?: number;
 }
 
 export default function Card({
@@ -23,14 +23,13 @@ export default function Card({
   image,
   position = "horizontal",
   maxWidthVertical = "480px",
+  actionIcon = "cart",
+  quantityProducts,
 }: CardProps) {
-  const pathname = usePathname();
-
-  const isCartPage = pathname.includes("cart1") || pathname.includes("cart4");
 
   return (
     <>
-      {position === "horizontal" ? (
+      {position === "vertical" ? (
         <div className="bg-white max-w-72 p-4 border border-gray-300 rounded-2xl shadow-sm h-full flex flex-col">
           <div
             className="w-full mb-4 overflow-hidden rounded-2xl shrink-0"
@@ -120,30 +119,34 @@ export default function Card({
             </p>
 
             <div className="mt-auto  flex items-center justify-between gap-2">
-              <div
-                className={`flex items-center  rounded-xl font-bold border ${
-                  isCartPage ? "border-primary" : "border-gray"
-                }`}
-              >
-                <button className="px-3 py-2 text-accent cursor-pointer">
-                  −
-                </button>
-                <span className="px-4 my-1 border-x border-gray-300 ">1</span>
-                <button className="px-3 py-2 text-accent cursor-pointer">
-                  +
-                </button>
-              </div>
+              {quantityProducts && quantityProducts > 0 ? (
+                <p className="text-[#777777] text-sm">
+                  Cantidad: {quantityProducts}
+                </p>
+              ) : (
+                <div
+                  className={`flex items-center  rounded-xl font-bold border ${
+                    actionIcon === "delete" ? "border-primary" : "border-gray"
+                  }`}
+                >
+                  <button className="px-3 py-2 text-accent cursor-pointer">
+                    −
+                  </button>
+                  <span className="px-4 my-1 border-x border-gray-300 ">1</span>
+                  <button className="px-3 py-2 text-accent cursor-pointer">
+                    +
+                  </button>
+                </div>
+              )}
 
               <div>
-                {isCartPage ? (
-                  // Botón SOLO el icono eliminar
+                {actionIcon === "delete" ? (
                   <Trash2 className="w-6 h-6 text-[#1E1E1E] cursor-pointer" />
-                ) : (
-                  // Botón carrito con estilos
+                ) : actionIcon === "cart" ? (
                   <button className="p-2.5 px-8 border border-primary rounded-xl cursor-pointer">
                     <ShoppingCart className="w-5 h-5 text-primary" />
                   </button>
-                )}
+                ) : null}
               </div>
             </div>
           </div>
