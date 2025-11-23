@@ -1,6 +1,5 @@
 
 "use client";
-import BottomShadow from "@/component/ui/bottomShadow";
 import SectionPromoHome1 from "@/section/home/sectionPromoHome1";
 import { FilterSection } from "@/component/ui/filterModal";
 import { useState } from "react";
@@ -160,74 +159,67 @@ export default function Products(){
         <main className="flex w-full h-auto flex-col">
             <div id="main" className="flex flex-row">
 
-            <div id="Sidebar" className="w-1/5 mx-4">
+            <div id="Sidebar" className="w-1/5 mx-4 hidden lg:flex flex-col gap-3">
 
             {/* Categorías */}
-      <FilterSection
-        title="Categorías"
-        type="checkbox"
-        selected={category}
-        onChange={setCategory}
-        options={[
-          { label: "Refrigeradores y Neveras", value: "neveras" },
-          { label: "Cocinas y Hornos", value: "cocinas" },
-          { label: "Lavadoras y Secadoras", value: "lavadoras" },
-        ]}
-      />
+                <FilterSection
+                  title="Categorías"
+                  type="checkbox"
+                  selected={category}
+                  onChange={setCategory}
+                  options={[
+                    { label: "Refrigeradores y Neveras", value: "neveras" },
+                    { label: "Cocinas y Hornos", value: "cocinas" },
+                    { label: "Lavadoras y Secadoras", value: "lavadoras" },
+                  ]}
+                />
 
-      {/* Precio */}
-      <FilterSection
-        title="Precio"
-        type="range"
-        min={0}
-        max={200}
-        valueMin={price[0]}
-        valueMax={price[1]}
-        onChange={setPrice}
-      />
+                {/* Precio */}
+                <FilterSection
+                  title="Precio"
+                  type="range"
+                  min={0}
+                  max={200}
+                  valueMin={price[0]}
+                  valueMax={price[1]}
+                  onChange={setPrice}
+                />
 
-      {/* Marcas */}
-      <FilterSection
-        title="Marcas"
-        type="checkbox"
-        selected={brands}
-        onChange={setBrands}
-        options={[
-          { label: "Ecko", value: "ecko" },
-          { label: "Midea", value: "midea" },
-          { label: "Columbia", value: "columbia" },
-        ]}
-      />
+                {/* Marcas */}
+                <FilterSection
+                  title="Marcas"
+                  type="checkbox"
+                  selected={brands}
+                  onChange={setBrands}
+                  options={[
+                    { label: "Ecko", value: "ecko" },
+                    { label: "Midea", value: "midea" },
+                    { label: "Columbia", value: "columbia" },
+                  ]}
+                />
 
-      {/* Relevantes */}
-      <FilterSection
-        title="Relevantes"
-        type="radio"
-        selected={relevant}
-        onChange={(value) => setRelevant(value as string[])}
-        options={[
-          { label: "Ofertas", value: "ofertas" },
-          { label: "Más vendidos", value: "masVendidos" },
-          { label: "Próximamente", value: "proximamente" },
-        ]}
-      />
+                {/* Relevantes */}
+                <FilterSection
+                  title="Relevantes"
+                  type="radio"
+                  selected={relevant}
+                  onChange={(value) => setRelevant(value as string[])}
+                  options={[
+                    { label: "Ofertas", value: "ofertas" },
+                    { label: "Más vendidos", value: "masVendidos" },
+                    { label: "Próximamente", value: "proximamente" },
+                  ]}
+                />
 
             </div>
 
-            <div id="content" className="w-4/5  overflow-hidden">
-                <div >
+            <div id="content" className="w-full mb-20  lg:w-4/5 overflow-hidden">
+                <div id="content-ollas">
                     <SectionPromoHome1 />
+
                 </div>
 
-                <div id="shadow-arrocera" className="flex justify-center relative left-44 top-[-110px]">
-                    <BottomShadow width="200px" height="80px" opacity={0.6} />
-                </div>
-
-                <div id="shadow-reina" className="flex justify-center relative left-92 top-[-120px]">
-                    <BottomShadow width="200px" height="80px" opacity={0.6} />
-                </div>
-
-                <div id="products" className="grid grid-cols-2 grid-rows-2 md:grid-cols-3 md:grid-rows-2 lg:grid-cols-3 lg:grid-rows-3 xl:grid-cols-4 xl:grid-rows-3 2xl:grid-cols-5 2xl:grid-rows-3 gap-4 md:ml-5 xl:mr-20">
+                <div id="products" className="ml-10 mt-20 lg:mt-0 grid grid-cols-2 grid-rows-2 md:grid-cols-3 md:grid-rows-2 lg:grid-cols-3 lg:grid-rows-3 xl:grid-cols-4 xl:grid-rows-3 2xl:grid-cols-5 2xl:grid-rows-3 gap-4 md:ml-5 xl:mr-20">
                     {products.map((product) => (
                     <Card
                       key={product.id}
