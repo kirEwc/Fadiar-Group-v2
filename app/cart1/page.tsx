@@ -1,5 +1,5 @@
 import Amount from "@/component/amount/amount";
-import Card from "@/component/ui/card";
+import CartCard from "@/component/cartCard/cartCard";
 import { CheckoutStepper } from "@/component/ui/stepper";
 import { products } from "@/data/products";
 import { SectionAbout3 } from "@/section/aboutUS/sectionAbout3";
@@ -10,6 +10,7 @@ export default function Cart1() {
     <div>
       <div className="   md:px-25 ">
         <div className="mx-4">
+          
           <div className="mt-10 ">
             <p className="text-xs text-gray-400 mb-4">
               <span className="text-gray-400">Home - </span>
@@ -21,32 +22,30 @@ export default function Cart1() {
           </div>
 
           <div className="flex justify-center items-center ">
-            <div className=" w-140  lg:ml-25">
+            <div className=" w-140 ml-2  lg:ml-25">
               <CheckoutStepper currentStep={0} />
             </div>
           </div>
 
           <div className="mt-20  flex flex-col justify-center items-center lg:flex-row lg:items-start  gap-20">
             <div className="w-full flex flex-col gap-y-3  lg:w-140">
-
-              <div className=" flex flex-col gap-y-3 ">
-              {products.map((item) => (
-                <Card
-                  key={item.id}
-                  brand={item.brand}
-                  price={item.price}
-                  image={item.image}
-                  title={item.title}
-                  position="horizontal"
-                  maxWidthVertical="full"
-                  actionIcon="delete"
-                />
-              ))}
-            </div>
-           
+              <div className=" flex flex-col gap-y-4 ">
+                {products.map((item) => (
+                  <CartCard
+                    key={item.id}
+                    brand={item.brand}
+                    price={item.price}
+                    image={item.image}
+                    title={item.title}
+                    width="w-full"
+                    padding="p-3 sm:p-4"
+                    actionIcon="delete"
+                  />
+                ))}
+              </div>
             </div>
 
-            <div className="w-/3">
+            <div >
               <Amount />
             </div>
           </div>

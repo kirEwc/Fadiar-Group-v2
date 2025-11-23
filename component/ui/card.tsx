@@ -50,7 +50,6 @@ const warrantyNumber = +(warranty ?? "0");
               width={500}
               height={500}
               src={`${server_url}/${image}`}
-
             />
           </div>
 
@@ -129,10 +128,13 @@ const warrantyNumber = +(warranty ?? "0");
             className="w-35 sm:w-48  overflow-hidden rounded-2xl"
             // style={{ height: "160px" }}
           >
-            <img
+             <Image
               className="w-full h-full object-contain"
-              src={`${server_url}/${image}`}
               alt={title}
+              width={500}
+              height={500}
+              src={`${server_url}/${image}`}
+
             />
           </div>
 

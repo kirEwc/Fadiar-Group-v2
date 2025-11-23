@@ -35,21 +35,21 @@ export default function ShippingMethod(){
           <div className="bg-[#F5F7FA] rounded-xl overflow-hidden">
             <div className="flex justify-between items-center p-6 text-[#022954]">
               <span className="text-md">Subtotal:</span>
-              <span className="font-medium">$ 582 USD</span>
+              <span className="font-medium text-xl">$ 582 USD</span>
             </div>
              
 
             <div>
               <div className="flex justify-between items-center px-6 py-4 text-[#022954]">
                 <span className="text-md">Comisión por forma de pago:</span>
-                <span className="font-medium whitespace-nowrap">$ 5 USD</span>
+                <span className="font-medium whitespace-nowrap text-xl">$ 5 USD</span>
               </div>
             </div>
 
             <div className="flex justify-between items-center p-4 py-6 bg-[#E2E6EA]">
-              <span className="font-bold text-[#022954] text-xl">Total</span>
-              <span className="text-xl font-bold text-[#022954]">
-                $ 582 <span className="text-base font-normal">USD</span>
+              <span className="font-bold text-[#022954] text-2xl">Total</span>
+              <span className="text-2xl font-bold text-[#022954]">
+                $ 582 <span className="text-2xl font-normal">USD</span>
               </span>
             </div>
           </div>

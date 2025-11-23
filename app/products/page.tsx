@@ -12,7 +12,10 @@ import { server_url } from "@/lib/apiClient";
 
 export type Product = {
   id: number;
-  category: string;
+  category: {
+    id: number;
+    name: string;
+  };
   name: string;
   brand: string;
   warranty: string;
@@ -31,144 +34,6 @@ export default function Products(){
     const [brands, setBrands] = useState<string[]>([]);
     const [relevant, setRelevant] = useState<string[]>([]);
 
-//     const products = [
-//   {
-//     id: 1,
-//     category: "neveras y refrigeradores",
-//     title: "Nevera 8.1 Pies",
-//     brand: "Marca Ecko",
-//     warranty: "Garantia 1 año",
-//     price: "100",
-//     image: "/images/pot.png"
-//   },
-//   {
-//     id: 2,
-//     category: "neveras y refrigeradores",
-//     title: "Nevera 10.5 Pies",
-//     brand: "Marca Samsung",
-//     warranty: "Garantia 2 años",
-//     price: "450",
-//     image: "/images/pot.png"
-//   },
-//   {
-//     id: 3,
-//     category: "neveras y refrigeradores",
-//     title: "Nevera 9 Pies",
-//     brand: "Marca LG",
-//     warranty: "Garantia 1 año",
-//     price: "320",
-//     image: "/images/pot.png"
-//   },
-//   {
-//     id: 4,
-//     category: "neveras y refrigeradores",
-//     title: "Refrigerador 12 ",
-//     brand: "Marca Whirlpool",
-//     warranty: "Garantia 2 años",
-//     price: "520",
-//     image: "/images/pot.png"
-//   },
-//   {
-//     id: 5,
-//     category: "neveras y refrigeradores",
-//     title: "Nevera 7 Pies",
-//     brand: "Marca Mabe",
-//     warranty: "Garantia 1 año",
-//     price: "250",
-//     image: "/images/pot.png"
-//   },
-//   {
-//     id: 6,
-//     category: "neveras y refrigeradores",
-//     title: "Refrigerador 14 Pies",
-//     brand: "Marca Frigidaire",
-//     warranty: "Garantia 3 años",
-//     price: "600",
-//     image: "/images/pot.png"
-//   },
-//   {
-//     id: 7,
-//     category: "neveras y refrigeradores",
-//     title: "Nevera 11 ",
-//     brand: "Marca Daewoo",
-//     warranty: "Garantia 1 año",
-//     price: "380",
-//     image: "/images/pot.png"
-//   },
-//   {
-//     id: 8,
-//     category: "neveras y refrigeradores",
-//     title: "Nevera 13 ",
-//     brand: "Marca Samsung",
-//     warranty: "Garantia 3 años",
-//     price: "670",
-//     image: "/images/pot.png"
-//   },
-//   {
-//     id: 9,
-//     category: "neveras y refrigeradores",
-//     title: "Refrigerador 10 ",
-//     brand: "Marca Hisense",
-//     warranty: "Garantia 1 año",
-//     price: "290",
-//     image: "/images/pot.png"
-//   },
-//   {
-//     id: 10,
-//     category: "neveras y refrigeradores",
-//     title: "Nevera 6 Pies ",
-//     brand: "Marca Ecko",
-//     warranty: "Garantia 6 meses",
-//     price: "160",
-//     image: "/images/pot.png"
-//   },
-//   {
-//     id: 11,
-//     category: "neveras y refrigeradores",
-//     title: "Refrigerador 15 ",
-//     brand: "Marca LG",
-//     warranty: "Garantia 3 años",
-//     price: "720",
-//     image: "/images/pot.png"
-//   },
-//   {
-//     id: 12,
-//     category: "neveras y refrigeradores",
-//     title: "Nevera 9.5 ",
-//     brand: "Marca Panasonic",
-//     warranty: "Garantia 2 años",
-//     price: "410",
-//     image: "/images/pot.png"
-//   },
-//   {
-//     id: 13,
-//     category: "neveras y refrigeradores",
-//     title: "Refrigerador 8 ",
-//     brand: "Marca Haceb",
-//     warranty: "Garantia 1 año",
-//     price: "280",
-//     image: "/images/pot.png"
-//   },
-//   {
-//     id: 14,
-//     category: "neveras y refrigeradores",
-//     title: "Nevera 16 Pies ",
-//     brand: "Marca Whirlpool",
-//     warranty: "Garantia 3 años",
-//     price: "850",
-//     image: "/images/pot.png"
-//   },
-//   {
-//     id: 15,
-//     category: "neveras y refrigeradores",
-//     title: "Refrigerador 12 ",
-//     brand: "Marca Midea",
-//     warranty: "Garantia 2 años",
-//     price: "530",
-//     image: "/images/pot.png"
-//   }
-// ];
-
 const [products, setProducts] = useState<Product[]>([]);
 
 
@@ -184,7 +49,6 @@ const getAllProducts = async () => {
 
   const data = await res.json();
   setProducts(data.products);
-  // console.log(data.products);
 };
 
 useEffect(() => {
@@ -276,8 +140,8 @@ useEffect(() => {
                           warranty={product.warranty}
                           price={product.price}
                           image={product.img}
-                          position="vertical"
                           temporal_price={product?.temporal_price}
+                          position="vertical"
                         />
                       ))
                     ) : (
@@ -294,7 +158,9 @@ useEffect(() => {
             <SectionAbout4 />
             </div>
 
-            <SectionMasRecientes />
+            <SectionMasRecientes 
+            products={products}
+            />
 
 
 

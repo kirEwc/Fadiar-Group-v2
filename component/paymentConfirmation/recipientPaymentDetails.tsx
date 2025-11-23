@@ -2,7 +2,7 @@
 
 export default function RecipientPaymentDetails() {
     return(
-        <>
+        <div >
         <div>
         <h5 className="text-primary font-bold text-xl ml-4 pb-1">
           DATOS DE ENTREGA
@@ -10,7 +10,7 @@ export default function RecipientPaymentDetails() {
         <div className="w-full  border-b-2 border-gray"></div>
       </div>
 
-      <div className="space-y-3 mt-4">
+      <div className="space-y-3 mt-4 ">
 
         <div className="ml-4">
           <p className="text-[gray] ">
@@ -70,6 +70,6 @@ export default function RecipientPaymentDetails() {
             </div>
 
       </div>
-        </>
+        </div>
     );
 }
