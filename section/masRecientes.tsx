@@ -1,4 +1,6 @@
+"use client";
 import Card from "@/component/ui/card";
+import { useState, useEffect, useRef } from "react";
 
 interface Product {
     id: number;
@@ -19,6 +21,52 @@ export const SectionMasRecientes = ( { products } : { products: Product[] } ) =>
   .sort((a, b) => b.id - a.id) // primero el id más grande
   .slice(0, 6);
 
+  const [activeIndex, setActiveIndex] = useState(0);
+  const [totalPages, setTotalPages] = useState(1);
+  const scrollRef = useRef<HTMLDivElement>(null);
+
+  const calculatePages = () => {
+    if (scrollRef.current) {
+      const containerWidth = scrollRef.current.clientWidth;
+      const scrollWidth = scrollRef.current.scrollWidth;
+      const pages = Math.ceil(scrollWidth / containerWidth);
+      setTotalPages(pages);
+    }
+  };
+
+  const handleScroll = () => {
+    if (scrollRef.current) {
+      const scrollLeft = scrollRef.current.scrollLeft;
+      const containerWidth = scrollRef.current.clientWidth;
+      const scrollWidth = scrollRef.current.scrollWidth;
+      const maxScroll = scrollWidth - containerWidth;
+      
+      // Calcular el porcentaje de scroll
+      const scrollPercentage = scrollLeft / maxScroll;
+      
+      // Determinar el índice basado en el porcentaje
+      const index = Math.min(
+        Math.floor(scrollPercentage * totalPages),
+        totalPages - 1
+      );
+      
+      setActiveIndex(Math.max(0, index));
+    }
+  };
+
+  useEffect(() => {
+    const scrollContainer = scrollRef.current;
+    if (scrollContainer) {
+      calculatePages();
+      scrollContainer.addEventListener('scroll', handleScroll);
+      window.addEventListener('resize', calculatePages);
+      return () => {
+        scrollContainer.removeEventListener('scroll', handleScroll);
+        window.removeEventListener('resize', calculatePages);
+      };
+    }
+  }, [lastSixProducts, totalPages]);
+
     return (
         <>
         <div id="Mas recientes" className="w-full h-auto mt-20 my-30">
@@ -27,19 +75,45 @@ export const SectionMasRecientes = ( { products } : { products: Product[] } ) =>
               <h1 className="text-xl font-bold text-accent mb-2">Últimos productos</h1>
               </div>
 
-                <div id="products" className="grid 2xl:grid-cols-6 2xl:grid-rows-1 gap-4 md:ml-5 xl:mx-20">
+                <div className="relative px-5 xl:px-20">
+                  <div 
+                    ref={scrollRef}
+                    className="flex gap-4 overflow-x-scroll scroll-smooth scrollbar-hide pb-4"
+                    style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
+                  >
                     {lastSixProducts.map((product) => (
-                    <Card
-                      key={product.id}
-                      category={product.categoria.name}
-                      title={product.name}
-                      brand={product.brand}
-                      warranty={product.warranty}
-                      price={product.price}
-                      image={product.img}
-                      position="vertical"                   
-                    />
-                ))}
+                      <div key={product.id} className="shrink-0">
+                        <Card
+                          category={product.categoria.name}
+                          title={product.name}
+                          brand={product.brand}
+                          warranty={product.warranty}
+                          price={product.price}
+                          image={product.img}
+                          position="vertical"                   
+                        />
+                      </div>
+                    ))}
+                  </div>
+                  
+                  {totalPages > 1 && (
+                    <div className="flex justify-center gap-2 mt-4">
+                      {Array.from({ length: totalPages }).map((_, index) => (
+                        <button
+                          key={index}
+                          className={`w-2 h-2 rounded-full transition-colors ${
+                            index === activeIndex ? 'bg-accent' : 'bg-gray-300'
+                          }`}
+                          onClick={() => {
+                            if (scrollRef.current) {
+                              const containerWidth = scrollRef.current.clientWidth;
+                              scrollRef.current.scrollTo({ left: index * containerWidth, behavior: 'smooth' });
+                            }
+                          }}
+                        />
+                      ))}
+                    </div>
+                  )}
                 </div>
             </div>
         </>
