@@ -114,12 +114,12 @@ useEffect(() => {
 
             </div>
 
-            <div id="content" className="w-full mb-20  xl:w-4/5 overflow-hidden">
+            <div id="content" className="w-full mb-20 xl:w-4/5 overflow-hidden">
                 <div id="content-ollas">
                     <SectionPromoHome1 />
                 </div>
 
-                   <div id={"list"} className=" flex w-full justify-between">
+                   <div id={"list"} className="mt-20 sm:mt-0 flex w-full justify-between">
                       <p className="text-gray-400 mb-4">
                       <span className="text-md text-primary mr-4 font-bold">Todos las Categorías</span>
                      <span className="text-sm text-[#777777]">{products?.length ?? 0} Productos</span>
