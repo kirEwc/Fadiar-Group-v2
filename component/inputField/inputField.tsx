@@ -15,7 +15,7 @@ export const InputField: React.FC<InputProps> = ({
     <input
       type={type}
       placeholder={placeholder}
-      className={`w-full rounded-2xl px-4 py-3 bg-[#F5F7FA] text-gray-700 placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-accent ${className}`}
+      className={`w-full rounded-2xl px-4 py-3 bg-[#F5F7FA] text-gray-700 placeholder:text-gray-500 placeholder:text-md focus:outline-none focus:ring-2 focus:ring-accent ${className}`}
       {...props}
     />
   );

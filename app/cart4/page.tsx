@@ -7,7 +7,7 @@ import { SectionAbout4 } from "@/section/aboutUS/sectionAbout4";
 export default function Cart4() {
   return (
     <>
-      <div className="   md:px-25 ">
+      <div className="   md:px-16 ">
         <div className="mx-4">
           <div className="mt-10 ">
             <p className="text-xs text-gray-400 mb-4">
@@ -24,15 +24,16 @@ export default function Cart4() {
               <CheckoutStepper currentStep={3} />
             </div>
           </div>
+        </div>
 
-          <div className="mt-15">
-            <PaymentConfirmation />
-          </div>
+        <div className="mt-15 mx-4 2xl:mx-0">
+          <PaymentConfirmation />
         </div>
 
         <div className="sm:py-20  mt-70 sm:mt-20">
           <SectionAbout3 />
         </div>
+
       </div>
 
       <div className="sm:hidden mt-60">

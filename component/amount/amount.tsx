@@ -1,6 +1,8 @@
 "use client";
 import { ChevronDown, Check } from "lucide-react";
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
+import { InputField } from "../inputField/inputField";
+import PhoneInput from "../phoneInput/phoneInput";
 
 const provinces = ["La Habana", "Matanzas", "Santiago de Cuba"];
 const municipalitiesHavana = [
@@ -26,14 +28,65 @@ export default function Amount() {
   const [selectedMunicipalitiesHavana, setSelectedMunicipalitiesHavana] =
     useState("");
 
+  const [formData, setFormData] = useState({
+    phoneCountry: "",
+    identityCard: "",
+    phone: "",
+  });
+
+  const provincesRef = useRef<HTMLDivElement>(null);
+  const municipalitiesRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        provincesRef.current &&
+        !provincesRef.current.contains(event.target as Node)
+      ) {
+        setOpenProvinces(false);
+      }
+      if (
+        municipalitiesRef.current &&
+        !municipalitiesRef.current.contains(event.target as Node)
+      ) {
+        setOpenmunicipalitiesHavana(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+
+  // Función para manejar cambios en los inputs
+  const handleInputChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
+
+  // Función para manejar cambios en el teléfono
+  const handlePhoneChange = (value: string, countryCode: string) => {
+    setFormData((prev) => ({
+      ...prev,
+      phone: value,
+      phoneCountry: countryCode,
+    }));
+  };
+
   return (
     <div className="max-h-full   bg-white font-sans text-[#022954]">
       {/* Importe Section */}
       <div className="mb-8">
-        <h2 className="text-sm font-bold uppercase tracking-wide mb-4 border-b pb-2 border-gray-200">
+        <h2 className="text-xl font-bold uppercase tracking-wide mb-4 border-b pb-2 border-gray-200">
           Importe
         </h2>
-        <div className="flex justify-between items-center text-gray-500">
+        <div className="flex justify-between text-xl items-center text-gray-500">
           <span>Subtotal</span>
           <span>$ 582 USD</span>
         </div>
@@ -41,46 +94,50 @@ export default function Amount() {
 
       {/* Personal Info Section */}
       <div className="mb-8">
-        <h3 className="text-lg font-bold text-[#022954] mb-6">
+        <h3 className="text-xl font-bold text-[#022954] mb-6">
           Leydis Jadiar López
         </h3>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-6 text-sm">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-6 text-md ">
           <div className="space-y-2">
-            <label className="text-sm font-medium text-gray-600">
-              Teléfono
-            </label>
+            <label className=" font-medium text-gray-600">Teléfono</label>
             <div className="relative">
-              <div className="absolute left-3 top-1/2 -translate-y-1/2 flex items-center gap-1 border-r pr-2 border-gray-300 h-5 pointer-events-none z-10">
-                <span className="text-lg leading-none">🇨🇺</span>
-                <ChevronDown className="h-3 w-3 text-gray-400" />
-              </div>
-              <input
-                type="tel"
-                className="flex h-10 w-full rounded-xl border border-gray-100 bg-[#F5F7FA] px-3 py-2 text-sm ring-offset-white file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-gray-500 focus-visible:outline-none focus-visible:ring-2  focus-within:ring-accent focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 pl-20"
+              {/* Teléfono con bandera */}
+              <PhoneInput
+                value={formData.phone}
+                onChange={handlePhoneChange}
                 placeholder="Teléfono"
               />
             </div>
           </div>
+          
+            <div>
+              <label className=" font-medium text-gray-600">
+                Carnet de Identidad
+              </label>
+              <InputField
+                type="text"
+                placeholder="Carnet de Identidad"
+                name="identityCard"
+                value={formData.identityCard}
+                onChange={handleInputChange}
+              />
+            </div>
+        </div>
 
-          <div className="space-y-2">
-            <label className="text-sm font-medium text-gray-600">
-              Carnet de Identidad
-            </label>
-            <input
-              type="text"
-              className="flex h-10 w-full rounded-xl border border-gray-100 bg-[#F5F7FA] px-3 py-2 text-sm ring-offset-white file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-gray-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#022954] focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
-              placeholder="Carnet de Identidad"
-            />
-          </div>
-
-          <div className="w-full relative">
-            <label className="text-sm font-medium text-gray-600">
-              Provincia
-            </label>
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-6 text-md">
+          <div className="w-full relative" ref={provincesRef}>
+            <label className=" font-medium text-gray-600">Provincia</label>
             <div
-              className="flex h-10 items-center justify-between rounded-xl border border-gray-100 bg-[#F5F7FA] px-3 cursor-pointer"
+              tabIndex={0}
+              className="flex h-12 items-center justify-between rounded-xl border border-gray-100 bg-[#F5F7FA] px-3 cursor-pointer focus-within:ring-2 focus-within:ring-accent focus:outline-none focus:ring-2 focus:ring-accent"
               onClick={() => setOpenProvinces(!openProvinces)}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                  e.preventDefault();
+                  setOpenProvinces(!openProvinces);
+                }
+              }}
             >
               <span
                 className={
@@ -93,11 +150,11 @@ export default function Amount() {
             </div>
 
             {openProvinces && (
-              <ul className="absolute w-full mt-1 bg-[#F5F7FA] border border-gray-200 rounded-xl shadow-lg z-10 max-h-60 overflow-auto">
+              <ul className="absolute w-full mt-2 bg-white border border-gray-200 rounded-2xl shadow-lg z-10 max-h-60 overflow-auto">
                 {provinces.map((prov) => (
                   <li
                     key={prov}
-                    className="px-3 py-2 cursor-pointer hover:bg-[#022954] hover:text-white rounded-lg"
+                    className="px-4 py-2 cursor-pointer hover:bg-gray-100 transition-colors text-gray-700"
                     onClick={() => {
                       setSelectedProvinces(prov);
                       setOpenProvinces(false);
@@ -110,15 +167,20 @@ export default function Amount() {
             )}
           </div>
 
-          <div className="w-full relative">
-            <label className="text-sm font-medium text-gray-600">
-              Municipio
-            </label>
+          <div className="w-full relative" ref={municipalitiesRef}>
+            <label className=" font-medium text-gray-600">Municipio</label>
             <div
-              className="flex h-10 items-center justify-between rounded-xl border border-gray-100 bg-[#F5F7FA] px-3 cursor-pointer"
+              tabIndex={0}
+              className="flex h-12 items-center justify-between rounded-2xl border border-gray-100 bg-[#F5F7FA] px-3 cursor-pointer focus-within:ring-2 focus-within:ring-accent focus:outline-none focus:ring-2 focus:ring-accent"
               onClick={() =>
                 setOpenmunicipalitiesHavana(!openMunicipalitiesHavana)
               }
+              onKeyDown={(e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                  e.preventDefault();
+                  setOpenmunicipalitiesHavana(!openMunicipalitiesHavana);
+                }
+              }}
             >
               <span
                 className={
@@ -133,11 +195,11 @@ export default function Amount() {
             </div>
 
             {openMunicipalitiesHavana && (
-              <ul className="absolute w-full mt-1 bg-[#F5F7FA] border border-gray-200 rounded-xl shadow-lg z-10 max-h-60 overflow-auto">
+              <ul className="absolute w-full mt-2 bg-white border border-gray-200 rounded-2xl shadow-lg z-10 max-h-60 overflow-auto">
                 {municipalitiesHavana.map((muni) => (
                   <li
                     key={muni}
-                    className="px-3 py-2 cursor-pointer hover:bg-[#022954] hover:text-white rounded-lg"
+                    className="px-4 py-2 cursor-pointer hover:bg-gray-100 transition-colors text-gray-700"
                     onClick={() => {
                       setSelectedMunicipalitiesHavana(muni);
                       setOpenmunicipalitiesHavana(false);
@@ -152,7 +214,7 @@ export default function Amount() {
         </div>
 
         <div className="flex items-start space-x-2">
-          <div className="relative flex items-center">
+          <div className="relative flex items-center ">
             <input
               type="checkbox"
               id="delivery"
@@ -164,7 +226,7 @@ export default function Amount() {
           <div className="grid gap-1.5 leading-none">
             <label
               htmlFor="delivery"
-              className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 text-gray-500"
+              className="font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 text-gray-500"
             >
               ¿Necesitas entrega a domicilio?{" "}
               <span className="text-accent text-xs font-normal">
@@ -177,17 +239,19 @@ export default function Amount() {
 
       {/* Order Summary Section */}
       <div className="mb-8">
-        <h3 className="text-sm font-bold uppercase tracking-wide mb-4 text-[#022954]">
+        <h3 className=" font-bold uppercase tracking-wide mb-4 text-[#022954]">
           RESUMEN DEL PEDIDO
         </h3>
         <div className="bg-[#F5F7FA] rounded-xl overflow-hidden">
-          <div className="flex justify-between items-center p-6 text-[#022954]">
-            <span className="text-md">Subtotal</span>
-            <span className="font-medium">$ 582 USD</span>
+          <div className="flex justify-between items-center p-4 text-[#022954]">
+            <span className="text-xl">Subtotal</span>
+            <span className="text-xl">$ 582 USD</span>
           </div>
-          <div className="flex justify-between items-center p-6 bg-[#E2E6EA]">
-            <span className="font-bold text-[#022954] text-xl">Total a pagar</span>
-            <span className="text-xl font-bold text-[#022954]">
+          <div className="flex justify-between items-center p-4 bg-[#E2E6EA]">
+            <span className="font-bold text-[#022954] text-2xl">
+              Total a pagar
+            </span>
+            <span className="text-3xl font-bold text-[#022954]">
               $ 582 <span className="text-base font-normal">USD</span>
             </span>
           </div>
