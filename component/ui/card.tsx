@@ -1,5 +1,8 @@
 "use client";
 import { ShoppingCart, Trash2 } from "lucide-react";
+import { server_url } from "@/lib/apiClient";
+import Image from "next/image";
+
 
 interface CardProps {
   category?: string;
@@ -12,6 +15,7 @@ interface CardProps {
   maxWidthVertical?: string;
   actionIcon?: "cart" | "delete" | "none";
   quantityProducts?: number;
+  temporal_price?: string;
 }
 
 export default function Card({
@@ -25,24 +29,34 @@ export default function Card({
   maxWidthVertical = "480px",
   actionIcon = "cart",
   quantityProducts,
+  temporal_price,
 }: CardProps) {
 
+
+
+const warrantyNumber = +(warranty ?? "0");
   return (
     <>
       {position === "vertical" ? (
-        <div className="bg-white max-w-72 p-4 border border-gray-300 rounded-2xl shadow-sm h-full flex flex-col">
+        <div className="bg-white max-w-[250px] p-3 border border-gray-300 rounded-2xl shadow-sm h-[557px] flex flex-col justify-between">
+          {/* primer section */}
           <div
-            className="w-full mb-4 overflow-hidden rounded-2xl shrink-0"
-            style={{ minHeight: "192px" }}
+            className="w-full h-4/12  overflow-hidden rounded-2xl shrink-0"
+            style={{ minHeight: "190px" }}
           >
-            <img
+            <Image
               className="w-full h-full object-contain"
-              src={image}
               alt={title}
+              width={500}
+              height={500}
+              src={`${server_url}/${image}`}
+
             />
           </div>
 
-          <div className="flex-1 flex flex-col">
+          {/* segundo section */}
+
+          <div className="flex flex-col h-2/12">
             <p className="text-[#777777] text-sm mb-2">{category}</p>
 
             <div className="mb-4">
@@ -51,18 +65,39 @@ export default function Card({
               </h3>
               <p className="text-[#022954] text-md">{brand}</p>
             </div>
+          </div>
 
+            {/* tercer section */}
+            <div className="flex flex-col h-4/12 justify-end">
+
+            {warrantyNumber > 0 ? (
             <p className="text-[#D69F04] text-sm font-medium mb-3">
-              {warranty}
+             Garantía de {warrantyNumber/30} meses
             </p>
-
-            <p className="text-[#022954] font-bold text-2xl mb-4">
+            ) : 
+            <p className="h-6 text-sm font-medium mb-3">
+            </p>
+            }
+            {temporal_price !== undefined ? (
+              <div className="flex flex-row items-center justify-between gap-2">
+                <p className="flex items-baseline text-[#022954] font-bold text-2xl whitespace-nowrap">
+                  ${temporal_price}
+                  <span className="ml-1 text-[#022954] font-normal text-base">
+                    USD
+                  </span>
+                </p>
+                <p className="text-[#777777] text-md line-through whitespace-nowrap">
+                  ${price} USD
+                </p>
+              </div>
+            ) : (
+            <p className="text-[#022954] font-bold text-2xl">
               ${price}{" "}
               <span className="text-[#022954] font-normal text-base">USD</span>
-            </p>
-
+            </p>)
+            }
             <div className="mt-auto pt-4 flex items-center justify-between">
-              <div className="flex items-center rounded-2xl border border-[#D9D9D9]">
+              <div className="flex items-center rounded-2xl border border-gray">
                 <button className="px-3 py-2 text-yellow-500">−</button>
                 <span className="px-4 my-1 border-x border-gray-300">1</span>
                 <button className="px-3 py-2 text-yellow-500">+</button>
@@ -84,8 +119,8 @@ export default function Card({
                 </svg>
               </button>
             </div>
+            </div>
           </div>
-        </div>
       ) : (
         <div
           className={`bg-white   p-2 sm:p-4 border border-gray-300 rounded-2xl shadow-sm h-full flex flex-row  gap-3  lg:gap-8 max-w-[${maxWidthVertical}]`}
@@ -96,7 +131,7 @@ export default function Card({
           >
             <img
               className="w-full h-full object-contain"
-              src={image}
+              src={`${server_url}/${image}`}
               alt={title}
             />
           </div>
@@ -114,6 +149,7 @@ export default function Card({
             <p className="text-accent text-sm font-medium mb-2">{warranty}</p>
 
             <p className="text-primary font-bold text-xl sm:text-2xl mb-4">
+    
               ${price}{" "}
               <span className="text-primary font-normal text-base">USD</span>
             </p>
