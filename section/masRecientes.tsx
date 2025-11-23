@@ -83,7 +83,8 @@ export const SectionMasRecientes = () => {
                       brand={product.brand}
                       warranty={product.warranty}
                       price={product.price}
-                      image={product.image}                     
+                      image={product.image}  
+                      position="vertical"                   
                     />
                 ))}
                 </div>

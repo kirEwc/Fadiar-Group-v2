@@ -229,6 +229,7 @@ export default function Products(){
                       warranty={product.warranty}
                       price={product.price}
                       image={product.image}
+                      position="vertical"
                     />
                 ))}
                 </div>
