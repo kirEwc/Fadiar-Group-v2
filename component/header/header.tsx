@@ -1,14 +1,20 @@
+"use client";
 import Menu from "@/component/menu/menu";
 import Serchbar from "@/component/searchBar/searchBar";
-import { TablerShoppingCart, TablerUserCircle } from "@/icons/icons";
+import UserDropdown from "@/component/userDropdown/userDropdown";
+import { TablerShoppingCart } from "@/icons/icons";
 import Image from "next/image";
 import "@fontsource/just-me-again-down-here";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 
 export default function Header() {
+  const pathname = usePathname();
+  const isCart4 = pathname === "/cart4";
+
   return (
     <>
-      <div className="pt-4 flex justify-between px-4 md:justify-between md:px-25 2xl:px-28 items-start">
+      <div className={`pt-4 flex justify-between px-4 md:justify-between md:px-25 items-start ${isCart4 ? "2xl:px-20" : "2xl:px-28"}`}>
         <div className="hidden md:block">
           <Image
             src="/images/logo.svg"
@@ -28,11 +34,11 @@ export default function Header() {
           <Menu />
         </div>
 
-        <div className="flex">
+        <div className="flex items-center gap-4">
           <Link href="/cart1">
-            <TablerShoppingCart className="mr-4 cursor-pointer" />
+            <TablerShoppingCart className="cursor-pointer" />
           </Link>
-          <TablerUserCircle className="cursor-pointer" />
+          <UserDropdown />
         </div>
       </div>
 
@@ -40,7 +46,7 @@ export default function Header() {
         <Menu />
       </div>
 
-      <div className="md:hidden px-4">
+      <div className="md:hidden px-4 mt-4">
         <Serchbar />
       </div>
     </>

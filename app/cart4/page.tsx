@@ -1,4 +1,3 @@
-import BeneficiaryPaymentDetails from "@/component/beneficiaryPaymentDetails/beneficiaryPaymentDetails";
 import PaymentConfirmation from "@/component/paymentConfirmation/paymentConfirmation";
 import { CheckoutStepper } from "@/component/ui/stepper";
 import { SectionAbout3 } from "@/section/aboutUS/sectionAbout3";
@@ -7,7 +6,7 @@ import { SectionAbout4 } from "@/section/aboutUS/sectionAbout4";
 export default function Cart4() {
   return (
     <>
-      <div className="   md:px-16 ">
+      <div className="   md:px-15 ">
         <div className="mx-4">
           <div className="mt-10 ">
             <p className="text-xs text-gray-400 mb-4">
@@ -20,7 +19,7 @@ export default function Cart4() {
           </div>
 
           <div className="flex justify-center items-center ">
-            <div className=" w-140  lg:ml-25">
+            <div className=" w-160 ml-2  lg:ml-20">
               <CheckoutStepper currentStep={3} />
             </div>
           </div>

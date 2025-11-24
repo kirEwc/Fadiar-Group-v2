@@ -38,7 +38,7 @@ export default function PaymentConfirmation() {
           <RecipientPaymentDetails />
         </div>
 
-        <div className="2xl:w-110">
+        <div className="lg:w-110">
           <div>
             <h5 className="text-primary font-bold text-xl  pb-1">IMPORTE</h5>
             <div className="w-full  border-b-2 border-gray"></div>

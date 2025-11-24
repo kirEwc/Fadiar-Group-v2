@@ -1,7 +1,11 @@
+"use client";
+
 import ButtonPromoHome1 from "@/component/button/buttonPromoHome1";
 import { ArrowRight } from "lucide-react";
+import { useRouter } from "next/navigation";
 
 export default function SectionMoreproducts() {
+  const router = useRouter();
   return (
     <>
       <div className=" px-4 md:px-25 2xl:px-28 mt-20 sm:mt-0 text-start">
@@ -38,6 +42,7 @@ export default function SectionMoreproducts() {
                   name="Ver más"
                   color="#022954"
                   icon={<ArrowRight />}
+                  onClick={() => router.push("/products")}
                 />
               </div>
             </div>
@@ -60,6 +65,7 @@ export default function SectionMoreproducts() {
                 name="Ver más"
                 color="#022954"
                 icon={<ArrowRight />}
+                onClick={() => router.push("/products")}
               />
             </div>
           </div>

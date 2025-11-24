@@ -80,7 +80,7 @@ export default function Menu() {
       </div>
 
       {/* Menú desktop - Solo visible en md y superiores */}
-      <div className="hidden md:block w-full bg-white">
+      <div className="hidden md:block w-full bg-white ml-5">
         <nav className="flex justify-center gap-10 text-sm text-gray-700 p-1">
           {links.map((link) => {
             const isActive = pathname === link.href;

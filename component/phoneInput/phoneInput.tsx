@@ -97,7 +97,7 @@ export default function PhoneInput({
         <button
           type="button"
           onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-          className="flex items-center gap-1 hover:opacity-80 transition-opacity"
+          className="flex items-center cursor-pointer gap-1 hover:opacity-80 transition-opacity"
         >
           <img
             src={`https://flagcdn.com/32x24/${selectedCountry.code.toLowerCase()}.png`}
