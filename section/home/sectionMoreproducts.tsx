@@ -8,10 +8,10 @@ export default function SectionMoreproducts() {
   const router = useRouter();
   return (
     <>
-      <div className=" px-4 md:px-25 2xl:px-28 mt-20 sm:mt-0 text-start">
-        <span className="text-[#022954] text-lg font-bold">
+      <div className=" px-4 md:px-25 2xl:px-28 mt-10 sm:mt-30 text-start">
+        <span className="text-[#022954] text-xl font-bold">
           Entra y consulta
-          <h3 className="text-accent text-xl font-bold">
+          <h3 className="text-accent text-2xl font-bold">
             Categorias destacadas
           </h3>
         </span>
@@ -32,7 +32,7 @@ export default function SectionMoreproducts() {
 
           <div className="absolute inset-0 z-10 flex flex-col justify-center p-2 mr-50 lg:ml-32 w-55 lg:w-82">
             <div className="text-black ">
-              <h4 className="font-bold">Ventilador</h4>
+              <h4 className="font-bold text-xl">Ventilador</h4>
               <p className="text-xs w-42 sm:text-base sm:w-full">
                 Lorem ipsum dolor sit amet consectetur adipiscing elit hendrerit
                 scelerisque.
@@ -41,7 +41,7 @@ export default function SectionMoreproducts() {
                 <ButtonPromoHome1
                   name="Ver más"
                   color="#022954"
-                  icon={<ArrowRight />}
+                  icon={<ArrowRight  className="w-4 h-4 md:w-5 md:h-5" />}
                   onClick={() => router.push("/products")}
                 />
               </div>
@@ -53,18 +53,18 @@ export default function SectionMoreproducts() {
           id="card2"
           className=" sm:w-6/12 flex  justify-center items-center relative"
         >
-          <div className=" absolute mr-60 sm:mr-60  z-50 w-40 sm:w-80 p-4 text-black">
-            <h4 className="font-bold">Refrigeradores y Neveras</h4>
+          <div className="absolute mr-55  sm:mr-60  z-50 w-45 sm:w-80 p-4 text-black">
+            <h4 className="font-bold text-xl">Refrigeradores y Neveras</h4>
             <p className="text-xs sm:text-base ">
               Lorem ipsum dolor sit amet consectetur adipiscing elit hendrerit
               scelerisque, blandit duis sapien.
             </p>
 
-            <div className="mt-1">
+            <div className="mt-1 md:mt-5">
               <ButtonPromoHome1
                 name="Ver más"
                 color="#022954"
-                icon={<ArrowRight />}
+                icon={<ArrowRight  className="w-4 h-4 md:w-5 md:h-5" />}
                 onClick={() => router.push("/products")}
               />
             </div>
@@ -73,7 +73,7 @@ export default function SectionMoreproducts() {
             <img
               src="/images/Fridge.png"
               alt="vent"
-              className=" sm:h-70 object-contain xl:ml-50"
+              className="ml-4 sm:ml-4 sm:h-70 object-contain xl:ml-50"
             />
           </div>
         </div>

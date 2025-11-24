@@ -13,7 +13,7 @@ export default function Header() {
   const isCart4 = pathname === "/cart4";
 
   return (
-    <>
+    <div className="relative w-full bg-white z-50">
       <div className={`pt-4 flex justify-between px-4 md:justify-between md:px-25 items-start ${isCart4 ? "2xl:px-20" : "2xl:px-28"}`}>
         <div className="hidden md:block">
           <Image
@@ -46,9 +46,9 @@ export default function Header() {
         <Menu />
       </div>
 
-      <div className="md:hidden px-4 mt-4">
+      <div className="md:hidden px-4 mt-4 pb-4">
         <Serchbar />
       </div>
-    </>
+    </div>
   );
 }

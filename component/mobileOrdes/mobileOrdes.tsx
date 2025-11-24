@@ -235,7 +235,7 @@ export default function MobileOrdes() {
                         width="w-full"
                         actionIcon="none"
                         hideQuantitySelector={true}
-                        bgColor="bg-white"
+                        bgColor="bg-[#F5F7FA]"
                       />
                     ))}
                   </div>

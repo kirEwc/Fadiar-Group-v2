@@ -4,6 +4,7 @@ import { SectionAbout3 } from "@/section/aboutUS/sectionAbout3";
 import { SectionAbout4 } from "@/section/aboutUS/sectionAbout4";
 import { SectionMasRecientes } from "@/section/masRecientes";
 
+
 const About = () => {
   return (
     < >
@@ -24,9 +25,9 @@ const About = () => {
       <div className="mt-10">
         <SectionAbout4 />
       </div>
-      <div className="mt-10">
+      {/* <div className="mt-10">
         <SectionMasRecientes />
-      </div>
+      </div> */}
     </div>
     
     </>

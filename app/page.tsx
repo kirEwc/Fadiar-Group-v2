@@ -13,12 +13,7 @@ export default function Home() {
 
         <div>
           <SectionPromoHome1 />
-          <div id="shadow-arrocera" className="flex justify-center relative left-44 top-[-110px]">
-           <BottomShadow  width="200px" height="80px" opacity={0.6} />
-          </div>
-          <div id="shadow-reina" className="flex justify-center relative left-92 top-[-120px]">
-           <BottomShadow  width="200px" height="80px" opacity={0.6} />
-          </div>
+      
         </div>
 
         <div>

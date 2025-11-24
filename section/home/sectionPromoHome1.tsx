@@ -5,63 +5,66 @@ import BottomShadow from "@/component/ui/bottomShadow";
 export default function SectionPromoHome1() {
   return (
     <>
-      <div id="blanco" className="bg-white  w-full h-82 relative text-white">
+      <div
+        id="blanco"
+        className="bg-white  w-full h-[400px] relative text-white "
+      >
         <div
           id="azul"
-          className="bg-primary w-full h-80 md:h-60 py-4 flex justify-center items-center"
+          className="bg-primary w-full h-[360px] md:h-[300px] 2xl:h-[400px] py-4 flex justify-center items-center"
         >
-          <div className="flex flex-col md:flex-row h-full  md:w-4xl justify-center items-center mt-20 p-4 md:mx-1">
-            <div id="lorem" className="flex justify-center  flex-col w-full md:w-3/4 md:mb-20 md:ml-5">
-              <h1 className="text-2xl md:text-3xl font-bold">
-                <samp className="text-[#D29C05] block">
+          <div className="flex flex-col md:flex-row h-full  md:w-full justify-center items-center mt-20 p-4 md:mx-30  ">
+            <div
+              id="lorem"
+              className="flex justify-center  flex-col  md:mb-20  w-90 sm:w-auto  sm:top-0"
+            >
+              <h1 className="text-2xl md:text-5xl font-bold">
+                <samp className="text-[#D69F04] block">
                   Variedad de productos
                 </samp>
-                <span >Electrodomésticos</span>
+                <span>Electrodomésticos</span>
               </h1>
-              <p className="w-full mt-4  text-sm">
+              <p className="sm:w-150 mt-4  text-sm md:text-xl ">
                 Lorem ipsum dolor sit amet consectetur adipiscing elit hendrerit
                 scelerisque, blandit duis sapien phasellus turpis sem convallis
                 imperdiet tempus.
               </p>
             </div>
+
             <div id="sazon" className=" md:w-2/4  relative mt-2">
-              <div className="w-full md:w-52">
-                <h1
-                  className="font-['Just_Me_Again_Down_Here'] mr-38 mt-4 md:mt-0 md:mr-0 text-3xl md:text-3xl text-white md:text-center         
-                "
-                >
+              <div className="w-full md:w-120 absolute  md:-left-12 ">
+                <h1 className="font-['Just_Me_Again_Down_Here'] text-3xl md:text-5xl md:mr-25 2xl:mr-0 mt-8 sm:mt-0 2xl:text-6xl text-white md:text-center">
                   Échale Sazón a la Olla
                 </h1>
               </div>
 
               <div
                 id="img"
-                className="relative flex justify-center items-center top-[-35] "
+                className="relative flex justify-center items-center  "
               >
                 <Image
-                  src="/images/pot.png"
+                  src="/images/0081.svg"
                   alt="Electrodomésticos"
-                  width={1600}
-                  height={1600}
-                  className="ml-2 scale-100 w-75 md:scale-110 md:w-100 z-20"
-                  loading="lazy"
-
+                  width={10000000}
+                  height={100000000}
+                  className=" scale-120   md:scale-140  2xl:scale-150 z-20"
                 />
+
                 {/* Sombra pegada a la imagen */}
                 <div id="arrocera" className="absolute -bottom-3 w-full flex justify-center ">
                   <BottomShadow 
-                  width="180px" 
-                  height="30px" 
                   opacity={0.9} 
-                  className="left-8 top-[-28]  sm:top-[-30] md:left-0 md:top-[-20] lg:left-0 lg:top-[-20] z-10"
+                  className="w-40 h-10 sm:w-96 sm:h-18 md:w-100 md:h-20 lg:w-30 lg:h-15 xl:w-70 xl:h-18 2xl:w-100 2xl:h-25
+                  left-8 top-[-70] sm:top-[-30] md:left-0 md:top-[-20] lg:left-[-1] lg:top-[-90] z-10 
+                  2xl:top-[-100] 2xl:left-[-30]"
                   />
                 </div>
                 <div id="shadow-reina" className="absolute -bottom-3 w-full flex justify-center">
                     <BottomShadow 
-                    width="180px" 
-                    height="40px" 
                     opacity={0.9} 
-                    className="left-38 top-[-46] sm:left-38 md:top-[-36] lg:left-38 lg:top-[-35] xl:left-40 z-10"
+                    className="w-40 h-10 sm:w-96 sm:h-18 md:w-100 md:h-20 lg:w-120 lg:h-24 xl:w-70 xl:h-18 
+                    2xl:w-100 2xl:h-25
+                    left-45 top-[-80] sm:left-38 md:top-[-36] lg:left-38 lg:top-[-35] xl:left-55 xl:top-[-100] z-10 2xl:left-70 2xl:top-[-120]"
                     />
                 </div>
               </div>

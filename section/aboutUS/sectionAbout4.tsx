@@ -1,7 +1,7 @@
 export const SectionAbout4 = () => {
   return (
     <>
-      <div className="bg-primary w-full h-72 relative">
+      <div className="bg-primary w-full h-[437px] md:h-72 relative">
 
         <div className="absolute font-bold mt-12 text-center w-full md:ml-30 2xl:ml-60 md:w-90 text-3xl">
           <h1>
@@ -32,8 +32,16 @@ export const SectionAbout4 = () => {
           <img
             src="/images/mony.svg"
             alt="Background"
-            className="absolute bottom-0 right-0 w-210"
+            className="absolute hidden md:block  bottom-0 right-0 w-210"
           />
+
+         <img
+            src="/images/monyMobile.svg"
+            alt="Background"
+            className="absolute  md:hidden  bottom-0 right-0 w-210"
+          />
+
+
         </div>
       </div>
     </>
