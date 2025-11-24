@@ -52,31 +52,7 @@ const mockOrders: Order[] = [
         brand: "Marca Eko",
         price: 63,
          image: "/images/004.svg",
-      },
-    //      {
-    //     name: "Nevera 5.5 Pies",
-    //     brand: "Marca Eko",
-    //     price: 365,
-    //       image: "/images/004.svg",
-    //   },
-    //   {
-    //     name: "Freidora de Aire 5.5 L",
-    //     brand: "Marca Eko",
-    //     price: 63,
-    //      image: "/images/004.svg",
-    //   },
-    //     {
-    //     name: "Nevera 5.5 Pies",
-    //     brand: "Marca Eko",
-    //     price: 365,
-    //       image: "/images/004.svg",
-    //   },
-    //   {
-    //     name: "Freidora de Aire 5.5 L",
-    //     brand: "Marca Eko",
-    //     price: 63,
-    //      image: "/images/004.svg",
-    //   },
+      },   
     ],
   },
   {

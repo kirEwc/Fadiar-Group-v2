@@ -1,6 +1,6 @@
 "use client";
 import { useState, useRef, useEffect } from "react";
-import { UserCircle, ShoppingBag, LogOut } from "lucide-react";
+import { UserCircle } from "lucide-react";
 import Link from "next/link";
 import { NextUilExit, TablerUserCircle, UilExit } from "@/icons/icons";
 
