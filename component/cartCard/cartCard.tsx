@@ -6,11 +6,12 @@ interface CardCart4Props {
   brand: string;
   price: string;
   image: string;
-
   actionIcon?: "cart" | "delete" | "none";
   quantityProducts?: number;
   width?: string;
   padding?:string;
+  bgColor?: string;
+  hideQuantitySelector?: boolean;
 }
 
 export default function CartCard({
@@ -21,12 +22,14 @@ export default function CartCard({
   actionIcon = "cart",
   quantityProducts,
   width = "w-88",
-  padding="p-2"
+  padding="p-2",
+  bgColor = "bg-white",
+  hideQuantitySelector = false
 }: CardCart4Props) {
   return (
     <>
       <div
-        className={`bg-white ${width} ${padding} border border-gray-300 rounded-2xl shadow-sm h-full flex flex-row `}
+        className={`${bgColor} ${width} ${padding} border border-gray-300 rounded-2xl shadow-sm h-full flex flex-row `}
       >
         <div className="w-32 h-[124px] overflow-hidden rounded-2xl" >
           <img
@@ -54,7 +57,7 @@ export default function CartCard({
               <p className="text-[#777777] text-md">
                 Cantidad: {quantityProducts}
               </p>
-            ) : (
+            ) : !hideQuantitySelector ? (
               <div
                 className={`flex items-center  rounded-xl font-bold border ${
                   actionIcon === "delete" ? "border-primary" : "border-gray"
@@ -68,7 +71,7 @@ export default function CartCard({
                   +
                 </button>
               </div>
-            )}
+            ) : null}
 
             <div>
               {actionIcon === "delete" ? (
