@@ -1,71 +1,72 @@
+"use client";
 import Card from "@/component/ui/card";
+import { useState, useEffect, useRef } from "react";
 
-export const SectionMasRecientes = () => {
-    const products = [
-  {
-    id: 1,
-    category: "neveras y refrigeradores",
-    title: "Nevera 8.1 Pies",
-    brand: "Marca Ecko",
-    warranty: "Garantia 1 año",
-    price: "100",
-    image: "/images/pot.png"
-  },
-  {
-    id: 2,
-    category: "neveras y refrigeradores",
-    title: "Nevera 10.5 Pies",
-    brand: "Marca Samsung",
-    warranty: "Garantia 2 años",
-    price: "450",
-    image: "/images/pot.png"
-  },
-  {
-    id: 3,
-    category: "neveras y refrigeradores",
-    title: "Nevera 9 Pies",
-    brand: "Marca LG",
-    warranty: "Garantia 1 año",
-    price: "320",
-    image: "/images/pot.png"
-  },
-  {
-    id: 4,
-    category: "neveras y refrigeradores",
-    title: "Refrigerador 12 ",
-    brand: "Marca Whirlpool",
-    warranty: "Garantia 2 años",
-    price: "520",
-    image: "/images/pot.png"
-  },
-  {
-    id: 5,
-    category: "neveras y refrigeradores",
-    title: "Nevera 7 Pies",
-    brand: "Marca Mabe",
-    warranty: "Garantia 1 año",
-    price: "250",
-    image: "/images/pot.png"
-  },
-  {
-    id: 6,
-    category: "neveras y refrigeradores",
-    title: "Refrigerador 14 Pies",
-    brand: "Marca Frigidaire",
-    warranty: "Garantia 3 años",
-    price: "600",
-    image: "/images/pot.png"
-  },
-  {
-    id: 7,
-    category: "neveras y refrigeradores",
-    title: "Nevera 11 ",
-    brand: "Marca Daewoo",
-    warranty: "Garantia 1 año",
-    price: "380",
-    image: "/images/pot.png"
-  },
-];
+interface Product {
+    id: number;
+    categoria:{
+      id: number;
+      name: string;
+    }
+    name: string;
+    brand: string;
+    warranty: string;
+    price: string;
+    img: string;
+    temporal_price?: string;
+}
+export const SectionMasRecientes = ( { products } : { products: Product[] } ) => {
+    
+  const lastSixProducts = [...products]
+  .sort((a, b) => b.id - a.id) // primero el id más grande
+  .slice(0, 6);
+
+  const [activeIndex, setActiveIndex] = useState(0);
+  const [totalPages, setTotalPages] = useState(1);
+  const scrollRef = useRef<HTMLDivElement>(null);
+
+  const calculatePages = () => {
+    if (scrollRef.current) {
+      const containerWidth = scrollRef.current.clientWidth;
+      const scrollWidth = scrollRef.current.scrollWidth;
+      const pages = Math.ceil(scrollWidth / containerWidth);
+      setTotalPages(pages);
+    }
+  };
+
+  const handleScroll = () => {
+    if (scrollRef.current) {
+      const scrollLeft = scrollRef.current.scrollLeft;
+      const containerWidth = scrollRef.current.clientWidth;
+      const scrollWidth = scrollRef.current.scrollWidth;
+      const maxScroll = scrollWidth - containerWidth;
+      
+      // Calcular el porcentaje de scroll
+      const scrollPercentage = scrollLeft / maxScroll;
+      
+      // Determinar el índice basado en el porcentaje
+      const index = Math.min(
+        Math.floor(scrollPercentage * totalPages),
+        totalPages - 1
+      );
+      
+      setActiveIndex(Math.max(0, index));
+    }
+  };
+
+  useEffect(() => {
+    const scrollContainer = scrollRef.current;
+    if (scrollContainer) {
+      calculatePages();
+      scrollContainer.addEventListener('scroll', handleScroll);
+      window.addEventListener('resize', calculatePages);
+      return () => {
+        scrollContainer.removeEventListener('scroll', handleScroll);
+        window.removeEventListener('resize', calculatePages);
+      };
+    }
+  }, [lastSixProducts, totalPages]);
+
     return (
         <>
         <div id="Mas recientes" className="w-full h-auto mt-20 my-30">
@@ -74,19 +75,45 @@ export const SectionMasRecientes = () => {
               <h1 className="text-xl font-bold text-accent mb-2">Últimos productos</h1>
               </div>
 
-                <div id="products" className="grid 2xl:grid-cols-6 2xl:grid-rows-1 gap-4 md:ml-5 xl:mx-20">
-                    {products.slice(0, 6).map((product) => (
-                    <Card
-                      key={product.id}
-                      category={product.category}
-                      title={product.title}
-                      brand={product.brand}
-                      warranty={product.warranty}
-                      price={product.price}
-                      image={product.image}  
-                      position="vertical"                   
-                    />
-                ))}
+                <div className="relative px-5 xl:px-20">
+                  <div 
+                    ref={scrollRef}
+                    className="flex gap-4 overflow-x-scroll scroll-smooth scrollbar-hide pb-4"
+                    style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
+                  >
+                    {lastSixProducts.map((product) => (
+                      <div key={product.id} className="shrink-0">
+                        <Card
+                          category={product.categoria.name}
+                          title={product.name}
+                          brand={product.brand}
+                          warranty={product.warranty}
+                          price={product.price}
+                          image={product.img}
+                          position="vertical"                   
+                        />
+                      </div>
+                    ))}
+                  </div>
+                  
+                  {totalPages > 1 && (
+                    <div className="flex justify-center gap-2 mt-4">
+                      {Array.from({ length: totalPages }).map((_, index) => (
+                        <button
+                          key={index}
+                          className={`w-2 h-2 rounded-full transition-colors ${
+                            index === activeIndex ? 'bg-accent' : 'bg-gray-300'
+                          }`}
+                          onClick={() => {
+                            if (scrollRef.current) {
+                              const containerWidth = scrollRef.current.clientWidth;
+                              scrollRef.current.scrollTo({ left: index * containerWidth, behavior: 'smooth' });
+                            }
+                          }}
+                        />
+                      ))}
+                    </div>
+                  )}
                 </div>
             </div>
         </>
