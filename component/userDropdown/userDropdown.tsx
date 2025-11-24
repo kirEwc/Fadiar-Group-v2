@@ -40,7 +40,7 @@ export default function UserDropdown() {
             onClick={() => setIsOpen(false)}
           >
             <UserCircle className="text-[#777777] group-hover:text-[#022954] transition-colors" width={22} height={22} />
-            <span className="text-[#777777] group-hover:text-[#022954] font-medium text-md ml-2 transition-colors">
+            <span className="text-[#777777] group-hover:text-[#022954]  group-hover:font-bold font-medium text-md ml-2 transition-colors">
               Perfil
             </span>
           </Link>
@@ -51,21 +51,21 @@ export default function UserDropdown() {
             onClick={() => setIsOpen(false)}
           >
             <NextUilExit className="text-[#777777] group-hover:text-[#022954] transition-colors" width={20} height={20} />
-            <span className="text-[#777777] group-hover:text-[#022954] ml-2 transition-colors">
+            <span className="text-[#777777] group-hover:text-[#022954] font-medium group-hover:font-bold ml-2 transition-colors">
               Mis Pedidos
             </span>
           </Link>
 
           <button
-            className="flex items-center  hover:bg-[#F5F7FA]  transition-colors w-full p-2 cursor-pointer"
+            className="group flex items-center  hover:bg-[#F5F7FA]  transition-colors w-full p-2 cursor-pointer"
             onClick={() => {
               setIsOpen(false);
               // Aquí puedes agregar la lógica de cerrar sesión
             }}
           >
-            <UilExit width={20} height={20} />
-            {/* <LogOut width={20} height={20} color="#EB0C0C" /> */}
-            <span className="text-[#EB0C0C]  ml-2">Cerrar Sesión</span>
+            <UilExit className="text-[#EB0C0C] group-hover:text-[#EB0C0C] transition-colors" width={20} height={20} />
+            
+            <span className="text-[#EB0C0C] group-hover:font-bold ml-2">Cerrar Sesión</span>
           </button>
         </div>
       )}
