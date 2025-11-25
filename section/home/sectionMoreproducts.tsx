@@ -8,7 +8,7 @@ export default function SectionMoreproducts() {
   const router = useRouter();
   return (
     <>
-      <div className=" px-4 md:px-25 2xl:px-28 mt-10 sm:mt-30 text-start">
+      <div className=" px-4 md:px-25 2xl:px-28 mt-10 2xl:mt-30 text-start">
         <span className="text-[#022954] text-xl font-bold">
           Entra y consulta
           <h3 className="text-accent text-2xl font-bold">

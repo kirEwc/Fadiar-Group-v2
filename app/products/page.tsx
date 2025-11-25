@@ -6,8 +6,8 @@ import { useEffect, useState } from "react";
 import Card from "@/component/ui/card";
 import Pagination from "@/component/ui/pagination";
 import { SectionAbout4 } from "@/section/aboutUS/sectionAbout4";
-import { SectionMasRecientes } from "@/section/masRecientes";
 import { server_url } from "@/lib/apiClient";
+import Pot from "@/section/pot/pot";
 
 
 export type Product = {
@@ -115,7 +115,11 @@ useEffect(() => {
             </div>
 
             <div id="content" className="w-full mb-20  xl:w-4/5 overflow-hidden">
-                <div id="content-ollas">
+                <div id="content-ollas" className="mb-20 hidden sm:block">
+                    <Pot />
+                </div>
+                
+                    <div id="content-ollas" className="mb-20 sm:hidden">
                     <SectionPromoHome1 />
                 </div>
 
@@ -158,9 +162,9 @@ useEffect(() => {
             <SectionAbout4 />
             </div>
 
-            <SectionMasRecientes 
+            {/* <SectionMasRecientes 
             products={products}
-            />
+            /> */}
 
 
 
