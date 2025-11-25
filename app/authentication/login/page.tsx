@@ -5,18 +5,28 @@ export default function Login() {
     <div className="min-h-screen flex items-center justify-center bg-primary p-4">
       {/* Container principal con animación circular */}
       <div className="relative w-[400px] h-[400px] flex items-center justify-center rounded-full overflow-hidden">
-        {/* Spans animados en círculo */}
-        {[...Array(50)].map((_, i) => (
-          <span
-            key={i}
-            className="absolute left-0 w-8 h-1.5 bg-primary rounded-full animate-blink"
-            style={{
-              transformOrigin: "200px",
-              transform: `rotate(${i * (360 / 50)}deg)`,
-              animationDelay: `${i * (3 / 50)}s`,
-            }}
-          />
-        ))}
+        {/* Spans animados en círculo - 270 grados (lado derecho y superior/inferior) */}
+        {[...Array(38)].map((_, i) => {
+          // Calcular ancho: más pequeño al inicio y final, más grande en el centro
+          const progress = i / 37; // 0 a 1
+          const widthScale = 0.3 + Math.sin(progress * Math.PI) * 0.7; // 0.3 a 1
+          const width = Math.round(32 * widthScale * 100) / 100; // Redondear a 2 decimales
+          const rotation = Math.round((-135 + i * (270 / 38)) * 100) / 100;
+          const delay = Math.round((i * (3 / 38)) * 100) / 100;
+          
+          return (
+            <span
+              key={i}
+              className="absolute left-0 h-1.5 bg-primary rounded-full animate-blink"
+              style={{
+                width: `${width}px`,
+                transformOrigin: "200px",
+                transform: `rotate(${rotation}deg)`,
+                animationDelay: `${delay}s`,
+              }}
+            />
+          );
+        })}
 
         {/* Login Box */}
         <div className="absolute w-4/5 max-w-[300px] z-10 p-5 rounded-3xl">
