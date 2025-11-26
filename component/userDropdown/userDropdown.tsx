@@ -2,7 +2,12 @@
 import { useState, useRef, useEffect } from "react";
 import { UserCircle } from "lucide-react";
 import Link from "next/link";
-import { NextUilExit, TablerUserCircle, UilExit } from "@/icons/icons";
+import {
+  MdiRegister,
+  NextUilExit,
+  TablerUserCircle,
+  UilExit,
+} from "@/icons/icons";
 import useAuthStore from "@/store/authStore";
 
 export default function UserDropdown() {
@@ -88,7 +93,6 @@ export default function UserDropdown() {
             </>
           ) : (
             <>
-           
               <Link
                 href="/login"
                 className="group flex items-center hover:bg-[#F5F7FA] transition-colors p-2"
@@ -100,27 +104,23 @@ export default function UserDropdown() {
                   height={20}
                 />
                 <span className="text-[#777777] group-hover:text-[#022954] font-medium group-hover:font-bold ml-2 transition-colors">
-                 Login
+                  Login
                 </span>
               </Link>
 
-
-            
               <Link
                 href="/register"
                 className="group flex items-center hover:bg-[#F5F7FA] transition-colors p-2"
                 onClick={() => setIsOpen(false)}
               >
-                <NextUilExit
-                  className="text-[#777777] group-hover:text-[#022954] transition-colors"
-                  width={20}
-                  height={20}
-                />
+                <div className="group">
+                  <MdiRegister />
+                </div>
+
                 <span className="text-[#777777] group-hover:text-[#022954] font-medium group-hover:font-bold ml-2 transition-colors">
                   Registrse
                 </span>
               </Link>
-
             </>
           )}
         </div>
