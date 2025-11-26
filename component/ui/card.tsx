@@ -38,7 +38,8 @@ const warrantyNumber = +(warranty ?? "0");
   return (
     <>
       {position === "vertical" ? (
-        <div className="bg-white max-w-[250px] p-3 border border-gray-300 rounded-2xl shadow-sm h-[557px] flex flex-col justify-between">
+        <div className="bg-white max-w-[250px] p-3 border border-gray-300 rounded-2xl shadow-sm h-[500px] flex flex-col justify-between">
+          
           {/* primer section */}
           <div
             className="w-full h-4/12  overflow-hidden rounded-2xl shrink-0"
@@ -67,7 +68,7 @@ const warrantyNumber = +(warranty ?? "0");
           </div>
 
             {/* tercer section */}
-            <div className="flex flex-col h-4/12 justify-end">
+            <div className="flex flex-col h-3/12 justify-end">
 
             {warrantyNumber > 0 ? (
             <p className="text-[#D69F04] text-sm font-medium mb-3">

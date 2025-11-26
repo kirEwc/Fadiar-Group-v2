@@ -137,24 +137,11 @@ useEffect(() => {
                     <SectionPromoHome1 />
                 </div>
 
-                   <div id={"list"} className="mt-20 sm:mt-0 flex w-full justify-between items-center">
+                   <div id={"list"} className="mt-20 ml-5 lg:ml-0 flex w-full justify-between items-center">
                       <p className="text-gray-400 mb-4">
                       <span className="text-md text-primary mr-4 font-bold">Todos las Categorías</span>
-                     <span className="text-sm text-[#777777]">{products?.length ?? 0} Productos</span>
-                      </p>
-                      <button 
-                        onClick={() => setIsFilterOpen(true)}
-                        className="xl:hidden flex items-center gap-2 px-4 py-2 bg-gray-50 hover:bg-gray-100 rounded-lg text-primary"
-                      >
-                        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z" />
-                        </svg>
-                        
-                      </button>
-                  </div>
-
-                  {/* Filtros aplicados */}
-                  {(category.length > 0 || brands.length > 0 || relevant.length > 0 || price[0] !== 0 || price[1] !== 200) && (
+                      <span id="filters-applied">
+                      {(category.length > 0 || brands.length > 0 || relevant.length > 0 || price[0] !== 0 || price[1] !== 200) && (
                     <div className="flex flex-col gap-2 mb-6 ml-3">
                       
                       {category.map((cat) => (
@@ -203,10 +190,30 @@ useEffect(() => {
                         </div>
                       )}
                     </div>
-                  )}
+                       )}
+                      </span>
+                     
+
+                      <span className="text-sm text-[#777777]">{products?.length ?? 0} Productos</span>
+                      </p>
+
+
+                      <button 
+                        onClick={() => setIsFilterOpen(true)}
+                        className="xl:hidden flex items-center gap-2 px-4 py-2 bg-gray-50 hover:bg-gray-100 rounded-lg text-primary"
+                      >
+                        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z" />
+                        </svg>
+                        
+                      </button>
+                  </div>
+
+                  {/* Filtros aplicados */}
+                  
                   
 
-                <div id="products" className="mt-20 grid grid-cols-2 justify-between grid-rows-2 md:grid-cols-3 md:grid-rows-2 lg:grid-cols-3 lg:grid-rows-3 lg:mt-0 xl:grid-cols-4 xl:grid-rows-3 2xl:grid-cols-5 2xl:grid-rows-3 gap-4 xl:mr-20">
+                <div id="products" className="mt-20 ml-5 lg:ml-0 grid grid-cols-2 justify-between grid-rows-2 md:grid-cols-3 md:grid-rows-2 lg:grid-cols-3 lg:grid-rows-3 lg:mt-0 xl:grid-cols-4 xl:grid-rows-3 2xl:grid-cols-5 2xl:grid-rows-3 gap-4 xl:mr-20">
                   {products && products.length > 0 ? (
                       products.slice(0, 15).map((product) => (
                         <Card
