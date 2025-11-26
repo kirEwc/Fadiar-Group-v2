@@ -1,6 +1,5 @@
 import "@fontsource/just-me-again-down-here";
 import SectionPromoHome1 from "@/section/home/sectionPromoHome1";
-import BottomShadow from "@/component/ui/bottomShadow";
 import SectionMoreproducts from "@/section/home/sectionMoreproducts";
 import SectionPromoHome2 from "@/section/home/sectionPromoHome2";
 
@@ -12,8 +11,7 @@ export default function Home() {
       <div className="min-h-screen w-full bg-white">
 
         <div>
-          <SectionPromoHome1 />
-      
+          <SectionPromoHome1 />      
         </div>
 
         <div>
