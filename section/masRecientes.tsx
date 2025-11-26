@@ -1,71 +1,78 @@
 "use client";
 import Card from "@/component/ui/card";
-import { useState, useEffect, useRef } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 
 interface Product {
+  id: number;
+  categoria?: {
     id: number;
-    categoria?:{
-      id: number;
-      name: string;
-    }
     name: string;
-    brand: string;
-    warranty: string;
-    price: string;
-    img: string;
-    temporal_price?: string;
+  };
+  name: string;
+  brand: string;
+  warranty: string;
+  price: string;
+  img: string;
+  temporal_price?: string;
 }
-export const SectionMasRecientes = ( { products } : { products: Product[] } ) => {
-    
-  const lastSixProducts = [...products]
-  .sort((a, b) => b.id - a.id) // primero el id más grande
-  .slice(0, 6);
+
+type SectionMasRecientesProps = {
+  products?: Product[];
+};
+
+export const SectionMasRecientes = ({
+  products = [],
+}: SectionMasRecientesProps) => {
+  const lastSixProducts = useMemo(
+    () =>
+      [...products]
+        .sort((a, b) => b.id - a.id)
+        .slice(0, 6),
+    [products]
+  );
 
   const [activeIndex, setActiveIndex] = useState(0);
   const [totalPages, setTotalPages] = useState(1);
   const scrollRef = useRef<HTMLDivElement>(null);
 
-  const calculatePages = () => {
-    if (scrollRef.current) {
-      const containerWidth = scrollRef.current.clientWidth;
-      const scrollWidth = scrollRef.current.scrollWidth;
-      const pages = Math.ceil(scrollWidth / containerWidth);
-      setTotalPages(pages);
-    }
-  };
+  const calculatePages = useCallback(() => {
+    if (!scrollRef.current) return;
+    const containerWidth = scrollRef.current.clientWidth;
+    const scrollWidth = scrollRef.current.scrollWidth;
+    const pages = Math.max(1, Math.ceil(scrollWidth / containerWidth));
+    setTotalPages(pages);
+  }, []);
 
-  const handleScroll = () => {
-    if (scrollRef.current) {
-      const scrollLeft = scrollRef.current.scrollLeft;
-      const containerWidth = scrollRef.current.clientWidth;
-      const scrollWidth = scrollRef.current.scrollWidth;
-      const maxScroll = scrollWidth - containerWidth;
-      
-      // Calcular el porcentaje de scroll
-      const scrollPercentage = scrollLeft / maxScroll;
-      
-      // Determinar el índice basado en el porcentaje
-      const index = Math.min(
-        Math.floor(scrollPercentage * totalPages),
-        totalPages - 1
-      );
-      
-      setActiveIndex(Math.max(0, index));
-    }
-  };
+  const handleScroll = useCallback(() => {
+    if (!scrollRef.current) return;
+    const scrollLeft = scrollRef.current.scrollLeft;
+    const containerWidth = scrollRef.current.clientWidth;
+    const scrollWidth = scrollRef.current.scrollWidth;
+    const maxScroll = Math.max(scrollWidth - containerWidth, 1);
+    const scrollPercentage = scrollLeft / maxScroll;
+    const index = Math.min(
+      Math.floor(scrollPercentage * totalPages),
+      totalPages - 1
+    );
+
+    setActiveIndex(Math.max(0, index));
+  }, [totalPages]);
 
   useEffect(() => {
     const scrollContainer = scrollRef.current;
-    if (scrollContainer) {
-      calculatePages();
-      scrollContainer.addEventListener('scroll', handleScroll);
-      window.addEventListener('resize', calculatePages);
-      return () => {
-        scrollContainer.removeEventListener('scroll', handleScroll);
-        window.removeEventListener('resize', calculatePages);
-      };
-    }
-  }, [lastSixProducts, totalPages]);
+    if (!scrollContainer) return;
+
+    const handleResize = () => calculatePages();
+
+    calculatePages();
+    scrollContainer.addEventListener("scroll", handleScroll);
+    window.addEventListener("resize", handleResize);
+
+    return () => {
+      scrollContainer.removeEventListener("scroll", handleScroll);
+      window.removeEventListener("resize", handleResize);
+    };
+  }, [calculatePages, handleScroll, products.length]);
 
     return (
         <>
@@ -81,7 +88,7 @@ export const SectionMasRecientes = ( { products } : { products: Product[] } ) =>
                     className="flex gap-4 overflow-x-scroll scroll-smooth scrollbar-hide pb-4"
                     style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
                   >
-                    {lastSixProducts.map((product) => (
+                    {lastSixProducts.length > 0 ? lastSixProducts.map((product) => (
                       <div key={product.id} className="shrink-0">
                         <Card
                           category={product.categoria?.name}
@@ -93,7 +100,11 @@ export const SectionMasRecientes = ( { products } : { products: Product[] } ) =>
                           position="vertical"                   
                         />
                       </div>
-                    ))}
+                    )) : (
+                      <p className="text-sm text-gray-500 px-2">
+                        Cargando productos...
+                      </p>
+                    )}
                   </div>
                   
                   {totalPages > 1 && (

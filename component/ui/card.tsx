@@ -16,6 +16,9 @@ interface CardProps {
   actionIcon?: "cart" | "delete" | "none";
   quantityProducts?: number;
   temporal_price?: string;
+  currency?:{
+    currency:string,
+  }
 }
 
 export default function Card({
@@ -30,6 +33,7 @@ export default function Card({
   actionIcon = "cart",
   quantityProducts,
   temporal_price,
+  currency
 }: CardProps) {
 
 
@@ -38,7 +42,7 @@ const warrantyNumber = +(warranty ?? "0");
   return (
     <>
       {position === "vertical" ? (
-        <div className="bg-white max-w-[250px] p-3 border border-gray-300 rounded-2xl shadow-sm h-[500px] flex flex-col justify-between">
+        <div className="bg-white max-w-[184px] md:max-w-[250px] p-2 md:p-3 border border-gray-300 rounded-2xl shadow-sm h-[500px] flex flex-col justify-between">
           
           {/* primer section */}
           <div
@@ -78,7 +82,7 @@ const warrantyNumber = +(warranty ?? "0");
             <p className="h-6 text-sm font-medium mb-3">
             </p>
             }
-            {temporal_price !== null || temporal_price !== undefined ? (
+            {temporal_price !== null ? (
                <p className="text-[#022954] font-bold text-2xl">
                ${price}{" "}
                <span className="text-[#022954] font-normal text-base">USD</span>
@@ -88,23 +92,23 @@ const warrantyNumber = +(warranty ?? "0");
               <p className="flex items-baseline text-[#022954] font-bold text-2xl whitespace-nowrap">
                 ${temporal_price}
                 <span className="ml-1 text-[#022954] font-normal text-base">
-                  USD
+                  ${currency?.currency}
                 </span>
               </p>
               <p className="text-[#777777] text-md line-through whitespace-nowrap">
-                ${price} USD
+                ${price} ${currency?.currency}
               </p>
             </div>
             )
             }
             <div className="mt-auto pt-4 flex items-center justify-between">
               <div className="flex items-center rounded-2xl border border-gray">
-                <button className="px-3 py-2 text-yellow-500">−</button>
-                <span className="px-4 my-1 border-x border-gray-300">1</span>
-                <button className="px-3 py-2 text-yellow-500">+</button>
+                <button className="px-2.5 py-2 text-yellow-500">−</button>
+                <span className="px-1 md:px-4 py-1 border-x border-gray-300">1</span>
+                <button className="px-2.5 md:px-3 md:py-2 text-yellow-500">+</button>
               </div>
 
-              <button className="p-2.5 px-7 border border-[#022954] rounded-2xl">
+              <button className="p-2.5 px-4.5 md:px-7 border border-[#022954] rounded-2xl">
                 <svg
                   className="w-5 h-5 text-[#022954]"
                   fill="none"

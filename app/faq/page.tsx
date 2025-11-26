@@ -54,7 +54,7 @@ export default function Faq() {
           <SectionPromoHome2 />
         </div>
         <div className="mt-10">
-        {/* <SectionMasRecientes /> */}
+        <SectionMasRecientes />
       </div>
       </div>
     </div>
