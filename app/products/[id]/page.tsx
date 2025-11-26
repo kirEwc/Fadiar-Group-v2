@@ -73,12 +73,17 @@ export default function Product() {
 
           {/* 📌 INFORMACIÓN */}
           <div className="md:w-2/3">
-            <p className="text-xs text-gray-500 mb-4">{product.category}</p>
+            <p className="text-xs text-gray-500 mb-3">{product.category}</p>
             <h2 className="text-3xl font-bold text-[#1A2B49]">{product.title}</h2>
-            <p className="text-sm text-gray-600">Marca: <span className="text-[#1A2B49] font-medium">{product.brand}</span></p>
+            <p className="text-3xl text-[#022954] font-medium">{product.brand}</p>
+
+            {/* Descripción */}
+            <p className="text-[#1E1E1E] text-sm mt-3 max-w-xl leading-relaxed">
+              {product.description}
+            </p>
 
             {/* Garantía */}
-            <p className="text-yellow-500 font-semibold text-sm mt-1">{product.warranty}</p>
+            <p className="text-yellow-500 font-semibold text-md mt-2">{product.warranty}</p>
 
             {/* Precios */}
             <div className="mt-3 flex items-center gap-4">
@@ -86,20 +91,15 @@ export default function Product() {
               <p className="text-gray-400 line-through text-lg">${product.oldPrice} USD</p>
             </div>
 
-            {/* Descripción */}
-            <p className="text-gray-600 text-sm mt-3 max-w-xl leading-relaxed">
-              {product.description}
-            </p>
-
             {/* Cantidad */}
             <div className="mt-auto pt-4 flex items-center justify-between">
-              <div className="flex items-center rounded-2xl border border-primary">
+              <div className="flex items-center rounded-xl border border-primary">
                 <button className="px-3 py-2 text-yellow-500">−</button>
                 <span className="px-4 my-1 border-x border-gray-300">1</span>
                 <button className="px-3 py-2 text-yellow-500">+</button>
               </div>
 
-              <button className="p-2.5 px-5 border border-[#022954] rounded-2xl">
+              <button className="p-2.5 px-8 border border-[#022954] rounded-xl">
                 <svg
                   className="w-5 h-5 text-[#022954]"
                   fill="none"
@@ -117,13 +117,13 @@ export default function Product() {
             </div>
 
             {/* Tabla de propiedades */}
-            <div className="mt-8 bg-white shadow-sm rounded-xl p-5 border">
+            <div className="mt-8 bg-[#F5F7FA] rounded-xl p-5 border border-gray">
               <h3 className="font-semibold text-[#1A2B49] mb-3">Propiedades</h3>
               <table className="w-full text-sm text-gray-600">
                 <tbody>
                   {product.properties.map((p, i) => (
-                    <tr key={i} className="border-b last:border-none">
-                      <td className="py-2 font-medium">{p.key}</td>
+                    <tr key={i} className="border-b border-gray ">
+                      <td className="py-2 font-medium text-[#1E1E1E]">{p.key}</td>
                       <td className="py-2 text-right">{p.value}</td>
                     </tr>
                   ))}
