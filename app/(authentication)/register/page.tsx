@@ -90,9 +90,9 @@ export default function Register() {
 
   return (
     <>
- <div className=" min-h-screen flex items-center justify-center bg-primary p-4">
+ <div className="h-full  md:min-h-screen flex items-center justify-center bg-primary p-4">
       {/* Container principal con animación circular */}
-      <div className="relative w-[720px] h-[600px] flex items-center justify-center md:rounded-full overflow-hidden">
+      <div className="relative w-full md:w-[720px] md:h-[600px] flex items-center justify-center md:rounded-full md:overflow-hidden">
         {/* Spans animados en círculo - 270 grados (lado derecho y superior/inferior) */}
         {[...Array(45)].map((_, i) => {
           // Calcular ancho: más pequeño al inicio y final, más grande en el centro
