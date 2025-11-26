@@ -25,7 +25,7 @@ function AccordionItem({ question, answer, isOpen, onToggle }: AccordionItemProp
           {question}
         </span>
         <div className="shrink-0">
-          <div className={`w-7 h-7 rounded-full border-2 flex items-center justify-center transition-transform ${
+          <div className={`w-7 h-7 cursor-pointer rounded-full border-2 flex items-center justify-center transition-transform ${
             isOpen 
               ? 'border-white rotate-45' 
               : 'border-[#777777]'

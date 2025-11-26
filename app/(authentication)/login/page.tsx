@@ -5,10 +5,12 @@ import Link from "next/link";
 import { useState } from "react";
 import { loginSchema, type LoginFormData } from "@/validations/loginSchema";
 import { useRouter } from "next/navigation";
+import useAuthStore from "@/store/authStore";
 
 
 export default function Login() {
     const router = useRouter();
+    const setAuth = useAuthStore((s) => s.setAuth);
 
   const [formData, setFormData] = useState<LoginFormData>({
     email: "",
@@ -54,8 +56,16 @@ export default function Login() {
       if (response.ok) {
         const data = await response.json();
       // Aquí puedes manejar la respuesta exitosa (guardar token, redirigir, etc.)
-      console.log("Login exitoso:", data);
-       router.push("/");
+      const userInfo = (data?.user_info ?? data?.data?.user_info) ?? null;
+      const access = userInfo?.access_token ?? null;
+      const refresh = userInfo?.refresh_token ?? null;
+      setAuth({
+        email: formData.email,
+        access_token: access,
+        refresh_token: refresh,
+      });
+        console.log("Login exitoso:", data);
+         router.push("/");
       }else{
    const errorData = await response.json().catch(() => ({}));
         throw new Error(errorData.message || "Error al iniciar sesión");
