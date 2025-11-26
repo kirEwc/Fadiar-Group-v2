@@ -138,7 +138,7 @@ useEffect(() => {
                 </div>
 
                    <div id={"list"} className="mt-20 ml-5 lg:ml-0 flex w-full justify-between items-center">
-                      <p className="text-gray-400 mb-4">
+                      <span className="text-gray-400 mb-4">
                       <span className="text-md text-primary mr-4 font-bold">Todos las Categorías</span>
                       <span id="filters-applied">
                       {(category.length > 0 || brands.length > 0 || relevant.length > 0 || price[0] !== 0 || price[1] !== 200) && (
@@ -195,7 +195,7 @@ useEffect(() => {
                      
 
                       <span className="text-sm text-[#777777]">{products?.length ?? 0} Productos</span>
-                      </p>
+                      </span>
 
 
                       <button 

@@ -46,13 +46,15 @@ export default function Product() {
 
           <div className="md:w-1/3">
             {/* Imagen Principal */}
+            <div className="w-full h-[400px] rounded-xl object-cover">
             <Image
               src={product.image}
               alt="producto"
-              width={500}
-              height={500}
+              width={613}
+              height={682}
               className="w-full h-auto rounded-xl object-cover"
-            />
+              />
+            </div>
 
             {/* Miniaturas */}
             <div className="flex gap-2 mt-3">
@@ -71,7 +73,7 @@ export default function Product() {
 
           {/* 📌 INFORMACIÓN */}
           <div className="md:w-2/3">
-            <p className="text-xs text-gray-500">{product.category}</p>
+            <p className="text-xs text-gray-500 mb-4">{product.category}</p>
             <h2 className="text-3xl font-bold text-[#1A2B49]">{product.title}</h2>
             <p className="text-sm text-gray-600">Marca: <span className="text-[#1A2B49] font-medium">{product.brand}</span></p>
 
@@ -90,19 +92,27 @@ export default function Product() {
             </p>
 
             {/* Cantidad */}
-            <div className="mt-6 flex items-center gap-3">
-              <button
-                onClick={() => qty > 1 && setQty(qty - 1)}
-                className="h-9 w-9 rounded-md border bg-gray-100 text-primary text-xl flex justify-center items-center"
-              >
-                -
-              </button>
-              <span className="text-lg font-medium">{qty}</span>
-              <button
-                onClick={() => setQty(qty + 1)}
-                className="h-9 w-9 rounded-md border bg-gray-100 text-primary text-xl flex justify-center items-center"
-              >
-                +
+            <div className="mt-auto pt-4 flex items-center justify-between">
+              <div className="flex items-center rounded-2xl border border-primary">
+                <button className="px-3 py-2 text-yellow-500">−</button>
+                <span className="px-4 my-1 border-x border-gray-300">1</span>
+                <button className="px-3 py-2 text-yellow-500">+</button>
+              </div>
+
+              <button className="p-2.5 px-5 border border-[#022954] rounded-2xl">
+                <svg
+                  className="w-5 h-5 text-[#022954]"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"
+                  />
+                </svg>
               </button>
             </div>
 
