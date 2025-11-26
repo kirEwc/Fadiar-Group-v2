@@ -2,6 +2,8 @@
 import { useParams } from "next/navigation";
 import Image from "next/image";
 import { useState } from "react";
+import { SectionMasRecientes } from "@/section/masRecientes";
+import { SectionAbout4 } from "@/section/aboutUS/sectionAbout4";
 
 export default function Product() {
   const { id } = useParams<{ id: string }>();
@@ -30,7 +32,7 @@ export default function Product() {
   };
 
   return (
-    <>
+    <main>
       <div className="px-4 md:px-20 2xl:px-36 mt-10">
 
         <div id={"list"} className="mt-10">
@@ -134,6 +136,13 @@ export default function Product() {
           </div>
         </div>
       </div>
-    </>
+
+      <div className="mt-20">
+           <SectionAbout4/>       
+      </div>
+      <div>
+          <SectionMasRecientes/>
+        </div>
+    </main>
   );
 }
