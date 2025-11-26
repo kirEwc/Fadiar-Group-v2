@@ -38,7 +38,8 @@ const warrantyNumber = +(warranty ?? "0");
   return (
     <>
       {position === "vertical" ? (
-        <div className="bg-white max-w-[250px] p-3 border border-gray-300 rounded-2xl shadow-sm h-[557px] flex flex-col justify-between">
+        <div className="bg-white max-w-[250px] p-3 border border-gray-300 rounded-2xl shadow-sm h-[500px] flex flex-col justify-between">
+          
           {/* primer section */}
           <div
             className="w-full h-4/12  overflow-hidden rounded-2xl shrink-0"
@@ -67,7 +68,7 @@ const warrantyNumber = +(warranty ?? "0");
           </div>
 
             {/* tercer section */}
-            <div className="flex flex-col h-4/12 justify-end">
+            <div className="flex flex-col h-3/12 justify-end">
 
             {warrantyNumber > 0 ? (
             <p className="text-[#D69F04] text-sm font-medium mb-3">
@@ -77,23 +78,24 @@ const warrantyNumber = +(warranty ?? "0");
             <p className="h-6 text-sm font-medium mb-3">
             </p>
             }
-            {temporal_price !== undefined ? (
-              <div className="flex flex-row items-center justify-between gap-2">
-                <p className="flex items-baseline text-[#022954] font-bold text-2xl whitespace-nowrap">
-                  ${temporal_price}
-                  <span className="ml-1 text-[#022954] font-normal text-base">
-                    USD
-                  </span>
-                </p>
-                <p className="text-[#777777] text-md line-through whitespace-nowrap">
-                  ${price} USD
-                </p>
-              </div>
+            {temporal_price !== null ? (
+               <p className="text-[#022954] font-bold text-2xl">
+               ${price}{" "}
+               <span className="text-[#022954] font-normal text-base">USD</span>
+             </p>
             ) : (
-            <p className="text-[#022954] font-bold text-2xl">
-              ${price}{" "}
-              <span className="text-[#022954] font-normal text-base">USD</span>
-            </p>)
+              <div className="flex flex-row items-center justify-between gap-2">
+              <p className="flex items-baseline text-[#022954] font-bold text-2xl whitespace-nowrap">
+                ${temporal_price}
+                <span className="ml-1 text-[#022954] font-normal text-base">
+                  USD
+                </span>
+              </p>
+              <p className="text-[#777777] text-md line-through whitespace-nowrap">
+                ${price} USD
+              </p>
+            </div>
+            )
             }
             <div className="mt-auto pt-4 flex items-center justify-between">
               <div className="flex items-center rounded-2xl border border-gray">

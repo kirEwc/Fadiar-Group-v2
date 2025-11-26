@@ -4,7 +4,7 @@ import { useState, useEffect, useRef } from "react";
 
 interface Product {
     id: number;
-    categoria:{
+    categoria?:{
       id: number;
       name: string;
     }
@@ -84,7 +84,7 @@ export const SectionMasRecientes = ( { products } : { products: Product[] } ) =>
                     {lastSixProducts.map((product) => (
                       <div key={product.id} className="shrink-0">
                         <Card
-                          category={product.categoria.name}
+                          category={product.categoria?.name}
                           title={product.name}
                           brand={product.brand}
                           warranty={product.warranty}
