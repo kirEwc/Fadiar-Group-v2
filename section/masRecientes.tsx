@@ -1,5 +1,6 @@
 "use client";
 import Card from "@/component/ui/card";
+import { server_url } from "@/lib/apiClient";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 
 interface Product {
@@ -21,14 +22,37 @@ type SectionMasRecientesProps = {
 };
 
 export const SectionMasRecientes = ({
-  products = [],
+  products: productsProp,
 }: SectionMasRecientesProps) => {
+  const [products, setProducts] = useState<Product[]>([]);
+  const [isMounted, setIsMounted] = useState(false);
+
+  const getAllProducts = async () => {
+    const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZF91c2VyIjo4NDAsImV4cCI6MTc2Mzg3NDg0NX0.-W2-13mCQ6L7x8MQ5KQCzuhK59ZpeqAOe6Vfo7TsThk'; // tu token guardado
+    const res = await fetch(`${server_url}/inventory_manager`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    const data = await res.json();
+    setProducts(data.products);
+  };
+
+  useEffect(() => {
+    setIsMounted(true);
+    getAllProducts();
+  }, []);
+
+  // Usar productos del estado interno si no vienen como prop
+  const productsToUse = productsProp && productsProp.length > 0 ? productsProp : products;
+
   const lastSixProducts = useMemo(
     () =>
-      [...products]
+      [...productsToUse]
         .sort((a, b) => b.id - a.id)
         .slice(0, 6),
-    [products]
+    [productsToUse]
   );
 
   const [activeIndex, setActiveIndex] = useState(0);
@@ -72,7 +96,7 @@ export const SectionMasRecientes = ({
       scrollContainer.removeEventListener("scroll", handleScroll);
       window.removeEventListener("resize", handleResize);
     };
-  }, [calculatePages, handleScroll, products.length]);
+  }, [calculatePages, handleScroll, productsToUse.length]);
 
     return (
         <>
