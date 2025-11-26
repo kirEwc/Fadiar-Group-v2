@@ -15,6 +15,24 @@ export function TablerUserCircle(props: SVGProps<SVGSVGElement>) {
 	return (<svg xmlns="http://www.w3.org/2000/svg" width={28} height={28} viewBox="0 0 24 24" {...props}><g fill="none" stroke="#000" strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}><path d="M3 12a9 9 0 1 0 18 0a9 9 0 1 0-18 0"></path><path d="M9 10a3 3 0 1 0 6 0a3 3 0 1 0-6 0m-2.832 8.849A4 4 0 0 1 10 16h4a4 4 0 0 1 3.834 2.855"></path></g></svg>);
 }
 
+export function UserCircle(props: SVGProps<SVGSVGElement>) {
+	return (<svg xmlns="http://www.w3.org/2000/svg" width={28} height={28} viewBox="0 0 24 24" {...props}><g fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}><path d="M3 12a9 9 0 1 0 18 0a9 9 0 1 0-18 0"></path><path d="M9 10a3 3 0 1 0 6 0a3 3 0 1 0-6 0m-2.832 8.849A4 4 0 0 1 10 16h4a4 4 0 0 1 3.834 2.855"></path></g></svg>);
+}
+
+
+export function NextUilExit(props: SVGProps<SVGSVGElement>) {
+	return (<svg xmlns="http://www.w3.org/2000/svg" width={24} height={24} viewBox="0 0 24 24" {...props}><path fill="currentColor" d="M4 12a1 1 0 0 0 1 1h7.59l-2.3 2.29a1 1 0 0 0 0 1.42a1 1 0 0 0 1.42 0l4-4a1 1 0 0 0 .21-.33a1 1 0 0 0 0-.76a1 1 0 0 0-.21-.33l-4-4a1 1 0 1 0-1.42 1.42l2.3 2.29H5a1 1 0 0 0-1 1M17 2H7a3 3 0 0 0-3 3v3a1 1 0 0 0 2 0V5a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v14a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1v-3a1 1 0 0 0-2 0v3a3 3 0 0 0 3 3h10a3 3 0 0 0 3-3V5a3 3 0 0 0-3-3"></path></svg>);
+}
+
+
+
+export function UilExit(props: SVGProps<SVGSVGElement>) {
+	return (<svg xmlns="http://www.w3.org/2000/svg" width={24} height={24} viewBox="0 0 24 24" {...props}><path fill="#EB0C0C" d="M4 12a1 1 0 0 0 1 1h7.59l-2.3 2.29a1 1 0 0 0 0 1.42a1 1 0 0 0 1.42 0l4-4a1 1 0 0 0 .21-.33a1 1 0 0 0 0-.76a1 1 0 0 0-.21-.33l-4-4a1 1 0 1 0-1.42 1.42l2.3 2.29H5a1 1 0 0 0-1 1M17 2H7a3 3 0 0 0-3 3v3a1 1 0 0 0 2 0V5a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v14a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1v-3a1 1 0 0 0-2 0v3a3 3 0 0 0 3 3h10a3 3 0 0 0 3-3V5a3 3 0 0 0-3-3"></path></svg>);
+}
+
+
+
+
 export function MajesticonsArrowRight(props: SVGProps<SVGSVGElement>) {
 	return (<svg xmlns="http://www.w3.org/2000/svg" width={24} height={24} viewBox="0 0 24 24" {...props}><path fill="none" stroke="#fff" strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="m19 12l-6-6m6 6l-6 6m6-6H5"></path></svg>);
 }
@@ -59,4 +77,27 @@ export function MaterialSymbolsClose(props: SVGProps<SVGSVGElement>) {
 
 export function MaterialSymbolsAdd(props: SVGProps<SVGSVGElement>) {
 	return (<svg xmlns="http://www.w3.org/2000/svg" width={24} height={24} viewBox="0 0 24 24" {...props}><path fill="currentColor" d="M11 13H5v-2h6V5h2v6h6v2h-6v6h-2z"></path></svg>);
+}
+
+export function MaterialIconThemeDependenciesUpdate(
+  props: SVGProps<SVGSVGElement>
+) {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width={30}
+      height={30}
+      viewBox="0 0 16 16"
+      style={{
+        transform: "scale(1, -1) rotate(40deg)", // VOLTEADO + GIRO DERECHA
+        transformOrigin: "center",
+      }}
+      {...props}
+    >
+      <path
+        fill="#fff"
+        d="m10.484 3.635l-2.5 2.546l-.875-.891l1-1.018H8q-1.563 0-2.656 1.121Q4.249 6.515 4.25 8.122a3.5 3.5 0 0 0 .375 1.59l-.937.955a5.156 5.25 0 0 1-.516-1.24A4.81 4.897 0 0 1 3 8.121Q3 5.99 4.453 4.494T8 2.999h.11l-1-1.018l.874-.891zm-4.968 8.747l2.5-2.546l.875.891l-1 1.018H8q1.563 0 2.656-1.12q1.095-1.123 1.094-2.73a3.5 3.5 0 0 0-.375-1.59l.938-.955q.343.604.515 1.24q.172.638.172 1.305q0 2.131-1.453 3.628Q10.094 13.018 8 13.018h-.11l1 1.018l-.874.891z"
+      ></path>
+    </svg>
+  );
 }

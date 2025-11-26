@@ -5,61 +5,43 @@ import Countdown from "@/component/countdown/countdown";
 export default function SectionPromoHome2() {
   return (
     <>
-      <div className="bg-primary w-full h-102 md:h-52 py-4 mb-4 flex flex-col md:flex-row justify-end items-center ">
-
-        <div className="mx-10  font-bold text-3xl w-80 flex flex-col  items-start md:justify-center md:items-center ">
-          <span className="text-accent">
+      <div className="bg-primary w-full h-[475px] md:h-[330px] relative">
+        <div className="mx-4 md:mx-10 pt-10  md:h-full font-bold text-[36px]  w-150 flex flex-col  md:justify-center items-start md:text-4xl  2xl:text-5xl ">
+          <span className="text-[#D69F04] ">
             Próximamente
             <h3 className="text-white ">en nuestra Tienda</h3>
           </span>
 
-          <div>
+          <div className="mt-4">
             <Countdown targetDate="2025-12-31T23:59:59" />
           </div>
         </div>
 
-        <div className="bg-primary w-full h-52 py-4  relative flex justify-center items-center overflow-visible">
-          <div className="absolute -bottom-4 md:bottom-0 md:ml-20 2xl:ml-0 xl:mr-100  ">
-            <Image
-              src="/images/Rectangle.png"
-              alt="icon"
-              width={1000}
-              height={1000}
-              className="mr-10 h-4 md:w-300 md:h-10 xl:w-130 xl:h-10 "
-            />
-          </div>
+        <div>
+          <img
+            src="/images/Rectangle.png"
+            alt="Background"
+            className="absolute bottom-0 md:left-70 2xl:left-80 "
+          />
 
-          <div className="absolute -bottom-4 md:bottom-0 ml-40  xl:ml-60 ">
-            <Image
-              src="/images/Vector15.png"
-              alt="icon"
-              width={1000}
-              height={1000}
-              className="mr-100  md:w-190 md:h-15 xl:w-230  "
-            />
-          </div>
+          <img
+            src="/images/Vector15.png"
+            alt="Background"
+            className="absolute bottom-0 ml-12 md:ml-120 2xl:ml-135"
+          />
 
-          <div className="absolute -bottom-3 md:bottom-0 md:mb-1 ml-20 xl:ml-40 ">
-            <Image
-              src="/images/Vector16.png"
-              alt="icon"
-              width={1000}
-              height={1000}
-              className="mr-100 md:w-230 md:h-20 xl:w-245 "
-            />
-          </div>
+          <img
+            src="/images/Vector16.png"
+            alt="Background"
+            className="absolute bottom-0 left-4 md:left-95 2xl:left-110  w-330"
+          />
 
-          <div className="absolute mt-10 md:mt-0 xl:ml-20">
-            <Image
-              src="/images/productos.png"
-              alt="icon"
-              width={1000}
-              height={1000}
-              className="scale-140 h-38 md:h-auto mt-6 w-60 md:ml-15 md:w-50 2xl:mr-10 md:mt-0 xl:scale-[2.5]"
-            />
-          </div>
+          <img
+            src="/images/motorbike.svg"
+            alt="Background"
+            className="absolute right-2 w-90 bottom-[-10]  md:bottom-[-30]  md:right-5 2xl:right-30   md:w-187"
+          />
         </div>
-
       </div>
     </>
   );

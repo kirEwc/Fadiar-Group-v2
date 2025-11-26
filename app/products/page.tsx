@@ -6,8 +6,8 @@ import { useEffect, useState } from "react";
 import Card from "@/component/ui/card";
 import Pagination from "@/component/ui/pagination";
 import { SectionAbout4 } from "@/section/aboutUS/sectionAbout4";
-import { SectionMasRecientes } from "@/section/masRecientes";
 import { server_url } from "@/lib/apiClient";
+import Pot from "@/section/pot/pot";
 
 
 export type Product = {
@@ -132,71 +132,7 @@ useEffect(() => {
 
             </div>
 
-            {/* Modal Sidebar Mobile */}
-            {isMounted && isFilterOpen && (
-              <div className="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 xl:hidden" onClick={() => setIsFilterOpen(false)}>
-                <div className="absolute left-0 top-0 h-full w-80 bg-white shadow-2xl overflow-y-auto animate-slide-in" onClick={(e) => e.stopPropagation()}>
-                  <div className="p-6">
-                    <div className="flex justify-between items-center mb-6">
-                      <h2 className="text-2xl font-bold text-primary">Filtros</h2>
-                      <button 
-                        onClick={() => setIsFilterOpen(false)} 
-                        className="w-8 h-8 flex items-center justify-center rounded-full hover:bg-gray-100 text-gray-500 text-3xl leading-none"
-                      >
-                        ×
-                      </button>
-                    </div>
-                    
-                    <div className="flex flex-col gap-4">
-                      <FilterSection
-                        title="Categorías"
-                        type="checkbox"
-                        selected={category}
-                        onChange={setCategory}
-                        options={[
-                          { label: "Refrigeradores y Neveras", value: "neveras" },
-                          { label: "Cocinas y Hornos", value: "cocinas" },
-                          { label: "Lavadoras y Secadoras", value: "lavadoras" },
-                        ]}
-                      />
-                      <FilterSection
-                        title="Precio"
-                        type="range"
-                        min={0}
-                        max={200}
-                        valueMin={price[0]}
-                        valueMax={price[1]}
-                        onChange={setPrice}
-                      />
-                      <FilterSection
-                        title="Marcas"
-                        type="checkbox"
-                        selected={brands}
-                        onChange={setBrands}
-                        options={[
-                          { label: "Ecko", value: "ecko" },
-                          { label: "Midea", value: "midea" },
-                          { label: "Columbia", value: "columbia" },
-                        ]}
-                      />
-                      <FilterSection
-                        title="Relevantes"
-                        type="radio"
-                        selected={relevant}
-                        onChange={(value) => setRelevant(value as string[])}
-                        options={[
-                          { label: "Ofertas", value: "ofertas" },
-                          { label: "Más vendidos", value: "masVendidos" },
-                          { label: "Próximamente", value: "proximamente" },
-                        ]}
-                      />
-                    </div>
-                  </div>
-                </div>
-              </div>
-            )}
-
-            <div id="content" className="w-full mb-20 xl:w-4/5 overflow-hidden">
+            <div id="content" className="w-full mb-20  xl:w-4/5 overflow-hidden">
                 <div id="content-ollas">
                     <SectionPromoHome1 />
                 </div>
@@ -299,9 +235,9 @@ useEffect(() => {
             <SectionAbout4 />
             </div>
 
-            <SectionMasRecientes 
+            {/* <SectionMasRecientes 
             products={products}
-            />
+            /> */}
 
 
 

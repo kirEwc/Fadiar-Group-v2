@@ -21,7 +21,7 @@ export default function Faq() {
         <div className="flex flex-col md:flex-row justify-center gap-5 w-full">
           <div className="md:w-1/3 md:mt-22 flex flex-col">
             <h1 className="text-3xl font-bold w-full">
-              <span className="block">Preguntas Frecuentes</span>
+              <span className="block text-primary">Preguntas Frecuentes</span>
               <span className="text-[#F5A623]">de nuestros clientes</span>
             </h1>
 
@@ -54,7 +54,7 @@ export default function Faq() {
           <SectionPromoHome2 />
         </div>
         <div className="mt-10">
-        <SectionMasRecientes />
+        {/* <SectionMasRecientes /> */}
       </div>
       </div>
     </div>

@@ -31,7 +31,7 @@ export function CheckoutStepper({ currentStep = 0 }: CheckoutStepperProps) {
   ];
 
   return (
-    <div className="w-full  p-4">
+    <div className="w-full   p-4">
       <div className="relative flex items-center justify-between">
         {/* Connecting Lines Layer */}
         <div className="absolute top-1/2 left-0 w-full -translate-y-1/2 flex items-center px-8 sm:px-12 pointer-events-none z-0">

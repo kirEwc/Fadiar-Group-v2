@@ -19,7 +19,7 @@ export default function Cart3() {
           </div>       
 
           <div className="flex justify-center items-center ">
-            <div className=" w-140  lg:ml-25">
+             <div className=" w-160 ml-2  lg:ml-20">
               <CheckoutStepper currentStep={2} />
             </div>
           </div>

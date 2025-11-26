@@ -42,7 +42,7 @@ export default function Countdown({ targetDate }: CountdownProps) {
   }, [targetDate]);
 
   return (
-    <div className="text-white py-2 flex flex-col  md:items-center w-96 ">
+    <div className="text-white  py-2 flex flex-col  md:items-center md:w-80 2xl:w-full ">
 
       {/* Contador */}
       <div className="flex gap-2 ">
@@ -57,9 +57,9 @@ export default function Countdown({ targetDate }: CountdownProps) {
 
 function Box({ value, label }: { value: string; label: string }) {
   return (
-    <div className="bg-[#001730] px-1 py-1 rounded-lg text-center min-w-[75px]">
-      <p className="text-xl font-bold ">{value}</p>
-      <span className="text-accent text-sm">{label}</span>
+    <div className="bg-[#001730] px-2  py-2 rounded-lg text-center min-w-20 2xl:min-w-25 h-18 flex flex-col justify-center gap-1 2xl:gap-2">
+      <p className="text-xl font-bold leading-tight">{value}</p>
+      <span className="text-[#D69F04] text-sm ">{label}</span>
     </div>
   );
 }
