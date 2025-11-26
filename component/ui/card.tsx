@@ -78,7 +78,7 @@ const warrantyNumber = +(warranty ?? "0");
             <p className="h-6 text-sm font-medium mb-3">
             </p>
             }
-            {temporal_price !== null ? (
+            {temporal_price !== null || temporal_price !== undefined ? (
                <p className="text-[#022954] font-bold text-2xl">
                ${price}{" "}
                <span className="text-[#022954] font-normal text-base">USD</span>
@@ -104,7 +104,7 @@ const warrantyNumber = +(warranty ?? "0");
                 <button className="px-3 py-2 text-yellow-500">+</button>
               </div>
 
-              <button className="p-2.5 px-5 border border-[#022954] rounded-2xl">
+              <button className="p-2.5 px-7 border border-[#022954] rounded-2xl">
                 <svg
                   className="w-5 h-5 text-[#022954]"
                   fill="none"
