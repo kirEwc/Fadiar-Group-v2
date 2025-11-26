@@ -6,7 +6,7 @@ import { SectionAbout4 } from "@/section/aboutUS/sectionAbout4";
 export default function Cart4() {
   return (
     <>
-      <div className="   md:px-15 ">
+      <div className="   lg:px-15 ">
         <div className="mx-4">
           <div className="mt-10 ">
             <p className="text-xs text-gray-400 mb-4">

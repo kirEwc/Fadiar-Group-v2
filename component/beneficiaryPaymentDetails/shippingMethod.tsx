@@ -4,7 +4,7 @@ export default function ShippingMethod(){
 
         <>
           {/* METODO DE ENTREGA*/}
-      <div className="w-full sm:w-80  2xl:w-90">
+      <div className="w-full lg:w-80  2xl:w-90">
         <div>
           <h5 className="text-primary font-bold text-xl">METODO DE ENTREGA</h5>
           <div className="w-full  border-b-2 border-gray"></div>

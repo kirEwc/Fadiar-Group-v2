@@ -18,8 +18,8 @@ export default function Faq() {
           <h1 className="text-3xl text-primary font-bold mb-8">FAQ</h1>
         </div>
 
-        <div className="flex flex-col md:flex-row justify-center gap-5 w-full">
-          <div className="md:w-1/3 md:mt-22 flex flex-col">
+        <div className="flex flex-col lg:flex-row justify-center gap-5 w-full">
+          <div className="lg:w-1/3 md:mt-22 flex flex-col">
             <h1 className="text-3xl font-bold w-full">
               <span className="block text-primary">Preguntas Frecuentes</span>
               <span className="text-[#F5A623]">de nuestros clientes</span>
@@ -33,7 +33,7 @@ export default function Faq() {
             </div>
           </div>
 
-          <div className="mt-4 md:w-2/3">
+          <div className="mt-4 lg:w-2/3">
             <Accordion items={faqData} />
           </div>
         </div>

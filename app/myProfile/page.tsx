@@ -6,7 +6,7 @@ import { SectionAbout4 } from "@/section/aboutUS/sectionAbout4";
 export default function MyProfile() {
   return (
     <>
-      <div className="mx-4 lg:mx-85">
+      <div className="mx-4 lg:mx-40 xl:mx-85">
         <div className="mt-10 ">
           <div>
             <h1 className="text-3xl text-primary font-bold ">Mi Perfil</h1>

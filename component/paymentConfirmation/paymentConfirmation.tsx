@@ -7,14 +7,14 @@ import CartCard from "../cartCard/cartCard";
 export default function PaymentConfirmation() {
   return (
     <>
-      <div className="flex flex-col md:flex-row gap-4 space-y-6 xl:space-y-0">
+      <div className="flex flex-col xl:flex-row gap-4 space-y-6 xl:space-y-0">
         <div >
           <h5 className="text-primary font-bold text-xl ml-4 pb-1">
             PRODUCTOS
           </h5>
           <div className="w-full  border-b-2 border-gray"></div>
           <div className="mt-4  flex flex-col justify-center items-center lg:flex-row lg:items-start  ">
-            <div className=" flex flex-col gap-y-3 ">
+            <div className="flex flex-col gap-y-3 md:grid md:grid-cols-2 md:gap-3 xl:flex xl:flex-col xl:gap-y-3">
               {products.map((item) => (
                 <CartCard 
                   key={item.id}
@@ -38,7 +38,7 @@ export default function PaymentConfirmation() {
           <RecipientPaymentDetails />
         </div>
 
-        <div className="lg:w-110">
+        <div className="xl:w-110">
           <div>
             <h5 className="text-primary font-bold text-xl  pb-1">IMPORTE</h5>
             <div className="w-full  border-b-2 border-gray"></div>

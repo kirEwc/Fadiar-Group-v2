@@ -10,8 +10,8 @@ export const SectionAbout1 = () => {
           <h1 className="text-3xl text-primary font-bold">About Us</h1>
         </div>
 
-        <div className="flex flex-col md:flex-row items-stretch justify-center gap-20 2xl:gap-25 my-5">
-          <div className="md:w-2/3 flex flex-col">
+        <div className="flex flex-col lg:flex-row items-stretch justify-center gap-20 2xl:gap-25 my-5">
+          <div className="lg:w-2/3 flex flex-col">
             <div className="h-full flex flex-col justify-between">
               <p>
                 <span className="text-primary font-bold">Grupo Fadiar </span>
@@ -56,7 +56,7 @@ export const SectionAbout1 = () => {
             </div>
           </div>
 
-          <div className="md:w-1/2 flex items-center">
+          <div className="lg:w-1/2 flex items-center">
             <img
               src="/images/dealer.svg"
               alt="dealer"
