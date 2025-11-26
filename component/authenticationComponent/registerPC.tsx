@@ -1,13 +1,11 @@
 "use client";
 
-import FloatingLabelInput from "@/component/authenticationComponent/FloatingLabelInput";
+import FloatingLabelInput from "./FloatingLabelInput";
 
 
-
-export default function Register() {
+export default function RegisterPC() {
   return (
-    <>
- <div className="h-full md:min-h-screen flex items-center justify-center bg-primary p-4">
+    <div className=" min-h-screen flex items-center justify-center bg-primary p-4">
       {/* Container principal con animación circular */}
       <div className="relative w-[700px] h-[600px] flex items-center justify-center md:rounded-full overflow-hidden">
         {/* Spans animados en círculo - 270 grados (lado derecho y superior/inferior) */}
@@ -22,7 +20,7 @@ export default function Register() {
           return (
             <span
               key={i}
-              className="absolute left-10 h-1.5 hidden md:block bg-primary rounded-full animate-blink"
+              className="absolute left-10 h-1.5  bg-primary rounded-full animate-blink"
               style={{
                 width: `${width}px`,
                 transformOrigin: "270px",
@@ -34,9 +32,9 @@ export default function Register() {
         })}
 
         {/* Login Box */}
-        <div className="md:absolute  mx-4 md:mx-0 w-full md:w-[500px] z-10  md:p-5 md:rounded-3xl">
+        <div className="md:absolute ml-20 md:ml-0 mx-4 md:mx-0 w-full md:w-[500px] z-10  md:p-5 md:rounded-3xl">
           <form className="  md:w-full md:px-2.5">
-            <h2 className="text-3xl text-white text-center  md:mb-2.5 font-semibold">
+            <h2 className="text-2xl md:text-3xl text-white text-center  md:mb-2.5 font-semibold">
               Registro
             </h2>
 
@@ -51,7 +49,7 @@ export default function Register() {
             </div>
 
             {/* Segundo Apellido y Correo */}
-                <div className="grid grid-cols-1 md:grid-cols-2  md:gap-3">
+               <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
               <FloatingLabelInput
                 type="text"
                 label="Segundo Apellido"
@@ -103,6 +101,5 @@ export default function Register() {
         </div>
       </div>
     </div>
-    </>
   );
 }

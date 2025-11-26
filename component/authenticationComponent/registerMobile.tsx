@@ -1,31 +1,28 @@
 "use client";
 
-import FloatingLabelInput from "@/component/authenticationComponent/FloatingLabelInput";
+import FloatingLabelInput from "./FloatingLabelInput";
 
-
-
-export default function Register() {
+export default function RegisterMobile() {
   return (
-    <>
- <div className="h-full md:min-h-screen flex items-center justify-center bg-primary p-4">
+    <div className="h-screen w-screen flex items-center justify-center bg-primary overflow-hidden fixed inset-0">
       {/* Container principal con animación circular */}
-      <div className="relative w-[700px] h-[600px] flex items-center justify-center md:rounded-full overflow-hidden">
+      <div className="relative w-[700px] h-[600px] flex items-center justify-center   overflow-hidden">
         {/* Spans animados en círculo - 270 grados (lado derecho y superior/inferior) */}
         {[...Array(45)].map((_, i) => {
           // Calcular ancho: más pequeño al inicio y final, más grande en el centro
           const progress = i / 44; // 0 a 1
           const widthScale = 0.3 + Math.sin(progress * Math.PI) * 0.7; // 0.3 a 1
-          const width = Math.round(50 * widthScale * 100) / 100; // Redondear a 2 decimales
-          const rotation = Math.round((-135 + i * (270 / 45)) * 100) / 100;
+          const width = Math.round(30 * widthScale * 100) / 100; // Redondear a 2 decimales
+          const rotation = Math.round((-36 + i * (80 / 45)) * 100) / 100;
           const delay = Math.round(i * (3 / 45) * 100) / 100;
 
           return (
             <span
               key={i}
-              className="absolute left-10 h-1.5 hidden md:block bg-primary rounded-full animate-blink"
+              className="absolute left-0 h-1  bg-primary rounded-full animate-blink"
               style={{
                 width: `${width}px`,
-                transformOrigin: "270px",
+                transformOrigin: "360px",
                 transform: `rotate(${rotation}deg)`,
                 animationDelay: `${delay}s`,
               }}
@@ -34,9 +31,9 @@ export default function Register() {
         })}
 
         {/* Login Box */}
-        <div className="md:absolute  mx-4 md:mx-0 w-full md:w-[500px] z-10  md:p-5 md:rounded-3xl">
+        <div className="md:absolute   ml-20 mt-15 mx-2 md:mx-0 w-full  md:w-[500px] z-10  md:p-5 md:rounded-3xl">
           <form className="  md:w-full md:px-2.5">
-            <h2 className="text-3xl text-white text-center  md:mb-2.5 font-semibold">
+            <h2 className="text-2xl md:text-3xl text-white text-center  md:mb-2.5 font-semibold">
               Registro
             </h2>
 
@@ -51,7 +48,7 @@ export default function Register() {
             </div>
 
             {/* Segundo Apellido y Correo */}
-                <div className="grid grid-cols-1 md:grid-cols-2  md:gap-3">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-0 md:gap-3">
               <FloatingLabelInput
                 type="text"
                 label="Segundo Apellido"
@@ -61,7 +58,7 @@ export default function Register() {
             </div>
 
             {/* Contraseñas */}
-                <div className="grid grid-cols-1 md:grid-cols-2  md:gap-3">
+            <div className="grid grid-cols-1 md:grid-cols-2  md:gap-3">
               <FloatingLabelInput type="password" label="Contraseña" required />
               <FloatingLabelInput
                 type="password"
@@ -103,6 +100,5 @@ export default function Register() {
         </div>
       </div>
     </div>
-    </>
   );
 }
