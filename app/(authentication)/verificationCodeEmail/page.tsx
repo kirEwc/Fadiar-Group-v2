@@ -18,7 +18,7 @@ export default function VerificationCodeEmail() {
       setEmail(storedEmail);
     } else {
       // Si no hay correo, redirigir al registro
-      router.push("/register");
+      // router.push("/register");
     }
   }, [router]);
 
@@ -28,7 +28,7 @@ export default function VerificationCodeEmail() {
 
     // Validar que el código no esté vacío
     if (!code.trim()) {
-      setError("Por favor ingresa el código de verificación");
+      setError("Ingresa el código de verificación");
       return;
     }
 
@@ -101,7 +101,7 @@ export default function VerificationCodeEmail() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-primary p-4">
+    <div className="h-full md:min-h-screen flex items-center justify-center bg-primary p-4">
       {/* Container principal con animación circular */}
       <div className="relative w-[400px] h-[400px] flex items-center justify-center rounded-full overflow-hidden">
         {/* Spans animados en círculo - 270 grados (lado derecho y superior/inferior) */}
@@ -143,7 +143,7 @@ export default function VerificationCodeEmail() {
                 setCode(e.target.value);
                 setError("");
               }}
-              required
+              
             />
 
             {/* Error Message */}
