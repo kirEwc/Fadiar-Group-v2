@@ -21,13 +21,13 @@ export default function Product() {
     oldPrice: 80,
     image: "/images/pot.png",
     images: ["/images/pot.png", "/images/pot.png", "/images/pot.png"],
-    properties: [
-      { key: "CAPACIDAD", value: "5.5 Litros" },
-      { key: "POTENCIA", value: "1500W" },
-      { key: "VOLTAJE", value: "120 V" },
-      { key: "TEMPERATURA", value: "80°C a 200°C" },
-      { key: "TEMPORIZADOR", value: "60 Min" },
-      { key: "COLOR", value: "Negro" },
+    specs: [
+      { name: "CAPACIDAD", description: "5.5 Litros" },
+      { name: "POTENCIA", description: "1500W" },
+      { name: "VOLTAJE", description: "120 V" },
+      { name: "TEMPERATURA", description: "80°C a 200°C" },
+      { name: "TEMPORIZADOR", description: "60 Min" },
+      { name: "COLOR", description: "Negro" },
     ],
   };
 
@@ -123,10 +123,10 @@ export default function Product() {
               <h3 className="font-semibold text-[#1A2B49] mb-3">Propiedades</h3>
               <table className="w-full text-sm text-gray-600">
                 <tbody>
-                  {product.properties.map((p, i) => (
+                  {product.specs.map((p, i) => (
                     <tr key={i} className="border-b border-gray ">
-                      <td className="py-2 font-medium text-[#1E1E1E]">{p.key}</td>
-                      <td className="py-2 text-right">{p.value}</td>
+                      <td className="py-2 font-medium text-[#1E1E1E]">{p.name}</td>
+                      <td className="py-2 text-right">{p.description}</td>
                     </tr>
                   ))}
                 </tbody>

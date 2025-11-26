@@ -138,7 +138,7 @@ useEffect(() => {
                     <SectionPromoHome1 />
                 </div>
 
-                   <div id={"list"} className="mt-20 ml-5 lg:ml-0 flex w-full justify-between items-center">
+                   <div id={"list"} className="mt-20 px-4 md:px-0 flex w-full justify-between items-center">
                       <span className="text-gray-400 mb-4">
                       <span className="text-md text-primary mr-4 font-bold">Todos las Categorías</span>
                       
@@ -215,7 +215,7 @@ useEffect(() => {
                   
                   
 
-                <div id="products" className="mt-20 ml-5 lg:ml-0 grid grid-cols-2 justify-between grid-rows-2 md:grid-cols-3 md:grid-rows-2 lg:grid-cols-3 lg:grid-rows-3 lg:mt-0 xl:grid-cols-4 xl:grid-rows-3 2xl:grid-cols-5 2xl:grid-rows-3 gap-4 xl:mr-20">
+                <div id="products" className="mt-20 mx-5 lg:mx-0 grid grid-cols-2 justify-between grid-rows-2 md:grid-cols-3 md:grid-rows-2 lg:grid-cols-3 lg:grid-rows-3 lg:mt-0 xl:grid-cols-4 xl:grid-rows-3 2xl:grid-cols-5 2xl:grid-rows-3 gap-4 xl:mr-20">
                   {products && products.length > 0 ? (
                       products.slice(0, 15).map((product) => (
                         <Card
