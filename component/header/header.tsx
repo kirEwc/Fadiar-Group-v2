@@ -14,7 +14,7 @@ export default function Header() {
 
   return (
     <div className="relative w-full bg-white z-50">
-      <div className={`pt-4 flex justify-between px-4 md:justify-between md:px-25 items-start ${isCart4 ? "2xl:px-20" : "2xl:px-28"}`}>
+      <div className={`pt-4 flex justify-between px-4 md:justify-between lg:px-25 items-start ${isCart4 ? "2xl:px-20" : "2xl:px-28"}`}>
         <div className="hidden md:block">
           <Image
             src="/images/logo.svg"
