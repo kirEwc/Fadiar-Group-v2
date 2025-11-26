@@ -33,6 +33,8 @@ export default function Products(){
     const [price, setPrice] = useState<[number, number]>([0, 200]);
     const [brands, setBrands] = useState<string[]>([]);
     const [relevant, setRelevant] = useState<string[]>([]);
+    const [isFilterOpen, setIsFilterOpen] = useState(false);
+    const [isMounted, setIsMounted] = useState(false);
 
 const [products, setProducts] = useState<Product[]>([]);
 
@@ -52,14 +54,30 @@ const getAllProducts = async () => {
 };
 
 useEffect(() => {
+  setIsMounted(true);
   getAllProducts();
 }, []);
 
+
+    const removeFilter = (type: 'category' | 'brand' | 'relevant', value: string) => {
+      if (type === 'category') {
+        setCategory(category.filter(c => c !== value));
+      } else if (type === 'brand') {
+        setBrands(brands.filter(b => b !== value));
+      } else if (type === 'relevant') {
+        setRelevant(relevant.filter(r => r !== value));
+      }
+    };
+
+    const resetPrice = () => {
+      setPrice([0, 200]);
+    };
 
     return(
         <main className="flex w-full h-auto flex-col">
             <div id="main" className="flex flex-row">
 
+            {/* Sidebar Desktop */}
             <div id="Sidebar" className="w-1/5 mx-4 hidden xl:flex flex-col gap-3">
 
             {/* Categorías */}
@@ -114,20 +132,143 @@ useEffect(() => {
 
             </div>
 
+            {/* Modal Sidebar Mobile */}
+            {isMounted && isFilterOpen && (
+              <div className="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 xl:hidden" onClick={() => setIsFilterOpen(false)}>
+                <div className="absolute left-0 top-0 h-full w-80 bg-white shadow-2xl overflow-y-auto animate-slide-in" onClick={(e) => e.stopPropagation()}>
+                  <div className="p-6">
+                    <div className="flex justify-between items-center mb-6">
+                      <h2 className="text-2xl font-bold text-primary">Filtros</h2>
+                      <button 
+                        onClick={() => setIsFilterOpen(false)} 
+                        className="w-8 h-8 flex items-center justify-center rounded-full hover:bg-gray-100 text-gray-500 text-3xl leading-none"
+                      >
+                        ×
+                      </button>
+                    </div>
+                    
+                    <div className="flex flex-col gap-4">
+                      <FilterSection
+                        title="Categorías"
+                        type="checkbox"
+                        selected={category}
+                        onChange={setCategory}
+                        options={[
+                          { label: "Refrigeradores y Neveras", value: "neveras" },
+                          { label: "Cocinas y Hornos", value: "cocinas" },
+                          { label: "Lavadoras y Secadoras", value: "lavadoras" },
+                        ]}
+                      />
+                      <FilterSection
+                        title="Precio"
+                        type="range"
+                        min={0}
+                        max={200}
+                        valueMin={price[0]}
+                        valueMax={price[1]}
+                        onChange={setPrice}
+                      />
+                      <FilterSection
+                        title="Marcas"
+                        type="checkbox"
+                        selected={brands}
+                        onChange={setBrands}
+                        options={[
+                          { label: "Ecko", value: "ecko" },
+                          { label: "Midea", value: "midea" },
+                          { label: "Columbia", value: "columbia" },
+                        ]}
+                      />
+                      <FilterSection
+                        title="Relevantes"
+                        type="radio"
+                        selected={relevant}
+                        onChange={(value) => setRelevant(value as string[])}
+                        options={[
+                          { label: "Ofertas", value: "ofertas" },
+                          { label: "Más vendidos", value: "masVendidos" },
+                          { label: "Próximamente", value: "proximamente" },
+                        ]}
+                      />
+                    </div>
+                  </div>
+                </div>
+              </div>
+            )}
+
             <div id="content" className="w-full mb-20 xl:w-4/5 overflow-hidden">
                 <div id="content-ollas">
                     <SectionPromoHome1 />
                 </div>
 
-                   <div id={"list"} className="mt-20 sm:mt-0 flex w-full justify-between">
+                   <div id={"list"} className="mt-20 sm:mt-0 flex w-full justify-between items-center">
                       <p className="text-gray-400 mb-4">
                       <span className="text-md text-primary mr-4 font-bold">Todos las Categorías</span>
                      <span className="text-sm text-[#777777]">{products?.length ?? 0} Productos</span>
                       </p>
-                      <div className="flex items-center gap-2">
-                        <span className="text-md text-primary mr-15 md:mr-30 font-bold">F</span>
-                      </div>
+                      <button 
+                        onClick={() => setIsFilterOpen(true)}
+                        className="xl:hidden flex items-center gap-2 px-4 py-2 bg-gray-50 hover:bg-gray-100 rounded-lg text-primary"
+                      >
+                        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z" />
+                        </svg>
+                        
+                      </button>
                   </div>
+
+                  {/* Filtros aplicados */}
+                  {(category.length > 0 || brands.length > 0 || relevant.length > 0 || price[0] !== 0 || price[1] !== 200) && (
+                    <div className="flex flex-col gap-2 mb-6 ml-3">
+                      
+                      {category.map((cat) => (
+                        <div key={cat} className="inline-flex items-center gap-2 px-3 py-[6px] bg-[#f6f8fb] text-[#0b2a4a] rounded-md text-sm font-semibold leading-none w-fit">
+                          <div className="w-4 h-4 border border-[#0b2a4a] flex items-center justify-center rounded">
+                          <svg className="w-3 h-3 text-[#0b2a4a]" fill="currentColor" viewBox="0 0 20 20">
+                            <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                          </svg>
+                          </div>
+                          <span>{cat === 'neveras' ? 'Refrigeradores y Neveras' : cat === 'cocinas' ? 'Cocinas y Hornos' : 'Lavadoras y Secadoras'}</span>
+                          <button onClick={() => removeFilter('category', cat)} className="ml-10 text-gray-400 hover:text-gray-600 font-bold text-lg leading-none">×</button>
+                        </div>
+                      ))}
+
+                      {brands.map((brand) => (
+                        <div key={brand} className="inline-flex items-center gap-2 px-3 py-[6px] bg-[#f6f8fb] text-[#0b2a4a] rounded-md text-sm font-semibold leading-none w-fit">
+                          <div className="w-4 h-4 border border-[#0b2a4a] flex items-center justify-center rounded">
+                          <svg className="w-3 h-3 text-[#0b2a4a]" fill="currentColor" viewBox="0 0 20 20">
+                            <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                          </svg>
+                          </div>
+                          <span>{brand.charAt(0).toUpperCase() + brand.slice(1)}</span>
+                          <button onClick={() => removeFilter('brand', brand)} className="ml-10 text-gray-400 hover:text-gray-600 font-bold text-lg leading-none">×</button>
+                        </div>
+                      ))}
+                      {relevant.map((rel) => (
+                        <div key={rel} className="inline-flex items-center gap-2 px-3 py-[6px] bg-[#f6f8fb] text-[#0b2a4a] rounded-md text-sm font-semibold leading-none w-fit">
+                          <div className="w-4 h-4 border border-[#0b2a4a] flex items-center justify-center rounded">
+                          <svg className="w-3 h-3 text-[#0b2a4a]" fill="currentColor" viewBox="0 0 20 20">
+                            <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                          </svg>
+                          </div>
+                          <span>{rel === 'ofertas' ? 'Ofertas' : rel === 'masVendidos' ? 'Más vendidos' : 'Próximamente'}</span>
+                          <button onClick={() => removeFilter('relevant', rel)} className="ml-1 text-gray-400 hover:text-gray-600 font-bold text-lg leading-none">×</button>
+                        </div>
+                      ))}
+                      {(price[0] !== 0 || price[1] !== 200) && (
+                        <div className="inline-flex items-center gap-2 px-3 py-[6px] bg-[#f6f8fb] text-[#0b2a4a] rounded-md text-sm font-semibold leading-none w-fit">
+                          <div className="w-4 h-4 border border-[#0b2a4a] flex items-center justify-center rounded">
+                          <svg className="w-3 h-3 text-[#0b2a4a]" fill="currentColor" viewBox="0 0 20 20">
+                            <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                          </svg>
+                          </div>
+                          <span>${price[0]} - ${price[1]}</span>
+                          <button onClick={resetPrice} className="ml-1 text-gray-400 hover:text-gray-600 font-bold text-lg leading-none">×</button>
+                        </div>
+                      )}
+                    </div>
+                  )}
+                  
 
                 <div id="products" className="mt-20 grid grid-cols-2 justify-between grid-rows-2 md:grid-cols-3 md:grid-rows-2 lg:grid-cols-3 lg:grid-rows-3 lg:mt-0 xl:grid-cols-4 xl:grid-rows-3 2xl:grid-cols-5 2xl:grid-rows-3 gap-4 xl:mr-20">
                   {products && products.length > 0 ? (
