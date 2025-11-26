@@ -8,6 +8,7 @@ import Pagination from "@/component/ui/pagination";
 import { SectionAbout4 } from "@/section/aboutUS/sectionAbout4";
 import { server_url } from "@/lib/apiClient";
 import Pot from "@/section/pot/pot";
+import { SectionMasRecientes } from "@/section/masRecientes";
 
 
 export type Product = {
@@ -140,6 +141,7 @@ useEffect(() => {
                    <div id={"list"} className="mt-20 ml-5 lg:ml-0 flex w-full justify-between items-center">
                       <span className="text-gray-400 mb-4">
                       <span className="text-md text-primary mr-4 font-bold">Todos las Categorías</span>
+                      
                       <span id="filters-applied">
                       {(category.length > 0 || brands.length > 0 || relevant.length > 0 || price[0] !== 0 || price[1] !== 200) && (
                     <div className="flex flex-col gap-2 mb-6 ml-3">
@@ -242,9 +244,7 @@ useEffect(() => {
             <SectionAbout4 />
             </div>
 
-            {/* <SectionMasRecientes 
-            products={products}
-            /> */}
+            <SectionMasRecientes products={products} />
 
 
 

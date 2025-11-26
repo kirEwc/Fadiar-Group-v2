@@ -25,9 +25,9 @@ const About = () => {
       <div className="mt-10">
         <SectionAbout4 />
       </div>
-      {/* <div className="mt-10">
+      <div className="mt-10">
         <SectionMasRecientes />
-      </div> */}
+      </div>
     </div>
     
     </>
