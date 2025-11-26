@@ -134,8 +134,12 @@ useEffect(() => {
             </div>
 
             <div id="content" className="w-full mb-20  xl:w-4/5 overflow-hidden">
-                <div id="content-ollas">
+                <div id="content-ollas" className="md:hidden">
                     <SectionPromoHome1 />
+                </div>
+
+                <div className="hidden md:block">
+                  <Pot/>
                 </div>
 
                    <div id={"list"} className="mt-20 px-4 md:px-0 flex w-full justify-between items-center">

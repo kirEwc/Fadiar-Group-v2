@@ -32,13 +32,13 @@ export const SectionAbout4 = () => {
           <img
             src="/images/mony.svg"
             alt="Background"
-            className="absolute hidden md:block  bottom-0 h-full right-0 w-210"
+            className="absolute hidden xl:block  bottom-0 h-full right-0  w-210"
           />
 
          <img
             src="/images/monyMobile.svg"
             alt="Background"
-            className="absolute  md:hidden  bottom-0 right-0 w-210"
+            className="absolute  xl:hidden  bottom-0 right-0 w-130 sm:w-140 md:w-100 lg:w-140   lg:h-full lg:object-cover" 
           />
 
 

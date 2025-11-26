@@ -5,7 +5,8 @@ import Countdown from "@/component/countdown/countdown";
 export default function SectionPromoHome2() {
   return (
     <>
-      <div className="bg-primary w-full h-[475px] md:h-[330px] relative">
+      <div className="bg-primary w-full h-[475px] md:h-[330px] relative   ">
+
         <div className="mx-4 md:mx-10 pt-10  md:h-full font-bold text-[36px]  w-150 flex flex-col  md:justify-center items-start md:text-4xl  2xl:text-5xl ">
           <span className="text-[#D69F04] ">
             Próximamente
@@ -39,7 +40,7 @@ export default function SectionPromoHome2() {
           <img
             src="/images/motorbike.svg"
             alt="Background"
-            className="absolute right-2 w-90 bottom-[-10]  md:bottom-[-30]  md:right-5 2xl:right-30   md:w-187"
+            className="absolute right-2 left-1 sm:left-auto w-90 bottom-[-10]  md:bottom-[-30]  lg:right-5 2xl:right-30 md:w-100 lg:w-160  xl:w-187"
           />
         </div>
       </div>
