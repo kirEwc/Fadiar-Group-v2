@@ -35,8 +35,9 @@ export default function Register() {
     if (!validation.success) {
       const fieldErrors: Record<string, string> = {};
       validation.error.issues.forEach((error) => {
-        if (error.path[0]) {
-          fieldErrors[error.path[0] as string] = error.message;
+        const key = error.path[0] as string | undefined;
+        if (key && !fieldErrors[key]) {
+          fieldErrors[key] = error.message; // keep first message only
         }
       });
       setErrors(fieldErrors);
