@@ -6,7 +6,7 @@ import Footer from "@/component/footer/footer";
 
 export default function LayoutWrapper({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
-  const isAuthRoute = pathname.startsWith('/authentication');
+  const isAuthRoute = pathname.startsWith('/login') || pathname.startsWith('/register') || pathname.startsWith('/verificationEmail')|| pathname.startsWith('/changePassword') || pathname.startsWith('/verificationEmail')|| pathname.startsWith('/verificationCodeEmail');
 
   return (
     <>
