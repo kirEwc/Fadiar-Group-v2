@@ -98,24 +98,27 @@ const warrantyNumber = +(warranty ?? "0");
             </p>
             }
             {temporal_price !== null ? (
-               <p className="text-[#022954] font-bold text-2xl">
-               ${price}{" "}
-               <span className="text-[#022954] font-normal text-base">USD</span>
-             </p>
-            ) : (
-              <div className="flex flex-row items-center justify-between gap-2">
-              <p className="flex items-baseline text-[#022954] font-bold text-2xl whitespace-nowrap">
-                ${temporal_price}
-                <span className="ml-1 text-[#022954] font-normal text-base">
-                  ${currency?.currency}
-                </span>
-              </p>
-              <p className="text-[#777777] text-md line-through whitespace-nowrap">
-                ${price} ${currency?.currency}
-              </p>
-            </div>
-            )
-            }
+                // Cuando SÍ hay descuento (temporal_price tiene valor)
+                <div className="flex flex-row items-center justify-between gap-2">
+                  <p className="flex items-baseline text-[#022954] font-bold text-2xl whitespace-nowrap">
+                    ${temporal_price}
+                    <span className="ml-1 text-[#022954] font-normal text-base">
+                      {currency?.currency}
+                    </span>
+                  </p>
+                  <p className="text-[#777777] text-md line-through whitespace-nowrap">
+                    ${price} {currency?.currency}
+                  </p>
+                </div>
+              ) : (
+                // Cuando NO hay descuento (temporal_price es null)
+                <p className="text-[#022954] font-bold text-2xl">
+                  ${price}{" "}
+                  <span className="text-[#022954] font-normal text-base">
+                    {currency?.currency}
+                  </span>
+                </p>
+              )}
             <div className="mt-auto pt-4 flex items-center justify-between" onClick={handleButtonClick}>
               <div className="flex items-center rounded-2xl border border-gray">
                 <button className="px-2.5 py-2 text-yellow-500">−</button>

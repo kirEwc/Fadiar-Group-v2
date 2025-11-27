@@ -189,6 +189,10 @@ const getAllProducts = async () => {
       headers: {
         Authorization: `Bearer ${token}`,
       },
+      next: { 
+        revalidate: 300 // Cachea la respuesta por 5 minutos (300 segundos)
+      },
+      cache: 'force-cache' // Fuerza el uso de caché cuando esté disponible
     });
 
     const data = await res.json();
@@ -422,7 +426,87 @@ useEffect(() => {
 
             <SectionMasRecientes products={allProducts} />
 
+            {/* Modal de filtros para móvil */}
+            {isFilterOpen && (
+              <div className="fixed inset-0 z-50 xl:hidden">
+                {/* Overlay */}
+                <div 
+                  className="absolute inset-0 bg-black/50"
+                  onClick={() => setIsFilterOpen(false)}
+                />
+                
+                {/* Modal content */}
+                <div className="absolute right-0 top-0 h-full w-full sm:w-96 bg-white shadow-xl overflow-y-auto">
+                  {/* Header */}
+                  <div className="sticky top-0 bg-white border-b border-gray-200 px-6 py-4 flex items-center justify-between">
+                    <h2 className="text-lg font-semibold text-[#1A2B49]">Filtros</h2>
+                    <button
+                      onClick={() => setIsFilterOpen(false)}
+                      className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
+                    >
+                      <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                      </svg>
+                    </button>
+                  </div>
 
+                  {/* Filters */}
+                  <div className="p-6">
+                    {/* Categorías */}
+                    <FilterSection
+                      title="Categorías"
+                      type="checkbox"
+                      selected={category}
+                      onChange={setCategory}
+                      options={availableCategories}
+                    />
+
+                    {/* Precio */}
+                    <FilterSection
+                      title="Precio"
+                      type="range"
+                      min={priceRange.min}
+                      max={priceRange.max}
+                      valueMin={price[0]}
+                      valueMax={price[1]}
+                      onChange={setPrice}
+                    />
+
+                    {/* Marcas */}
+                    <FilterSection
+                      title="Marcas"
+                      type="checkbox"
+                      selected={brands}
+                      onChange={setBrands}
+                      options={availableBrands}
+                    />
+
+                    {/* Relevantes */}
+                    <FilterSection
+                      title="Relevantes"
+                      type="radio"
+                      selected={relevant}
+                      onChange={(value) => setRelevant(value as string[])}
+                      options={[
+                        { label: "Ofertas", value: "ofertas" },
+                        { label: "Más vendidos", value: "masVendidos" },
+                        { label: "Próximamente", value: "proximamente" },
+                      ]}
+                    />
+                  </div>
+
+                  {/* Footer con botón aplicar */}
+                  <div className="sticky bottom-0 bg-white border-t border-gray-200 px-6 py-4">
+                    <button
+                      onClick={() => setIsFilterOpen(false)}
+                      className="w-full bg-primary text-white py-3 rounded-lg font-semibold hover:bg-primary/90 transition-colors"
+                    >
+                      Aplicar filtros
+                    </button>
+                  </div>
+                </div>
+              </div>
+            )}
 
         </main>
     );
