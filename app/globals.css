@@ -51,3 +51,19 @@ body {
 .animate-blink {
   animation: blink 3s linear infinite;
 }
+
+/* Scroll-triggered animations base */
+.animate-on-scroll {
+  opacity: 0;
+  will-change: transform, opacity;
+}
+
+.aos-animate {
+  opacity: 1;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-on-scroll {
+    opacity: 1;
+  }
+}

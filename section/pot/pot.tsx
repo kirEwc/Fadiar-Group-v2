@@ -19,12 +19,12 @@ export default function Pot() {
               className="flex justify-center  flex-col  md:mb-20  w-90 sm:w-auto  sm:top-0"
             >
               <h1 className="text-3xl  2xl:text-4xl font-bold">
-                <samp className="text-[#D69F04] block">
+                <samp className="text-[#D69F04] block animate__animated  animate__lightSpeedInLeft">
                   Variedad de productos
                 </samp>
                 <span>Electrodomésticos</span>
               </h1>
-              <p className="w-120 2xl:w-150 mt-4  text-sm md:text-lg 2xl:text-xl ">
+              <p className="w-120 2xl:w-150 mt-4  text-sm md:text-lg 2xl:text-xl  animate__animated  animate__fadeInUp  [animation-delay:0.5s]">
                 Lorem ipsum dolor sit amet consectetur adipiscing elit hendrerit
                 scelerisque, blandit duis sapien phasellus turpis sem convallis
                 imperdiet tempus.
@@ -33,7 +33,7 @@ export default function Pot() {
 
             <div id="sazon" className=" md:w-2/4  relative mt-2 2xl:mt-[-70]">
               <div className="w-full md:w-120 absolute  md:-left-20 2xl:-left-25 mt-4 2xl:mt-20 ">
-                <h1 className="font-['Just_Me_Again_Down_Here'] text-3xl md:text-5xl md:mr-25 2xl:mr-0 mt-8 sm:mt-0 xl:text-5xl  text-white md:text-center">
+                <h1 className="font-['Just_Me_Again_Down_Here'] text-3xl md:text-5xl md:mr-25 2xl:mr-0 mt-8 sm:mt-0 xl:text-5xl  text-white md:text-center animate__animated animate__backInDown  [animation-delay:1s] ">
                   Échale Sazón a la Olla
                 </h1>
               </div>

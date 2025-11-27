@@ -9,9 +9,10 @@ export const SectionAbout3 = () => {
       <div className="flex flex-col md:gap-20  md:flex-row items-center justify-center w-full h-72  my-50 md:my-0">
         <div>
           <img
+          data-animate="animate__flipInY"
             src="/images/mobile.svg"
             alt="Group"
-            className="w-full  h-72 object-cover"
+            className="w-full  h-72 object-cover animate-on-scroll animate__slow  [animation-delay:0.6s] "
           />
         </div>
 

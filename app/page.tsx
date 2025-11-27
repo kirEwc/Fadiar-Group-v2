@@ -15,7 +15,7 @@ export default function Home() {
           <SectionPromoHome1 />      
         </div>
 
-        <div className="sm:mt-80 lg:mt-0">
+        <div className="mt-20 lg:mt-0">
           <SectionMoreproducts />
         </div>
 
