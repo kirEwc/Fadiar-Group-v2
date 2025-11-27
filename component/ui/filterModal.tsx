@@ -247,7 +247,5 @@ export const FilterSection: React.FC<FilterSectionProps> = ({
         </div>
           )}
         </div>
-      </div>
-    </div>
   );
 };
