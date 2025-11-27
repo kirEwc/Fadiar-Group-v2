@@ -2,7 +2,7 @@
 "use client";
 import SectionPromoHome1 from "@/section/home/sectionPromoHome1";
 import { FilterSection } from "@/component/ui/filterModal";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo } from "react";
 import Card from "@/component/ui/card";
 import Pagination from "@/component/ui/pagination";
 import { SectionAbout4 } from "@/section/aboutUS/sectionAbout4";
@@ -36,8 +36,23 @@ export default function Products(){
     const [relevant, setRelevant] = useState<string[]>([]);
     const [isFilterOpen, setIsFilterOpen] = useState(false);
     const [isMounted, setIsMounted] = useState(false);
+    const [currentPage, setCurrentPage] = useState(1);
 
 const [products, setProducts] = useState<Product[]>([]);
+
+const itemsPerPage = 15;
+
+// Calcular productos paginados
+const paginatedProducts = useMemo(() => {
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const endIndex = startIndex + itemsPerPage;
+  return products.slice(startIndex, endIndex);
+}, [products, currentPage]);
+
+// Calcular total de páginas
+const totalPages = useMemo(() => {
+  return Math.ceil(products.length / itemsPerPage);
+}, [products.length, itemsPerPage]);
 
 
 
@@ -58,6 +73,13 @@ useEffect(() => {
   setIsMounted(true);
   getAllProducts();
 }, []);
+
+// Resetear página si la página actual es mayor que el total de páginas
+useEffect(() => {
+  if (currentPage > totalPages && totalPages > 0) {
+    setCurrentPage(1);
+  }
+}, [totalPages, currentPage]);
 
 
     const removeFilter = (type: 'category' | 'brand' | 'relevant', value: string) => {
@@ -220,8 +242,8 @@ useEffect(() => {
                   
 
                 <div id="products" className="mt-20 mx-5 lg:mx-0 grid grid-cols-2 justify-between grid-rows-2 md:grid-cols-3 md:grid-rows-2 lg:grid-cols-3 lg:grid-rows-3 lg:mt-0 xl:grid-cols-4 xl:grid-rows-3 2xl:grid-cols-5 2xl:grid-rows-3 gap-4 xl:mr-20">
-                  {products && products.length > 0 ? (
-                      products.slice(0, 15).map((product) => (
+                  {paginatedProducts && paginatedProducts.length > 0 ? (
+                      paginatedProducts.map((product) => (
                         <Card
                           key={product.id}
                           category={product.categoria?.name}
@@ -238,9 +260,19 @@ useEffect(() => {
                       <p className="col-span-full text-center text-gray-500">Cargando productos...</p>
                     )}
                 </div>
-                <div className="flex justify-center my-10">
-                  <Pagination totalPages={5} />
-                </div>
+                {totalPages > 0 && (
+                  <div className="flex justify-center my-10">
+                    <Pagination 
+                      totalPages={totalPages} 
+                      currentPage={currentPage}
+                      onPageChange={(page) => {
+                        setCurrentPage(page);
+                        // Scroll al inicio de los productos cuando cambia la página
+                        window.scrollTo({ top: 0, behavior: 'smooth' });
+                      }}
+                    />
+                  </div>
+                )}
             </div>
         </div>
 
