@@ -3,6 +3,7 @@ import React, { useRef, useEffect, useState } from "react";
 export type FilterOption = {
   label: string;
   value: string | number;
+  key?: string;
 };
 
 export type FilterType = "checkbox" | "radio" | "range";
@@ -44,7 +45,6 @@ export const FilterSection: React.FC<FilterSectionProps> = ({
   const [isOpen, setIsOpen] = useState(false); // Por defecto cerrado
 
   const getPercentage = (value: number) => {
-    return ((value - min) / (max - min)) * 100;
   };
 
   const clampValue = (value: number, minVal: number, maxVal: number) => {

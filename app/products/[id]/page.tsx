@@ -1,35 +1,100 @@
 "use client";
 import { useParams } from "next/navigation";
 import Image from "next/image";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { SectionMasRecientes } from "@/section/masRecientes";
 import { SectionAbout4 } from "@/section/aboutUS/sectionAbout4";
+import { server_url } from "@/lib/apiClient";
+
+interface Product {
+  id: number;
+  name: string;
+  brand: string;
+  warranty: string;
+  price: string;
+  temporal_price?: string;
+  img: string;
+  categoria?: {
+    id: number;
+    name: string;
+  };
+  description?: string;
+  specs?: Array<{ name: string; description: string }>;
+}
 
 export default function Product() {
   const { id } = useParams<{ id: string }>();
   const [qty, setQty] = useState(1);
+  const [product, setProduct] = useState<Product | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
+  const [selectedImage, setSelectedImage] = useState<string>("");
 
-  const product = {
-    id,
-    category: "Cocinas y Hornos",
-    title: "Freidora de Aire 5.5 L",
-    brand: "Marca Eko",
-    description:
-      "Cocina más saludable y sin complicaciones. Disfruta de tus comidas favoritas con menos aceite gracias a esta freidora de aire de 5.5 litros. Con un diseño moderno en color negro, ofrece potencia de 1500W, control de temperatura de 80°C a 200°C y temporizador de hasta 60 minutos. Ideal para preparar alimentos crujientes y deliciosos.",
-    warranty: "Garantía 1 Año",
-    price: 63,
-    oldPrice: 80,
-    image: "/images/pot.png",
-    images: ["/images/pot.png", "/images/pot.png", "/images/pot.png"],
-    specs: [
-      { name: "CAPACIDAD", description: "5.5 Litros" },
-      { name: "POTENCIA", description: "1500W" },
-      { name: "VOLTAJE", description: "120 V" },
-      { name: "TEMPERATURA", description: "80°C a 200°C" },
-      { name: "TEMPORIZADOR", description: "60 Min" },
-      { name: "COLOR", description: "Negro" },
-    ],
-  };
+  useEffect(() => {
+    const fetchProduct = async () => {
+      setIsLoading(true);
+      try {
+        const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZF91c2VyIjo4NDAsImV4cCI6MTc2Mzg3NDg0NX0.-W2-13mCQ6L7x8MQ5KQCzuhK59ZpeqAOe6Vfo7TsThk';
+        const res = await fetch(`${server_url}/inventory_manager`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+
+        const data = await res.json();
+        const foundProduct = data.products.find((p: Product) => p.id === parseInt(id as string));
+        
+        if (foundProduct) {
+          setProduct(foundProduct);
+          setSelectedImage(foundProduct.img);
+        }
+      } catch (error) {
+        console.error('Error loading product:', error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    if (id) {
+      fetchProduct();
+    }
+  }, [id]);
+
+  if (isLoading) {
+    return (
+      <main>
+        <div className="px-4 md:px-20 2xl:px-36 mt-10">
+          <div className="animate-pulse">
+            <div className="h-8 bg-gray-200 rounded w-1/4 mb-4"></div>
+            <div className="h-10 bg-gray-200 rounded w-1/2 mb-10"></div>
+            <div className="flex flex-col md:flex-row gap-16">
+              <div className="md:w-1/3 h-[400px] bg-gray-200 rounded-xl"></div>
+              <div className="md:w-2/3 space-y-4">
+                <div className="h-6 bg-gray-200 rounded w-1/3"></div>
+                <div className="h-10 bg-gray-200 rounded w-1/2"></div>
+                <div className="h-8 bg-gray-200 rounded w-1/4"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </main>
+    );
+  }
+
+  if (!product) {
+    return (
+      <main>
+        <div className="px-4 md:px-20 2xl:px-36 mt-10">
+          <h1 className="text-3xl text-primary font-bold">Producto no encontrado</h1>
+        </div>
+      </main>
+    );
+  }
+
+  const warrantyNumber = +(product.warranty ?? "0");
+  const warrantyMonths = warrantyNumber > 0 ? warrantyNumber / 30 : 0;
+  
+  // Crear array de imágenes (usar la imagen principal y duplicarla para las miniaturas si no hay más)
+  const images = [product.img, product.img, product.img];
 
   return (
     <main>
@@ -39,7 +104,7 @@ export default function Product() {
           <p className="text-xs text-gray-400 mb-4">
             <span className="text-gray-400">Home - </span>
             <span className="text-gray-400">Products - </span>
-            <span className="text-primary font-semibold">{id}</span>
+            <span className="text-primary font-semibold">{product.categoria?.name}</span>
           </p>
           <h1 className="text-3xl text-primary font-bold">Detalles del Producto</h1>
         </div>
@@ -48,57 +113,86 @@ export default function Product() {
 
           <div className="md:w-1/3">
             {/* Imagen Principal */}
-            <div className="w-full h-[400px] rounded-xl object-cover">
-            <Image
-              src={product.image}
-              alt="producto"
-              width={613}
-              height={682}
-              className="w-full h-auto rounded-xl object-cover"
+            <div className="w-full h-[400px] rounded-xl object-cover overflow-hidden">
+              <Image
+                src={`${server_url}/${selectedImage || product.img}`}
+                alt={product.name}
+                width={613}
+                height={682}
+                className="w-full h-full rounded-xl object-contain"
               />
             </div>
 
             {/* Miniaturas */}
             <div className="flex gap-2 mt-3">
-              {product.images.map((img, i) => (
-                <Image
+              {images.map((img, i) => (
+                <div
                   key={i}
-                  src={img}
-                  alt="thumb"
-                  width={80}
-                  height={80}
-                  className="w-20 h-20 rounded-md object-cover border cursor-pointer hover:border-blue-500 duration-150"
-                />
+                  onClick={() => setSelectedImage(img)}
+                  className={`w-20 h-20 rounded-md border-2 cursor-pointer overflow-hidden transition-all ${
+                    selectedImage === img ? 'border-blue-500' : 'border-gray-300 hover:border-blue-400'
+                  }`}
+                >
+                  <Image
+                    src={`${server_url}/${img}`}
+                    alt={`thumb ${i + 1}`}
+                    width={80}
+                    height={80}
+                    className="w-full h-full object-contain"
+                  />
+                </div>
               ))}
             </div>
           </div>
 
           {/* 📌 INFORMACIÓN */}
           <div className="md:w-2/3">
-            <p className="text-xs text-gray-500 mb-3">{product.category}</p>
-            <h2 className="text-3xl font-bold text-[#1A2B49]">{product.title}</h2>
+            <p className="text-xs text-gray-500 mb-3">{product.categoria?.name || 'Sin categoría'}</p>
+            <h2 className="text-3xl font-bold text-[#1A2B49]">{product.name}</h2>
             <p className="text-3xl text-[#022954] font-medium">{product.brand}</p>
 
             {/* Descripción */}
-            <p className="text-[#1E1E1E] text-sm mt-3 max-w-xl leading-relaxed">
-              {product.description}
-            </p>
+            {product.description && (
+              <p className="text-[#1E1E1E] text-sm mt-3 max-w-xl leading-relaxed">
+                {product.description}
+              </p>
+            )}
 
             {/* Garantía */}
-            <p className="text-yellow-500 font-semibold text-md mt-2">{product.warranty}</p>
+            {warrantyMonths > 0 && (
+              <p className="text-yellow-500 font-semibold text-md mt-2">
+                Garantía de {warrantyMonths} meses
+              </p>
+            )}
 
             {/* Precios */}
             <div className="mt-3 flex items-center gap-4">
-              <p className="text-3xl font-bold text-primary">${product.price} USD</p>
-              <p className="text-gray-400 line-through text-lg">${product.oldPrice} USD</p>
+              {product.temporal_price ? (
+                <>
+                  <p className="text-3xl font-bold text-primary">${product.temporal_price} USD</p>
+                  <p className="text-gray-400 line-through text-lg">${product.price} USD</p>
+                </>
+              ) : (
+                <p className="text-3xl font-bold text-primary">${product.price} USD</p>
+              )}
             </div>
 
             {/* Cantidad */}
             <div className="mt-auto pt-4 flex items-center justify-between">
               <div className="flex items-center rounded-xl border border-primary">
-                <button className="px-3 py-2 text-yellow-500">−</button>
-                <span className="px-4 my-1 border-x border-gray-300">1</span>
-                <button className="px-3 py-2 text-yellow-500">+</button>
+                <button 
+                  onClick={() => setQty(Math.max(1, qty - 1))}
+                  className="px-3 py-2 text-yellow-500 hover:bg-gray-100 rounded-l-xl"
+                >
+                  −
+                </button>
+                <span className="px-4 my-1 border-x border-gray-300">{qty}</span>
+                <button 
+                  onClick={() => setQty(qty + 1)}
+                  className="px-3 py-2 text-yellow-500 hover:bg-gray-100 rounded-r-xl"
+                >
+                  +
+                </button>
               </div>
 
               <button className="p-2.5 px-8 border border-[#022954] rounded-xl">
@@ -119,19 +213,21 @@ export default function Product() {
             </div>
 
             {/* Tabla de propiedades */}
-            <div className="mt-8 bg-[#F5F7FA] rounded-xl p-5 border border-gray">
-              <h3 className="font-semibold text-[#1A2B49] mb-3">Propiedades</h3>
-              <table className="w-full text-sm text-gray-600">
-                <tbody>
-                  {product.specs.map((p, i) => (
-                    <tr key={i} className="border-b border-gray ">
-                      <td className="py-2 font-medium text-[#1E1E1E]">{p.name}</td>
-                      <td className="py-2 text-right">{p.description}</td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
+            {product.specs && product.specs.length > 0 && (
+              <div className="mt-8 bg-[#F5F7FA] rounded-xl p-5 border border-gray">
+                <h3 className="font-semibold text-[#1A2B49] mb-3">Propiedades</h3>
+                <table className="w-full text-sm text-gray-600">
+                  <tbody>
+                    {product.specs.map((p, i) => (
+                      <tr key={i} className="border-b border-gray">
+                        <td className="py-2 font-medium text-[#1E1E1E]">{p.name}</td>
+                        <td className="py-2 text-right">{p.description}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            )}
 
           </div>
         </div>

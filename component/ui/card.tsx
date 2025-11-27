@@ -2,6 +2,7 @@
 import { ShoppingCart, Trash2 } from "lucide-react";
 import { server_url } from "@/lib/apiClient";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 
 
 interface CardProps {
@@ -16,6 +17,7 @@ interface CardProps {
   actionIcon?: "cart" | "delete" | "none";
   quantityProducts?: number;
   temporal_price?: string;
+  productId?: string | number;
   currency?:{
     currency:string,
   }
@@ -33,16 +35,29 @@ export default function Card({
   actionIcon = "cart",
   quantityProducts,
   temporal_price,
+  productId,
   currency
 }: CardProps) {
+  const router = useRouter();
 
+  const handleCardClick = () => {
+    if (productId) {
+      router.push(`/products/${productId}`);
+    }
+  };
 
+  const handleButtonClick = (e: React.MouseEvent) => {
+    e.stopPropagation(); // Prevenir que el click del botón active la navegación
+  };
 
 const warrantyNumber = +(warranty ?? "0");
   return (
     <>
       {position === "vertical" ? (
-        <div className="bg-white max-w-[184px] md:max-w-[250px] p-2 md:p-3 border border-gray-300 rounded-2xl shadow-sm h-[500px] flex flex-col justify-between">
+        <div 
+          onClick={productId ? handleCardClick : undefined}
+          className={`bg-white max-w-[184px] md:max-w-[250px] p-2 md:p-3 border border-gray-300 rounded-2xl shadow-sm h-[500px] flex flex-col justify-between ${productId ? 'cursor-pointer hover:shadow-md transition-shadow' : ''}`}
+        >
           
           {/* primer section */}
           <div
@@ -83,25 +98,30 @@ const warrantyNumber = +(warranty ?? "0");
             </p>
             }
             {temporal_price !== null ? (
-               <p className="text-[#022954] font-bold text-2xl">
-               ${price}{" "}
-               <span className="text-[#022954] font-normal text-base">USD</span>
-             </p>
-            ) : (
-              <div className="flex flex-row items-center justify-between gap-2">
-              <p className="flex items-baseline text-[#022954] font-bold text-2xl whitespace-nowrap">
-                ${temporal_price}
-                <span className="ml-1 text-[#022954] font-normal text-base">
-                  ${currency?.currency}
-                </span>
-              </p>
-              <p className="text-[#777777] text-md line-through whitespace-nowrap">
-                ${price} ${currency?.currency}
-              </p>
-            </div>
-            )
-            }
-            <div className="mt-auto pt-4 flex items-center justify-between">
+                // Cuando SÍ hay descuento (temporal_price tiene valor)
+                <div className="flex flex-row items-center justify-between gap-2">
+                  <p className="flex items-baseline text-[#022954] font-bold text-2xl whitespace-nowrap">
+                    ${temporal_price}
+                    <span className="ml-1 text-[#022954] font-normal text-base">
+                      {/* {currency?.currency} */}
+                      USD
+                    </span>
+                  </p>
+                  <p className="text-[#777777] text-md line-through whitespace-nowrap">
+                    {/* ${price} {currency?.currency} */}
+                     ${price} USD
+                  </p>
+                </div>
+              ) : (
+                // Cuando NO hay descuento (temporal_price es null)
+                <p className="text-[#022954] font-bold text-2xl">
+                  ${price}{" "}
+                  <span className="text-[#022954] font-normal text-base">
+                    {currency?.currency}
+                  </span>
+                </p>
+              )}
+            <div className="mt-auto pt-4 flex items-center justify-between gap-x-2" onClick={handleButtonClick}>
               <div className="flex items-center rounded-2xl border border-gray">
                 <button className="px-2.5 py-2 text-yellow-500">−</button>
                 <span className="px-1 md:px-4 py-1 border-x border-gray-300">1</span>
@@ -128,7 +148,8 @@ const warrantyNumber = +(warranty ?? "0");
           </div>
       ) : (
         <div
-          className={`bg-white   p-2 sm:p-4 border border-gray-300 rounded-2xl shadow-sm h-full flex flex-row  gap-3  lg:gap-8 max-w-[${maxWidthVertical}]`}
+          onClick={productId ? handleCardClick : undefined}
+          className={`bg-white p-2 sm:p-4 border border-gray-300 rounded-2xl shadow-sm h-full flex flex-row gap-3 lg:gap-8 max-w-[${maxWidthVertical}] ${productId ? 'cursor-pointer hover:shadow-md transition-shadow' : ''}`}
         >
           <div
             className="w-35 sm:w-48  overflow-hidden rounded-2xl"
@@ -162,14 +183,14 @@ const warrantyNumber = +(warranty ?? "0");
               <span className="text-primary font-normal text-base">USD</span>
             </p>
 
-            <div className="mt-auto  flex items-center justify-between gap-2">
+            <div className="mt-auto flex items-center justify-between gap-2" onClick={handleButtonClick}>
               {quantityProducts && quantityProducts > 0 ? (
                 <p className="text-[#777777] text-sm">
                   Cantidad: {quantityProducts}
                 </p>
               ) : (
                 <div
-                  className={`flex items-center  rounded-xl font-bold border ${
+                  className={`flex items-center rounded-xl font-bold border ${
                     actionIcon === "delete" ? "border-primary" : "border-gray"
                   }`}
                 >
