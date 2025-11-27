@@ -124,9 +124,9 @@ export const FilterSection: React.FC<FilterSectionProps> = ({
 
       {/* CHECKBOX */}
       {type === "checkbox" &&
-        options.map((opt) => (
+        options.map((opt, index) => (
           <label
-            key={opt.value}
+            key={(opt as any).key || opt.value || index}
             className="flex items-center gap-2.5 text-sm text-[#6B7280] mb-3 cursor-pointer hover:text-[#17243b] transition-colors"
           >
             <input
@@ -148,9 +148,9 @@ export const FilterSection: React.FC<FilterSectionProps> = ({
 
       {/* RADIO */}
       {type === "radio" &&
-        options.map((opt) => (
+        options.map((opt, index) => (
           <label
-            key={opt.value}
+            key={(opt as any).key || opt.value || index}
             className="flex items-center gap-2.5 text-sm text-[#3A4B66] mb-3 cursor-pointer hover:text-[#1A2B49] transition-colors"
           >
             <input
