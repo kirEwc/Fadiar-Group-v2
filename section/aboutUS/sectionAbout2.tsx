@@ -1,7 +1,23 @@
+import Image from 'next/image';
+
 export const SectionAbout2 = () => {
   return (
     <>
-      <div className="w-full md:h-72 bg-[url('/images/group-mobile.svg')] md:bg-[url('/images/group.svg')] bg-cover bg-center bg-no-repeat">
+      <div className="relative w-full md:h-72">
+        <Image
+          src="/images/group-mobile.svg"
+          alt="Background"
+          fill
+          className="object-cover object-center md:hidden"
+          priority
+        />
+        <Image
+          src="/images/group.svg"
+          alt="Background"
+          fill
+          className="object-cover object-center hidden md:block"
+          priority
+        />
         <div className="w-full h-full flex items-center text-white px-4 md:px-20">
 
             <div
