@@ -12,7 +12,7 @@ export const SectionAbout2 = () => {
           priority
         />
         <Image
-          src="/images/group.svg"
+          src="/images/group.png"
           alt="Background"
           fill
           className="object-cover object-center hidden md:block"
