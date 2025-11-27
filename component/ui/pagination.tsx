@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 interface PaginationProps {
   totalPages: number;
@@ -12,87 +12,51 @@ export default function Pagination({
   onPageChange 
 }: PaginationProps) {
   const [activePage, setActivePage] = useState(currentPage);
-  const [startPage, setStartPage] = useState(1);
-  const [direction, setDirection] = useState<'next' | 'prev'>('next');
-  const [isAnimating, setIsAnimating] = useState(false);
 
-  const maxVisible = 4;
+  // Sincronizar activePage cuando currentPage cambia desde fuera
+  useEffect(() => {
+    setActivePage(currentPage);
+  }, [currentPage]);
 
   const handlePageChange = (page: number) => {
-    if (page >= 1 && page <= totalPages && !isAnimating) {
-      const isGoingForward = page > activePage;
-      setDirection(isGoingForward ? 'next' : 'prev');
+    if (page >= 1 && page <= totalPages) {
       setActivePage(page);
       onPageChange?.(page);
-      
-      // Ajustar la ventana visible si es necesario
-      if (page > startPage + maxVisible - 1) {
-        setIsAnimating(true);
-        setStartPage(startPage + 1);
-        setTimeout(() => setIsAnimating(false), 300);
-      } else if (page < startPage) {
-        setIsAnimating(true);
-        setStartPage(startPage - 1);
-        setTimeout(() => setIsAnimating(false), 300);
-      }
     }
   };
 
   const handleNext = () => {
-    if (activePage < totalPages && !isAnimating) {
-      setDirection('next');
+    if (activePage < totalPages) {
       const nextPage = activePage + 1;
       setActivePage(nextPage);
       onPageChange?.(nextPage);
-      
-      // Si el siguiente número está fuera de la ventana visible, animar
-      if (nextPage > startPage + maxVisible - 1 && startPage + maxVisible <= totalPages) {
-        setIsAnimating(true);
-        setStartPage(startPage + 1);
-        setTimeout(() => setIsAnimating(false), 300);
-      }
     }
   };
 
   const handlePrev = () => {
-    if (activePage > 1 && !isAnimating) {
-      setDirection('prev');
+    if (activePage > 1) {
       const prevPage = activePage - 1;
       setActivePage(prevPage);
       onPageChange?.(prevPage);
-      
-      // Si el anterior número está fuera de la ventana visible, animar
-      if (prevPage < startPage) {
-        setIsAnimating(true);
-        setStartPage(startPage - 1);
-        setTimeout(() => setIsAnimating(false), 400);
-      }
     }
   };
 
   const renderPageNumbers = () => {
     const pages = [];
-    const endPage = Math.min(startPage + maxVisible - 1, totalPages);
     
-    for (let i = startPage; i <= endPage; i++) {
+    // Mostrar todos los números de página
+    for (let i = 1; i <= totalPages; i++) {
       pages.push(
         <button
           key={i}
           onClick={() => handlePageChange(i)}
           className={`
-            w-12 h-12 rounded-2xl font-medium transition-all duration-400
+            w-12 h-12 rounded-2xl font-medium transition-all duration-300
             ${i === activePage 
               ? 'bg-[#D69F04] text-black' 
               : 'text-[#777777] hover:bg-gray-100'
             }
           `}
-          style={{
-            animation: isAnimating 
-              ? direction === 'next' 
-                ? 'slideInFromRight 0.3s ease-out' 
-                : 'slideInFromLeft 0.3s ease-out'
-              : 'none'
-          }}
         >
           {i}
         </button>
@@ -101,35 +65,11 @@ export default function Pagination({
     return pages;
   };
 
-  const showPrevButton = startPage > 1;
-  const showNextButton = startPage + maxVisible - 1 < totalPages;
+  const showPrevButton = activePage > 1;
+  const showNextButton = activePage < totalPages;
 
   return (
     <div className="flex items-center gap-4">
-      <style>{`
-        @keyframes slideInFromRight {
-          from {
-            opacity: 0;
-            transform: translateX(15px);
-          }
-          to {
-            opacity: 1;
-            transform: translateX(0);
-          }
-        }
-        
-        @keyframes slideInFromLeft {
-          from {
-            opacity: 0;
-            transform: translateX(-15px);
-          }
-          to {
-            opacity: 1;
-            transform: translateX(0);
-          }
-        }
-      `}</style>
-      
       {/* Botón anterior */}
       {showPrevButton && (
         <button
@@ -159,7 +99,7 @@ export default function Pagination({
         </button>
       )}
       
-      <div className="flex items-center gap-4 overflow-hidden">
+      <div className="flex items-center gap-2 flex-wrap justify-center">
         {renderPageNumbers()}
       </div>
       

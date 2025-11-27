@@ -2,7 +2,7 @@
 "use client";
 import SectionPromoHome1 from "@/section/home/sectionPromoHome1";
 import { FilterSection } from "@/component/ui/filterModal";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo } from "react";
 import Card from "@/component/ui/card";
 import Pagination from "@/component/ui/pagination";
 import { SectionAbout4 } from "@/section/aboutUS/sectionAbout4";
@@ -36,8 +36,140 @@ export default function Products(){
     const [relevant, setRelevant] = useState<string[]>([]);
     const [isFilterOpen, setIsFilterOpen] = useState(false);
     const [isMounted, setIsMounted] = useState(false);
+    const [currentPage, setCurrentPage] = useState(1);
 
-const [products, setProducts] = useState<Product[]>([]);
+const [allProducts, setAllProducts] = useState<Product[]>([]);
+
+const itemsPerPage = 15;
+
+// Extraer categorías únicas de los productos
+const availableCategories = useMemo(() => {
+  const categoryMap = new Map<string, { original: string; normalized: string }>();
+  allProducts.forEach((product) => {
+    const categoryName = product.categoria?.name || product.category?.name;
+    if (categoryName) {
+      const normalized = categoryName.toLowerCase().trim();
+      // Usar el nombre original como clave única para evitar duplicados de claves
+      if (!categoryMap.has(categoryName)) {
+        categoryMap.set(categoryName, { original: categoryName, normalized });
+      }
+    }
+  });
+  return Array.from(categoryMap.entries()).map(([original, { normalized }]) => ({
+    value: normalized,
+    label: original,
+    key: original, // Clave única basada en el nombre original
+  }));
+}, [allProducts]);
+
+// Extraer marcas únicas de los productos
+const availableBrands = useMemo(() => {
+  const brandMap = new Map<string, string>();
+  allProducts.forEach((product) => {
+    if (product.brand) {
+      // Usar el nombre original como clave única para evitar duplicados
+      brandMap.set(product.brand, product.brand);
+    }
+  });
+  return Array.from(brandMap.entries())
+    .sort(([a], [b]) => a.localeCompare(b))
+    .map(([original]) => ({
+      value: original.toLowerCase(),
+      label: original,
+      key: original, // Clave única basada en el nombre original
+    }));
+}, [allProducts]);
+
+// Calcular rango de precios
+const priceRange = useMemo(() => {
+  if (allProducts.length === 0) return { min: 0, max: 200 };
+  
+  const prices = allProducts
+    .map((product) => parseFloat(product.price) || 0)
+    .filter((price) => price > 0);
+  
+  if (prices.length === 0) return { min: 0, max: 200 };
+  
+  return {
+    min: Math.floor(Math.min(...prices)),
+    max: Math.ceil(Math.max(...prices)),
+  };
+}, [allProducts]);
+
+// Inicializar el precio cuando se cargan los productos
+useEffect(() => {
+  if (priceRange.min !== 0 || priceRange.max !== 200) {
+    if (price[0] === 0 && price[1] === 200) {
+      setPrice([priceRange.min, priceRange.max]);
+    }
+  }
+}, [priceRange.min, priceRange.max]);
+
+// Aplicar filtros a los productos
+const filteredProducts = useMemo(() => {
+  let filtered = [...allProducts];
+
+  // Filtro por categorías
+  if (category.length > 0) {
+    filtered = filtered.filter((product) => {
+      const categoryName = (product.categoria?.name || product.category?.name || '').toLowerCase();
+      return category.some((cat) => categoryName === cat.toLowerCase());
+    });
+  }
+
+  // Filtro por marcas
+  if (brands.length > 0) {
+    filtered = filtered.filter((product) => {
+      const productBrand = (product.brand || '').toLowerCase();
+      return brands.some((brand) => productBrand === brand.toLowerCase());
+    });
+  }
+
+  // Filtro por precio
+  if (price[0] !== priceRange.min || price[1] !== priceRange.max) {
+    filtered = filtered.filter((product) => {
+      const productPrice = parseFloat(product.price) || 0;
+      return productPrice >= price[0] && productPrice <= price[1];
+    });
+  }
+
+  // Filtro por relevantes (solo aplica si hay una selección)
+  if (relevant.length > 0) {
+    filtered = filtered.filter((product) => {
+      // Si es "ofertas", mostrar solo productos con precio temporal menor que precio normal
+      if (relevant.includes('ofertas')) {
+        return product.temporal_price && 
+               parseFloat(product.temporal_price) > 0 && 
+               parseFloat(product.temporal_price) < parseFloat(product.price);
+      }
+      // Si es "masVendidos", actualmente muestra todos (puedes agregar lógica con datos reales)
+      if (relevant.includes('masVendidos')) {
+        // TODO: Agregar lógica basada en cantidad de ventas si está disponible
+        return true;
+      }
+      // Si es "proximamente", actualmente muestra todos (puedes agregar lógica con datos reales)
+      if (relevant.includes('proximamente')) {
+        // TODO: Agregar lógica basada en fecha de lanzamiento si está disponible
+        return true;
+      }
+      return false;
+    });
+  }
+
+  return filtered;
+}, [allProducts, category, brands, price, relevant, priceRange]);
+
+// Calcular productos paginados desde productos filtrados
+const paginatedProducts = useMemo(() => {
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const endIndex = startIndex + itemsPerPage;
+  return filteredProducts.slice(startIndex, endIndex);
+}, [filteredProducts, currentPage]);
+
+// Calcular total de páginas basado en productos filtrados
+const totalPages = useMemo(() => {
+  return Math.ceil(filteredProducts.length / itemsPerPage);
+}, [filteredProducts.length, itemsPerPage]);
 
 
 
@@ -51,13 +183,24 @@ const getAllProducts = async () => {
   });
 
   const data = await res.json();
-  setProducts(data.products);
+  setAllProducts(data.products);
 };
 
 useEffect(() => {
   setIsMounted(true);
   getAllProducts();
 }, []);
+
+// Resetear página cuando cambian los filtros o si la página actual es mayor que el total de páginas
+useEffect(() => {
+  setCurrentPage(1);
+}, [category, brands, price, relevant]);
+
+useEffect(() => {
+  if (currentPage > totalPages && totalPages > 0) {
+    setCurrentPage(1);
+  }
+}, [totalPages, currentPage]);
 
 
     const removeFilter = (type: 'category' | 'brand' | 'relevant', value: string) => {
@@ -71,7 +214,7 @@ useEffect(() => {
     };
 
     const resetPrice = () => {
-      setPrice([0, 200]);
+      setPrice([priceRange.min, priceRange.max]);
     };
 
     return(
@@ -82,41 +225,37 @@ useEffect(() => {
             <div id="Sidebar" className="w-1/5 mx-4 hidden xl:flex flex-col gap-3">
 
             {/* Categorías */}
-                <FilterSection
-                  title="Categorías"
-                  type="checkbox"
-                  selected={category}
-                  onChange={setCategory}
-                  options={[
-                    { label: "Refrigeradores y Neveras", value: "neveras" },
-                    { label: "Cocinas y Hornos", value: "cocinas" },
-                    { label: "Lavadoras y Secadoras", value: "lavadoras" },
-                  ]}
-                />
+                {availableCategories.length > 0 && (
+                  <FilterSection
+                    title="Categorías"
+                    type="checkbox"
+                    selected={category}
+                    onChange={setCategory}
+                    options={availableCategories}
+                  />
+                )}
 
                 {/* Precio */}
                 <FilterSection
                   title="Precio"
                   type="range"
-                  min={0}
-                  max={200}
+                  min={priceRange.min}
+                  max={priceRange.max}
                   valueMin={price[0]}
                   valueMax={price[1]}
                   onChange={setPrice}
                 />
 
                 {/* Marcas */}
-                <FilterSection
-                  title="Marcas"
-                  type="checkbox"
-                  selected={brands}
-                  onChange={setBrands}
-                  options={[
-                    { label: "Ecko", value: "ecko" },
-                    { label: "Midea", value: "midea" },
-                    { label: "Columbia", value: "columbia" },
-                  ]}
-                />
+                {availableBrands.length > 0 && (
+                  <FilterSection
+                    title="Marcas"
+                    type="checkbox"
+                    selected={brands}
+                    onChange={setBrands}
+                    options={availableBrands}
+                  />
+                )}
 
                 {/* Relevantes */}
                 <FilterSection
@@ -157,7 +296,9 @@ useEffect(() => {
                             <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
                           </svg>
                           </div>
-                          <span>{cat === 'neveras' ? 'Refrigeradores y Neveras' : cat === 'cocinas' ? 'Cocinas y Hornos' : 'Lavadoras y Secadoras'}</span>
+                          <span>
+                            {availableCategories.find(c => c.value === cat.toLowerCase())?.label || cat}
+                          </span>
                           <button onClick={() => removeFilter('category', cat)} className="ml-10 text-gray-400 hover:text-gray-600 font-bold text-lg leading-none">×</button>
                         </div>
                       ))}
@@ -169,7 +310,9 @@ useEffect(() => {
                             <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
                           </svg>
                           </div>
-                          <span>{brand.charAt(0).toUpperCase() + brand.slice(1)}</span>
+                          <span>
+                            {availableBrands.find(b => b.value === brand.toLowerCase())?.label || brand.charAt(0).toUpperCase() + brand.slice(1)}
+                          </span>
                           <button onClick={() => removeFilter('brand', brand)} className="ml-10 text-gray-400 hover:text-gray-600 font-bold text-lg leading-none">×</button>
                         </div>
                       ))}
@@ -184,7 +327,7 @@ useEffect(() => {
                           <button onClick={() => removeFilter('relevant', rel)} className="ml-1 text-gray-400 hover:text-gray-600 font-bold text-lg leading-none">×</button>
                         </div>
                       ))}
-                      {(price[0] !== 0 || price[1] !== 200) && (
+                      {(price[0] !== priceRange.min || price[1] !== priceRange.max) && (
                         <div className="inline-flex items-center gap-2 px-3 py-[6px] bg-[#f6f8fb] text-[#0b2a4a] rounded-md text-sm font-semibold leading-none w-fit">
                           <div className="w-4 h-4 border border-[#0b2a4a] flex items-center justify-center rounded">
                           <svg className="w-3 h-3 text-[#0b2a4a]" fill="currentColor" viewBox="0 0 20 20">
@@ -200,7 +343,7 @@ useEffect(() => {
                       </span>
                      
 
-                      <span className="text-sm text-[#777777]">{products?.length ?? 0} Productos</span>
+                      <span className="text-sm text-[#777777]">{filteredProducts?.length ?? 0} Productos</span>
                       </span>
 
 
@@ -219,9 +362,9 @@ useEffect(() => {
                   
                   
 
-                <div id="products" className="mt-20 mx-5 lg:mx-0 grid grid-cols-2 justify-between grid-rows-2 md:grid-cols-3 md:grid-rows-2 lg:grid-cols-3 lg:grid-rows-3 lg:mt-0 xl:grid-cols-4 xl:grid-rows-3 2xl:grid-cols-5 2xl:grid-rows-3 gap-4 xl:mr-20">
-                  {products && products.length > 0 ? (
-                      products.slice(0, 15).map((product) => (
+                <div id="products" className="mt-20 mx-5 lg:mx-0 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 lg:mt-0 xl:grid-cols-4 2xl:grid-cols-5 gap-4 xl:mr-20 auto-rows-fr">
+                  {paginatedProducts && paginatedProducts.length > 0 ? (
+                      paginatedProducts.map((product) => (
                         <Card
                           key={product.id}
                           category={product.categoria?.name}
@@ -238,9 +381,19 @@ useEffect(() => {
                       <p className="col-span-full text-center text-gray-500">Cargando productos...</p>
                     )}
                 </div>
-                <div className="flex justify-center my-10">
-                  <Pagination totalPages={5} />
-                </div>
+                {totalPages > 0 && (
+                  <div className="flex justify-center my-10">
+                    <Pagination 
+                      totalPages={totalPages} 
+                      currentPage={currentPage}
+                      onPageChange={(page) => {
+                        setCurrentPage(page);
+                        // Scroll al inicio de los productos cuando cambia la página
+                        window.scrollTo({ top: 0, behavior: 'smooth' });
+                      }}
+                    />
+                  </div>
+                )}
             </div>
         </div>
 
@@ -248,7 +401,7 @@ useEffect(() => {
             <SectionAbout4 />
             </div>
 
-            <SectionMasRecientes products={products} />
+            <SectionMasRecientes products={allProducts} />
 
 
 
