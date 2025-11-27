@@ -15,16 +15,18 @@ export default function Header() {
   return (
     <div className="relative w-full bg-white z-50">
       <div className={`pt-4 flex justify-between px-4 md:justify-between lg:px-25 items-start ${isCart4 ? "2xl:px-20" : "2xl:px-28"}`}>
-        <div className="hidden md:block">
-          <Image
-            src="/images/logo.svg"
-            alt="Logo"
-            width={100}
-            height={100}
-            className="h-10 w-32"
-            priority 
-          />
-        </div>
+        <Link href="/">
+          <div className="hidden md:block cursor-pointer">
+            <Image
+              src="/images/logo.svg"
+              alt="Logo"
+              width={100}
+              height={100}
+              className="h-10 w-32"
+              priority 
+            />
+          </div>
+        </Link>
 
         <div className="hidden md:block">
           <Serchbar />

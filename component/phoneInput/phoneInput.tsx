@@ -93,7 +93,7 @@ export default function PhoneInput({
 
   return (
     <div ref={dropdownRef} className="relative w-full">
-      <div className="w-full flex items-center gap-2 rounded-2xl px-4 py-3 bg-[#F5F7FA] text-gray-700 focus-within:ring-2 focus-within:ring-accent">
+      <div className="w-full flex items-center gap-2 rounded-2xl px-4 py-3 bg-[#F5F7FA] text-gray-700 focus-within:ring-2 focus-within:ring-accent overflow-hidden">
         <button
           type="button"
           onClick={() => setIsDropdownOpen(!isDropdownOpen)}
@@ -101,7 +101,7 @@ export default function PhoneInput({
         >
           <img
             src={`https://flagcdn.com/32x24/${selectedCountry.code.toLowerCase()}.png`}
-            alt={`Bandera de ${selectedCountry.name}`}
+            alt={`B`}
             className="w-6 h-auto"
           />
           {isDropdownOpen ? (
@@ -116,7 +116,7 @@ export default function PhoneInput({
           placeholder={placeholder}
           value={phoneValue}
           onChange={handlePhoneChange}
-          className="flex-1 bg-transparent outline-none text-gray-700 placeholder:text-gray-500"
+          className="flex-1 min-w-0 bg-transparent outline-none text-gray-700 placeholder:text-gray-500"
         />
       </div>
 
