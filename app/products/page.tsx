@@ -9,6 +9,7 @@ import { SectionAbout4 } from "@/section/aboutUS/sectionAbout4";
 import { server_url } from "@/lib/apiClient";
 import Pot from "@/section/pot/pot";
 import { SectionMasRecientes } from "@/section/masRecientes";
+import CardSkeleton from "@/component/ui/skeletonCard";
 
 
 export type Product = {
@@ -39,44 +40,50 @@ export default function Products(){
     const [currentPage, setCurrentPage] = useState(1);
 
 const [allProducts, setAllProducts] = useState<Product[]>([]);
+const [isLoading, setIsLoading] = useState(true);
 
 const itemsPerPage = 15;
 
-// Extraer categorías únicas de los productos
+// Extraer categorías únicas de los productos (normalizado para evitar duplicados)
 const availableCategories = useMemo(() => {
-  const categoryMap = new Map<string, { original: string; normalized: string }>();
+  const categoryMap = new Map<string, string>(); // Key: normalized, Value: original (el primero que encuentre)
   allProducts.forEach((product) => {
     const categoryName = product.categoria?.name || product.category?.name;
     if (categoryName) {
       const normalized = categoryName.toLowerCase().trim();
-      // Usar el nombre original como clave única para evitar duplicados de claves
-      if (!categoryMap.has(categoryName)) {
-        categoryMap.set(categoryName, { original: categoryName, normalized });
+      // Usar el valor normalizado como clave para evitar duplicados como "Desmatt" vs "desmatt"
+      if (!categoryMap.has(normalized)) {
+        categoryMap.set(normalized, categoryName.trim()); // Guardar el primer nombre original que encontremos
       }
     }
   });
-  return Array.from(categoryMap.entries()).map(([original, { normalized }]) => ({
-    value: normalized,
-    label: original,
-    key: original, // Clave única basada en el nombre original
-  }));
+  return Array.from(categoryMap.entries())
+    .sort(([a], [b]) => a.localeCompare(b)) // Ordenar por nombre normalizado
+    .map(([normalized, original]) => ({
+      value: normalized,
+      label: original,
+      key: normalized, // Clave única basada en el nombre normalizado
+    }));
 }, [allProducts]);
 
-// Extraer marcas únicas de los productos
+// Extraer marcas únicas de los productos (normalizado para evitar duplicados)
 const availableBrands = useMemo(() => {
-  const brandMap = new Map<string, string>();
+  const brandMap = new Map<string, string>(); // Key: normalized, Value: original (el primero que encuentre)
   allProducts.forEach((product) => {
     if (product.brand) {
-      // Usar el nombre original como clave única para evitar duplicados
-      brandMap.set(product.brand, product.brand);
+      const normalized = product.brand.toLowerCase().trim();
+      // Usar el valor normalizado como clave para evitar duplicados como "Ecko" vs "ecko"
+      if (!brandMap.has(normalized)) {
+        brandMap.set(normalized, product.brand.trim()); // Guardar el primer nombre original que encontremos
+      }
     }
   });
   return Array.from(brandMap.entries())
-    .sort(([a], [b]) => a.localeCompare(b))
-    .map(([original]) => ({
-      value: original.toLowerCase(),
+    .sort(([a], [b]) => a.localeCompare(b)) // Ordenar por nombre normalizado
+    .map(([normalized, original]) => ({
+      value: normalized,
       label: original,
-      key: original, // Clave única basada en el nombre original
+      key: normalized, // Clave única basada en el nombre normalizado
     }));
 }, [allProducts]);
 
@@ -175,15 +182,22 @@ const totalPages = useMemo(() => {
 
 
 const getAllProducts = async () => {
-  const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZF91c2VyIjo4NDAsImV4cCI6MTc2Mzg3NDg0NX0.-W2-13mCQ6L7x8MQ5KQCzuhK59ZpeqAOe6Vfo7TsThk'; // tu token guardado
-  const res = await fetch(`${server_url}/inventory_manager`, {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  });
+  setIsLoading(true);
+  try {
+    const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZF91c2VyIjo4NDAsImV4cCI6MTc2Mzg3NDg0NX0.-W2-13mCQ6L7x8MQ5KQCzuhK59ZpeqAOe6Vfo7TsThk'; // tu token guardado
+    const res = await fetch(`${server_url}/inventory_manager`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
 
-  const data = await res.json();
-  setAllProducts(data.products);
+    const data = await res.json();
+    setAllProducts(data.products);
+  } catch (error) {
+    console.error('Error loading products:', error);
+  } finally {
+    setIsLoading(false);
+  }
 };
 
 useEffect(() => {
@@ -225,15 +239,13 @@ useEffect(() => {
             <div id="Sidebar" className="w-1/5 mx-4 hidden xl:flex flex-col gap-3">
 
             {/* Categorías */}
-                {availableCategories.length > 0 && (
-                  <FilterSection
-                    title="Categorías"
-                    type="checkbox"
-                    selected={category}
-                    onChange={setCategory}
-                    options={availableCategories}
-                  />
-                )}
+                <FilterSection
+                  title="Categorías"
+                  type="checkbox"
+                  selected={category}
+                  onChange={setCategory}
+                  options={availableCategories}
+                />
 
                 {/* Precio */}
                 <FilterSection
@@ -247,15 +259,13 @@ useEffect(() => {
                 />
 
                 {/* Marcas */}
-                {availableBrands.length > 0 && (
-                  <FilterSection
-                    title="Marcas"
-                    type="checkbox"
-                    selected={brands}
-                    onChange={setBrands}
-                    options={availableBrands}
-                  />
-                )}
+                <FilterSection
+                  title="Marcas"
+                  type="checkbox"
+                  selected={brands}
+                  onChange={setBrands}
+                  options={availableBrands}
+                />
 
                 {/* Relevantes */}
                 <FilterSection
@@ -363,23 +373,31 @@ useEffect(() => {
                   
 
                 <div id="products" className="mt-20 mx-5 lg:mx-0 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 lg:mt-0 xl:grid-cols-4 2xl:grid-cols-5 gap-4 xl:mr-20 auto-rows-fr">
-                  {paginatedProducts && paginatedProducts.length > 0 ? (
-                      paginatedProducts.map((product) => (
-                        <Card
-                          key={product.id}
-                          category={product.categoria?.name}
-                          title={product.name}
-                          brand={product.brand}
-                          warranty={product.warranty}
-                          price={product.price}
-                          image={product.img}
-                          temporal_price={product?.temporal_price}
-                          position="vertical"
-                        />
-                      ))
-                    ) : (
-                      <p className="col-span-full text-center text-gray-500">Cargando productos...</p>
-                    )}
+                  {isLoading ? (
+                    // Mostrar 15 skeletons mientras carga
+                    Array.from({ length: itemsPerPage }).map((_, index) => (
+                      <CardSkeleton
+                        key={`skeleton-${index}`}
+                        position="vertical"
+                      />
+                    ))
+                  ) : paginatedProducts && paginatedProducts.length > 0 ? (
+                    paginatedProducts.map((product) => (
+                      <Card
+                        key={product.id}
+                        category={product.categoria?.name}
+                        title={product.name}
+                        brand={product.brand}
+                        warranty={product.warranty}
+                        price={product.price}
+                        image={product.img}
+                        temporal_price={product?.temporal_price}
+                        position="vertical"
+                      />
+                    ))
+                  ) : (
+                    <p className="col-span-full text-center text-gray-500">No se encontraron productos</p>
+                  )}
                 </div>
                 {totalPages > 0 && (
                   <div className="flex justify-center my-10">

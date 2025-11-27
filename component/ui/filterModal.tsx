@@ -41,6 +41,7 @@ export const FilterSection: React.FC<FilterSectionProps> = ({
   const trackRef = useRef<HTMLDivElement>(null);
   const [isDraggingMin, setIsDraggingMin] = useState(false);
   const [isDraggingMax, setIsDraggingMax] = useState(false);
+  const [isOpen, setIsOpen] = useState(false); // Por defecto cerrado
 
   const getPercentage = (value: number) => {
     return ((value - min) / (max - min)) * 100;
@@ -115,7 +116,7 @@ export const FilterSection: React.FC<FilterSectionProps> = ({
   };
 
   return (
-    <div className="relative bg-[#F5F7FA] rounded-2xl border border-gray p-6 mb-5">
+    <div className="relative bg-[#F5F7FA] rounded-2xl border border-[#D9D9D9] p-6 mb-5">
       {/* Title */}
       <h3 className="font-semibold text-[#1A2B49] text-base mb-4 flex items-center justify-between">
         {title}
@@ -140,7 +141,7 @@ export const FilterSection: React.FC<FilterSectionProps> = ({
 
                 onChange?.(newValues);
               }}
-              className="h-4 w-4 rounded border-gray cursor-pointer accent-[#17243b]"
+              className="h-4 w-4 rounded border-[#D9D9D9] cursor-pointer accent-[#17243b]"
             />
             {opt.label}
           </label>
@@ -158,14 +159,14 @@ export const FilterSection: React.FC<FilterSectionProps> = ({
               name={title}
               checked={selected.includes(opt.value)}
               onChange={() => onChange?.([opt.value])}
-              className="h-4 w-4 border-gray cursor-pointer accent-[#17243b]"
+              className="h-4 w-4 border-[#D9D9D9] cursor-pointer accent-[#17243b]"
             />
             {opt.label}
           </label>
         ))}
 
-      {/* RANGE */}
-      {type === "range" && (
+          {/* RANGE */}
+          {type === "range" && (
         <div className="mt-2">
           {/* Dual Range Slider */}
           <div className="relative mb-15 pt-2 px-2 ">
@@ -244,7 +245,9 @@ export const FilterSection: React.FC<FilterSectionProps> = ({
             </div>
           </div>
         </div>
-      )}
+          )}
+        </div>
+      </div>
     </div>
   );
 };
