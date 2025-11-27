@@ -13,7 +13,7 @@ import useAuthStore from "@/store/authStore";
 export default function UserDropdown() {
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
-  const { access_token } = useAuthStore();
+  const { access_token, clearAuth } = useAuthStore();
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -77,7 +77,12 @@ export default function UserDropdown() {
                 className="group flex items-center  hover:bg-[#F5F7FA]  transition-colors w-full p-2 cursor-pointer"
                 onClick={() => {
                   setIsOpen(false);
-                  // Aquí puedes agregar la lógica de cerrar sesión
+                  clearAuth();
+                  if (typeof window !== "undefined") {
+                    try {
+                      localStorage.removeItem("auth-storage");
+                    } catch {}
+                  }
                 }}
               >
                 <UilExit

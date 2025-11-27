@@ -15,11 +15,11 @@ export default function Home() {
           <SectionPromoHome1 />      
         </div>
 
-        <div>
+        <div className="sm:mt-80 lg:mt-0">
           <SectionMoreproducts />
         </div>
 
-        <div className="mt-10">
+        <div className="mt-10 ">
           <SectionPromoHome2/>
         </div>
         

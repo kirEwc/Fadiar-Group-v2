@@ -11,7 +11,7 @@ export default function Pot() {
       >
         <div
           id="azul"
-          className="bg-primary w-full h-[360px] md:h-[300px] 2xl:h-[400px] py-4 flex justify-center items-center"
+          className="bg-primary w-full h-[360px] md:h-[300px]  py-4 flex justify-center items-center"
         >
           <div className="flex flex-col md:flex-row h-full  md:w-full justify-center items-center mt-20 p-4 md:mx-10  ">
             <div
@@ -31,7 +31,7 @@ export default function Pot() {
               </p>
             </div>
 
-            <div id="sazon" className=" md:w-2/4  relative mt-2">
+            <div id="sazon" className=" md:w-2/4  relative mt-2 2xl:mt-[-70]">
               <div className="w-full md:w-120 absolute  md:-left-20 2xl:-left-25 mt-4 2xl:mt-20 ">
                 <h1 className="font-['Just_Me_Again_Down_Here'] text-3xl md:text-5xl md:mr-25 2xl:mr-0 mt-8 sm:mt-0 xl:text-5xl  text-white md:text-center">
                   Échale Sazón a la Olla
@@ -50,8 +50,18 @@ export default function Pot() {
                   className=" scale-120   md:scale-140  2xl:scale-150 z-20  2xl:mt-20"
                 />
 
+                <BottomShadow
+                  opacity={0.9}
+                  className="w-[70%] h-15 bottom-3 sm:bottom-[-3] left-2/7 -translate-x-1/2 z-10"
+                />
+
+                <BottomShadow
+                  opacity={0.9}
+                  className="w-[60%] h-15 bottom-1 left-6/8 -translate-x-1/2 z-10"
+                />
+
                 {/* Sombra pegada a la imagen */}
-                <div id="arrocera" className="absolute -bottom-3 w-full flex justify-center ">
+                {/* <div id="arrocera" className="absolute -bottom-3 w-full flex justify-center ">
                   <BottomShadow 
                   opacity={0.9} 
                   className="w-40 h-10 sm:w-96 sm:h-18 md:w-100 md:h-20 lg:w-30 lg:h-15 xl:w-70 xl:h-18 2xl:w-100 2xl:h-25
@@ -66,7 +76,7 @@ export default function Pot() {
                     2xl:w-100 2xl:h-25
                     left-45 top-[-80] sm:left-38 md:top-[-36] lg:left-38 lg:top-[-35] xl:left-55 xl:top-[-100] z-10 2xl:left-44 2xl:top-[-100]"
                     />
-                </div>
+                </div> */}
               </div>
             </div>
           </div>
