@@ -41,6 +41,7 @@ export const FilterSection: React.FC<FilterSectionProps> = ({
   const trackRef = useRef<HTMLDivElement>(null);
   const [isDraggingMin, setIsDraggingMin] = useState(false);
   const [isDraggingMax, setIsDraggingMax] = useState(false);
+  const [isOpen, setIsOpen] = useState(false); // Por defecto cerrado
 
   const getPercentage = (value: number) => {
     return ((value - min) / (max - min)) * 100;
@@ -116,56 +117,84 @@ export const FilterSection: React.FC<FilterSectionProps> = ({
 
   return (
     <div className="relative bg-[#F5F7FA] rounded-2xl border border-[#D9D9D9] p-6 mb-5">
-      {/* Title */}
-      <h3 className="font-semibold text-[#1A2B49] text-base mb-4 flex items-center justify-between">
-        {title}
-        <span className="text-[#1A2B49]/60 text-sm">⌄</span>
-      </h3>
+      {/* Title - Clickable para toggle */}
+      <button
+        onClick={() => setIsOpen(!isOpen)}
+        className="w-full font-semibold text-[#1A2B49] text-base mb-4 flex items-center justify-between cursor-pointer hover:text-[#17243b] transition-colors"
+      >
+        <span>{title}</span>
+        <svg
+          className={`w-5 h-5 text-[#1A2B49]/60 transition-transform duration-300 ${
+            isOpen ? 'rotate-180' : ''
+          }`}
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth={2}
+            d="M19 9l-7 7-7-7"
+          />
+        </svg>
+      </button>
 
-      {/* CHECKBOX */}
-      {type === "checkbox" &&
-        options.map((opt, index) => (
-          <label
-            key={(opt as any).key || opt.value || index}
-            className="flex items-center gap-2.5 text-sm text-[#6B7280] mb-3 cursor-pointer hover:text-[#17243b] transition-colors"
-          >
-            <input
-              type="checkbox"
-              checked={selected.includes(opt.value)}
-              onChange={() => {
-                const exists = selected.includes(opt.value);
-                const newValues = exists
-                  ? selected.filter((v) => v !== opt.value)
-                  : [...selected, opt.value];
+      {/* Content - Con animación */}
+      <div
+        className={`overflow-hidden transition-all duration-300 ease-in-out ${
+          isOpen ? 'max-h-[2000px] opacity-100' : 'max-h-0 opacity-0'
+        }`}
+      >
+        <div className="pt-2">
+          {/* CHECKBOX */}
+          {type === "checkbox" && options.length > 0 &&
+            options.map((opt, index) => (
+              <label
+                key={(opt as any).key || opt.value || index}
+                className="flex items-center gap-2.5 text-sm text-[#6B7280] mb-3 cursor-pointer hover:text-[#17243b] transition-colors"
+              >
+                <input
+                  type="checkbox"
+                  checked={selected.includes(opt.value)}
+                  onChange={() => {
+                    const exists = selected.includes(opt.value);
+                    const newValues = exists
+                      ? selected.filter((v) => v !== opt.value)
+                      : [...selected, opt.value];
 
-                onChange?.(newValues);
-              }}
-              className="h-4 w-4 rounded border-[#D9D9D9] cursor-pointer accent-[#17243b]"
-            />
-            {opt.label}
-          </label>
-        ))}
+                    onChange?.(newValues);
+                  }}
+                  className="h-4 w-4 rounded border-[#D9D9D9] cursor-pointer accent-[#17243b]"
+                />
+                {opt.label}
+              </label>
+            ))}
+          
+          {type === "checkbox" && options.length === 0 && (
+            <p className="text-sm text-[#6B7280] italic">Cargando opciones...</p>
+          )}
 
-      {/* RADIO */}
-      {type === "radio" &&
-        options.map((opt, index) => (
-          <label
-            key={(opt as any).key || opt.value || index}
-            className="flex items-center gap-2.5 text-sm text-[#3A4B66] mb-3 cursor-pointer hover:text-[#1A2B49] transition-colors"
-          >
-            <input
-              type="radio"
-              name={title}
-              checked={selected.includes(opt.value)}
-              onChange={() => onChange?.([opt.value])}
-              className="h-4 w-4 border-[#D9D9D9] cursor-pointer accent-[#17243b]"
-            />
-            {opt.label}
-          </label>
-        ))}
+          {/* RADIO */}
+          {type === "radio" &&
+            options.map((opt, index) => (
+              <label
+                key={(opt as any).key || opt.value || index}
+                className="flex items-center gap-2.5 text-sm text-[#3A4B66] mb-3 cursor-pointer hover:text-[#1A2B49] transition-colors"
+              >
+                <input
+                  type="radio"
+                  name={title}
+                  checked={selected.includes(opt.value)}
+                  onChange={() => onChange?.([opt.value])}
+                  className="h-4 w-4 border-[#D9D9D9] cursor-pointer accent-[#17243b]"
+                />
+                {opt.label}
+              </label>
+            ))}
 
-      {/* RANGE */}
-      {type === "range" && (
+          {/* RANGE */}
+          {type === "range" && (
         <div className="mt-2">
           {/* Dual Range Slider */}
           <div className="relative mb-15 pt-2 px-2 ">
@@ -244,7 +273,9 @@ export const FilterSection: React.FC<FilterSectionProps> = ({
             </div>
           </div>
         </div>
-      )}
+          )}
+        </div>
+      </div>
     </div>
   );
 };
