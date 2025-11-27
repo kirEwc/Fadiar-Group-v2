@@ -241,11 +241,10 @@ export const FilterSection: React.FC<FilterSectionProps> = ({
                 readOnly 
                 className="w-28 border bg-gray-200 border-gray-200 rounded-xl px-4 py-2.5 text-sm text-gray-800 outline-none focus:outline-none focus:ring-0 focus:border-gray-200"
               />
-              
             </div>
           </div>
         </div>
-          )}
-        </div>
+      )}
+    </div>
   );
 };
