@@ -5,7 +5,7 @@ export const SectionAbout2 = () => {
     <>
       <div className="relative w-full md:h-72">
         <Image
-          src="/images/group-mobile.svg"
+          src="/images/group-mobile.png"
           alt="Background"
           fill
           className="object-cover object-center md:hidden"
