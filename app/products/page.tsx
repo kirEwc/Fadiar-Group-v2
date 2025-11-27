@@ -385,6 +385,7 @@ useEffect(() => {
                     paginatedProducts.map((product) => (
                       <Card
                         key={product.id}
+                        productId={product.id}
                         category={product.categoria?.name}
                         title={product.name}
                         brand={product.brand}
