@@ -104,7 +104,7 @@ export default function Product() {
           <p className="text-xs text-gray-400 mb-4">
             <span className="text-gray-400">Home - </span>
             <span className="text-gray-400">Products - </span>
-            <span className="text-primary font-semibold">{id}</span>
+            <span className="text-primary font-semibold">{product.categoria?.name}</span>
           </p>
           <h1 className="text-3xl text-primary font-bold">Detalles del Producto</h1>
         </div>

@@ -103,11 +103,13 @@ const warrantyNumber = +(warranty ?? "0");
                   <p className="flex items-baseline text-[#022954] font-bold text-2xl whitespace-nowrap">
                     ${temporal_price}
                     <span className="ml-1 text-[#022954] font-normal text-base">
-                      {currency?.currency}
+                      {/* {currency?.currency} */}
+                      USD
                     </span>
                   </p>
                   <p className="text-[#777777] text-md line-through whitespace-nowrap">
-                    ${price} {currency?.currency}
+                    {/* ${price} {currency?.currency} */}
+                     ${price} USD
                   </p>
                 </div>
               ) : (
@@ -119,7 +121,7 @@ const warrantyNumber = +(warranty ?? "0");
                   </span>
                 </p>
               )}
-            <div className="mt-auto pt-4 flex items-center justify-between" onClick={handleButtonClick}>
+            <div className="mt-auto pt-4 flex items-center justify-between gap-x-2" onClick={handleButtonClick}>
               <div className="flex items-center rounded-2xl border border-gray">
                 <button className="px-2.5 py-2 text-yellow-500">−</button>
                 <span className="px-1 md:px-4 py-1 border-x border-gray-300">1</span>

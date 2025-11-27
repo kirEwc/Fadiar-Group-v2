@@ -494,16 +494,6 @@ useEffect(() => {
                       ]}
                     />
                   </div>
-
-                  {/* Footer con botón aplicar */}
-                  <div className="sticky bottom-0 bg-white border-t border-gray-200 px-6 py-4">
-                    <button
-                      onClick={() => setIsFilterOpen(false)}
-                      className="w-full bg-primary text-white py-3 rounded-lg font-semibold hover:bg-primary/90 transition-colors"
-                    >
-                      Aplicar filtros
-                    </button>
-                  </div>
                 </div>
               </div>
             )}
