@@ -59,6 +59,40 @@ export default function Product() {
     }
   }, [id]);
 
+  // Interceptor local para animaciones de scroll
+  useEffect(() => {
+    if (isLoading || !product) return;
+
+    const setupAnimations = () => {
+      const elements = document.querySelectorAll<HTMLElement>('.animate-on-scroll:not(.animate__animated)');
+      if (elements.length === 0) return;
+
+      const io = new IntersectionObserver(
+        (entries) => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting) {
+              const el = entry.target as HTMLElement;
+              const anim = el.dataset.animate || 'animate__fadeInUp';
+              el.classList.add('aos-animate', 'animate__animated', anim);
+              io.unobserve(el);
+            }
+          });
+        },
+        {
+          threshold: 0.1,
+          rootMargin: '0px 0px -50px 0px',
+        }
+      );
+
+      elements.forEach(el => io.observe(el));
+      return () => io.disconnect();
+    };
+
+    // Pequeño delay para asegurar que los componentes estén montados
+    const timeout = setTimeout(setupAnimations, 50);
+    return () => clearTimeout(timeout);
+  }, [isLoading, product]);
+
   if (isLoading) {
     return (
       <main>
