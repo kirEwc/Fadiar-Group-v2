@@ -102,6 +102,19 @@ export default function SectionPromoHome1() {
             className="absolute bottom-[-80] lg:bottom-[-170] right-0 md:right-[-70] xl:right-0 w-100 md:w-150 md:bottom-[-120] lg:w-200 xl:w-220   h-auto object-cover "
           />          
          
+
+             <BottomShadow
+                    opacity={0.9}
+                    className="w-[55%]  h-9 z-10 bottom-[-40] right-35 sm:right-23 md:bottom-[-53]
+                     lg:right-45 lg:bottom-[-72]  lg:w-[50%] xl:bottom-[-55] xl:w-[35%] xl:right-80 2xl:right-70" 
+                  />
+
+                  
+                  <BottomShadow
+                    opacity={0.9}
+                    className="w-[60%] h-10  z-10 bottom-[-35]   right-0 sm:right-[-60] md:right-[-100]  md:bottom-[-40] 
+                    lg:right-[-70] lg:bottom-[-55]  lg:w-[50%] xl:right-14 xl:bottom-[-40] xl:w-[35%] 2xl:right-10 "
+                  />
           
                
         </div>

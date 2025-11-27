@@ -117,7 +117,7 @@ export default function Login() {
         {/* Login Box */}
         <div className="absolute w-4/5 max-w-[300px] z-10 p-5 rounded-3xl">
           <form className="w-full px-2.5" onSubmit={handleSubmit}>
-            <h2 className="text-3xl text-white text-center  font-semibold">
+            <h2 className="text-3xl text-[#f4f4f4] text-center  font-semibold">
               Login
             </h2>
 

@@ -120,7 +120,7 @@ export default function Register() {
         {/* Login Box */}
         <div className="md:absolute  mx-4 md:mx-0 w-full md:w-[500px] z-10  md:p-5 md:rounded-3xl">
           <form className="  md:w-full md:px-2.5" onSubmit={handleSubmit}>
-            <h2 className="text-3xl text-white text-center  md:mb-2.5 font-semibold">
+            <h2 className="text-3xl text-[#f4f4f4] text-center  md:mb-2.5 font-semibold">
               Registro
             </h2>
 

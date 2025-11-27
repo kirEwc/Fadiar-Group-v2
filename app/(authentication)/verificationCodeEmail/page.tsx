@@ -130,7 +130,7 @@ export default function VerificationCodeEmail() {
         {/* Login Box */}
         <div className="absolute w-4/5 max-w-[320px] z-10 p-5 rounded-3xl">
           <form className="w-full px-2.5" onSubmit={handleSubmit}>
-            <h2 className="text-3xl text-white text-center mb-2.5 font-semibold">
+            <h2 className="text-3xl text-[text-[#f4f4f4]] text-center mb-2.5 font-semibold">
               Confirmar correo
             </h2>
 

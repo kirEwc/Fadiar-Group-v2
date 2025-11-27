@@ -43,7 +43,7 @@ export default function SectionPromoHome2() {
            data-animate="animate__fadeInRight"
             src="/images/motorbike.svg"
             alt="Background"
-            className="absolute right-2 left-1 sm:left-auto w-90 bottom-[-10]  md:bottom-[-30]  lg:right-5 2xl:right-30 md:w-100 lg:w-160  xl:w-187  animate-on-scroll [animation-delay:1.5s]"
+            className="absolute right-2 left-1 sm:left-auto w-90 bottom-[-10]  md:bottom-[-30]  lg:right-5 2xl:right-30 md:w-100 lg:w-160  xl:w-187  animate-on-scroll [animation-delay:1.3s]"
           />
         </div>
       </div>

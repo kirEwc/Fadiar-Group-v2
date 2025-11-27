@@ -45,6 +45,9 @@ export const FilterSection: React.FC<FilterSectionProps> = ({
   const [isOpen, setIsOpen] = useState(false); // Por defecto cerrado
 
   const getPercentage = (value: number) => {
+    if (max === min) return 0;
+    const pct = ((value - min) / (max - min)) * 100;
+    return Math.max(0, Math.min(100, pct));
   };
 
   const clampValue = (value: number, minVal: number, maxVal: number) => {
