@@ -7,7 +7,7 @@ export default function SectionPromoHome2() {
     <>
       <div className="bg-primary w-full h-[475px] md:h-[330px] relative   ">
 
-        <div className="mx-4 md:mx-10 pt-10  md:h-full font-bold text-[36px]  w-150 flex flex-col  md:justify-center items-start md:text-4xl  2xl:text-5xl ">
+        <div className="mx-4 md:mx-10 pt-10 sm:pt-0  md:h-full font-bold text-[36px]  w-150 flex flex-col  md:justify-center items-start md:text-4xl  2xl:text-5xl ">
           <span 
           data-animate="animate__lightSpeedInLeft"
           className="text-[#D69F04] animate-on-scroll">
