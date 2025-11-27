@@ -134,11 +134,11 @@ useEffect(() => {
             </div>
 
             <div id="content" className="w-full mb-20  xl:w-4/5 overflow-hidden">
-                <div id="content-ollas" className="md:hidden">
+                <div id="content-ollas" className="xl:hidden">
                     <SectionPromoHome1 />
                 </div>
 
-                <div className="hidden md:block">
+                <div className="hidden xl:block">
                   <Pot/>
                 </div>
 
