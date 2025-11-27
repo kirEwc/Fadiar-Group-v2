@@ -362,7 +362,7 @@ useEffect(() => {
                   
                   
 
-                <div id="products" className="mt-20 mx-5 lg:mx-0 grid grid-cols-2 justify-between grid-rows-2 md:grid-cols-3 md:grid-rows-2 lg:grid-cols-3 lg:grid-rows-3 lg:mt-0 xl:grid-cols-4 xl:grid-rows-3 2xl:grid-cols-5 2xl:grid-rows-3 gap-4 xl:mr-20">
+                <div id="products" className="mt-20 mx-5 lg:mx-0 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 lg:mt-0 xl:grid-cols-4 2xl:grid-cols-5 gap-4 xl:mr-20 auto-rows-fr">
                   {paginatedProducts && paginatedProducts.length > 0 ? (
                       paginatedProducts.map((product) => (
                         <Card
