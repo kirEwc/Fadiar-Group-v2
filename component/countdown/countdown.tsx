@@ -57,7 +57,9 @@ export default function Countdown({ targetDate }: CountdownProps) {
 
 function Box({ value, label }: { value: string; label: string }) {
   return (
-    <div className="bg-[#001730] px-0  sm:px-2  py-2 rounded-lg text-center min-w-19 sm:min-w-20 2xl:min-w-25 h-18 flex flex-col justify-center gap-1 2xl:gap-2">
+    <div
+       data-animate="animate__zoomIn"
+    className="bg-[#001730] px-0  sm:px-2  py-2 rounded-lg text-center min-w-19 sm:min-w-20 2xl:min-w-25 h-18 flex flex-col justify-center gap-1 2xl:gap-2 animate-on-scroll [animation-delay:0.5s]">
       <p className="text-xl font-bold leading-tight">{value}</p>
       <span className="text-[#D69F04] text-sm ">{label}</span>
     </div>

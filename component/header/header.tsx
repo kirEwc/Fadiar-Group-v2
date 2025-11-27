@@ -32,7 +32,7 @@ export default function Header() {
           <Serchbar />
         </div>
 
-        <div className=" md:hidden">
+        <div className="md:hidden mr-auto">
           <Menu />
         </div>
 
