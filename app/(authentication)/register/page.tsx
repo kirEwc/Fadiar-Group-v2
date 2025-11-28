@@ -109,7 +109,7 @@ export default function Register() {
               className="absolute left-10 h-1.5 hidden md:block bg-primary rounded-full animate-blink"
               style={{
                 width: `${width}px`,
-                transformOrigin: "270px",
+                transformOrigin: "280px",
                 transform: `rotate(${rotation}deg)`,
                 animationDelay: `${delay}s`,
               }}
@@ -187,7 +187,7 @@ export default function Register() {
               <div>
                 <FloatingLabelInput
                   type="password"
-                  label="Confirmar contraseña"
+                  label="Repetir contraseña"
     
                   value={formData.confirmPassword}
                   onChange={handleChange("confirmPassword")}

@@ -90,7 +90,7 @@ export default function Login() {
   return (
     <div className="h-full md:min-h-screen flex items-center justify-center bg-cover bg-center bg-no-repeat p-4 bg-[url('/images/authenticationBackground.png')]">
       {/* Container principal con animación circular */}
-      <div className="relative w-[400px] h-[400px] flex items-center justify-center rounded-full overflow-hidden">
+      <div className="relative w-[430px] h-[400px] flex items-center justify-center rounded-full overflow-hidden">
         {/* Spans animados en círculo - 270 grados (lado derecho y superior/inferior) */}
         {[...Array(38)].map((_, i) => {
           // Calcular ancho: más pequeño al inicio y final, más grande en el centro
@@ -103,7 +103,7 @@ export default function Login() {
           return (
             <span
               key={i}
-              className="absolute left-0 h-1.5 bg-primary rounded-full animate-blink"
+              className="absolute left-0  h-1.5 bg-primary rounded-full animate-blink"
               style={{
                 width: `${width}px`,
                 transformOrigin: "200px",
@@ -115,7 +115,7 @@ export default function Login() {
         })}
 
         {/* Login Box */}
-        <div className="absolute w-4/5 max-w-[300px] z-10 p-5 rounded-3xl">
+        <div className="absolute left-12 sm:left-auto w-4/5 max-w-[300px] z-10 p-5 rounded-3xl">
           <form className="w-full px-2.5" onSubmit={handleSubmit}>
             <h2 className="text-3xl text-[#f4f4f4] text-center  font-semibold">
               Login
@@ -160,7 +160,7 @@ export default function Login() {
             <button
               type="submit"
               disabled={isLoading}
-              className="w-full h-11 bg-accent border-none outline-none rounded-full cursor-pointer text-base text-white font-semibold hover:bg-accent/90 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+              className="w-full  h-11 bg-accent border-none outline-none rounded-full cursor-pointer text-base text-white font-semibold hover:bg-accent/90 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
             >
               {isLoading ? "Iniciando sesión..." : "Login"}
             </button>
