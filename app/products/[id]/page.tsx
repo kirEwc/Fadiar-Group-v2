@@ -1,10 +1,12 @@
 "use client";
 import { useParams } from "next/navigation";
 import Image from "next/image";
-import { useState, useEffect } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { SectionMasRecientes } from "@/section/masRecientes";
 import { SectionAbout4 } from "@/section/aboutUS/sectionAbout4";
 import { server_url } from "@/lib/apiClient";
+import { PackageX, Search, Home, ArrowLeft } from 'lucide-react';
+import RelatedProds from "@/section/relatedProds";
 
 interface Product {
   id: number;
@@ -28,6 +30,24 @@ export default function Product() {
   const [product, setProduct] = useState<Product | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [selectedImage, setSelectedImage] = useState<string>("");
+  const [allProducts, setAllProducts] = useState<Product[]>([]);
+
+  const relatedProducts = useMemo(() => {
+    if (!product) return [];
+
+    const sameCategory = allProducts.filter(
+      (item) =>
+        item.id !== product.id &&
+        (item.categoria?.id || item.categoria?.name) === (product.categoria?.id || product.categoria?.name)
+    );
+
+    if (sameCategory.length >= 6) {
+      return sameCategory.slice(0, 6);
+    }
+
+    const remaining = allProducts.filter((item) => item.id !== product.id && !sameCategory.includes(item));
+    return [...sameCategory, ...remaining].slice(0, 6);
+  }, [allProducts, product]);
 
   useEffect(() => {
     const fetchProduct = async () => {
@@ -41,6 +61,7 @@ export default function Product() {
         });
 
         const data = await res.json();
+        setAllProducts(data.products);
         const foundProduct = data.products.find((p: Product) => p.id === parseInt(id as string));
         
         if (foundProduct) {
@@ -116,11 +137,61 @@ export default function Product() {
 
   if (!product) {
     return (
-      <main>
-        <div className="px-4 md:px-20 2xl:px-36 mt-10">
-          <h1 className="text-3xl text-primary font-bold">Producto no encontrado</h1>
+      <main className="min-h-screen bg-gradient-to-b from-gray-50 to-white">
+      <div className="px-4 md:px-20 2xl:px-36 py-16 md:py-24">
+        <div className="max-w-2xl mx-auto text-center">
+          {/* Icono */}
+          <div className="mb-8 flex justify-center">
+            <div className="relative">
+              <div className="absolute inset-0 bg-red-100 rounded-full blur-2xl opacity-50"></div>
+              <div className="relative bg-white rounded-full p-6 shadow-lg">
+                <PackageX className="w-16 h-16 text-red-600" strokeWidth={1.5} />
+              </div>
+            </div>
+          </div>
+
+          {/* Título y descripción */}
+          <h1 className="text-4xl md:text-5xl font-bold text-primary mb-4">
+            Producto no encontrado
+          </h1>
+          <p className="text-lg text-gray-700 mb-8 max-w-md mx-auto">
+            Lo sentimos, el producto que buscas no existe o ha sido removido de nuestro catálogo.
+          </p>
+
+          {/* Acciones */}
+          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
+            <button
+              onClick={() => window.history.back()}
+              className="inline-flex items-center gap-2 px-6 py-3 bg-primary text-white rounded-lg hover:bg-gray-800 transition-colors font-medium shadow-lg hover:shadow-xl"
+            >
+              <ArrowLeft className="w-5 h-5" />
+              Volver atrás
+            </button>
+            
+            <button
+              onClick={() => window.location.href = '/'}
+              className="inline-flex items-center gap-2 px-6 py-3 bg-white text-primary border-2 border-gray-200 rounded-lg hover:border-gray-300 hover:bg-gray-50 transition-colors font-medium"
+            >
+              <Home className="w-5 h-5" />
+              Ir al inicio
+            </button>
+          </div>
+
+          {/* Sugerencias */}
+          <div className="mt-12 pt-8 border-t border-gray-200">
+            <div className="flex items-center justify-center gap-2 text-gray-500 mb-4">
+              <Search className="w-5 h-5" />
+              <span className="font-medium">Sugerencias</span>
+            </div>
+            <ul className="text-gray-600 space-y-2">
+              <li>Verifica que la URL sea correcta</li>
+              <li>Busca el producto en nuestro catálogo</li>
+              <li>Contacta con soporte si necesitas ayuda</li>
+            </ul>
+          </div>
         </div>
-      </main>
+      </div>
+    </main>
     );
   }
 
@@ -265,6 +336,9 @@ export default function Product() {
 
           </div>
         </div>
+      </div>
+      <div className="mt-20">
+        <RelatedProds products={relatedProducts} />
       </div>
 
       <div className="mt-20">

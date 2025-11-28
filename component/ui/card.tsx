@@ -152,7 +152,7 @@ const warrantyNumber = +(warranty ?? "0");
           className={`bg-white p-2 sm:p-4 border border-gray-300 rounded-2xl shadow-sm h-full flex flex-row gap-3 lg:gap-8 max-w-[${maxWidthVertical}] ${productId ? 'cursor-pointer hover:shadow-md transition-shadow' : ''}`}
         >
           <div
-            className="w-35 sm:w-48  overflow-hidden rounded-2xl"
+            className="w-1/3 sm:w-48  overflow-hidden rounded-2xl"
             // style={{ height: "160px" }}
           >
              <Image
@@ -175,13 +175,39 @@ const warrantyNumber = +(warranty ?? "0");
               <p className="text-primary text-sm sm:text-md">{brand}</p>
             </div>
 
-            <p className="text-accent text-sm font-medium mb-2">{warranty}</p>
-
-            <p className="text-primary font-bold text-xl sm:text-2xl mb-4">
-    
-              ${price}{" "}
-              <span className="text-primary font-normal text-base">USD</span>
+            {warrantyNumber > 0 ? (
+            <p className="text-[#D69F04] text-sm font-medium mb-3">
+             Garantía de {warrantyNumber/30} meses
             </p>
+            ) : 
+            <p className="h-6 text-sm font-medium mb-3">
+            </p>
+            }
+
+            {temporal_price !== null ? (
+                // Cuando SÍ hay descuento (temporal_price tiene valor)
+                <div className="flex flex-row items-center justify-between gap-2">
+                  <p className="flex items-baseline text-[#022954] font-bold text-2xl whitespace-nowrap">
+                    ${temporal_price}
+                    <span className="ml-1 text-[#022954] font-normal text-base">
+                      {/* {currency?.currency} */}
+                      USD
+                    </span>
+                  </p>
+                  <p className="text-[#777777] text-md line-through whitespace-nowrap">
+                    {/* ${price} {currency?.currency} */}
+                     ${price} USD
+                  </p>
+                </div>
+              ) : (
+                // Cuando NO hay descuento (temporal_price es null)
+                <p className="text-[#022954] font-bold text-2xl">
+                  ${price}{" "}
+                  <span className="text-[#022954] font-normal text-base">
+                    {currency?.currency}
+                  </span>
+                </p>
+              )}
 
             <div className="mt-auto flex items-center justify-between gap-2" onClick={handleButtonClick}>
               {quantityProducts && quantityProducts > 0 ? (
