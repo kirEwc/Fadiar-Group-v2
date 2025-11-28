@@ -88,7 +88,7 @@ export default function Login() {
   };
 
   return (
-    <div className="h-full md:min-h-screen flex items-center justify-center bg-primary p-4">
+    <div className="h-full md:min-h-screen flex items-center justify-center bg-cover bg-center bg-no-repeat p-4 bg-[url('/images/authenticationBackground.png')]">
       {/* Container principal con animación circular */}
       <div className="relative w-[400px] h-[400px] flex items-center justify-center rounded-full overflow-hidden">
         {/* Spans animados en círculo - 270 grados (lado derecho y superior/inferior) */}

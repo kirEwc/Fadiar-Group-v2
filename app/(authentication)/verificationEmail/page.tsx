@@ -5,7 +5,7 @@ import Link from "next/link";
 
 export default function VerificationEmail() {
   return (
-    <div className="h-full md:min-h-screen flex items-center justify-center bg-primary p-4">
+    <div className="h-full md:min-h-screen flex items-center justify-center bg-cover bg-center bg-no-repeat bg-[url('/images/authenticationBackground.png')] p-4">
       {/* Container principal con animación circular */}
       <div className="relative w-[400px] h-[400px] flex items-center justify-center rounded-full overflow-hidden">
         {/* Spans animados en círculo - 270 grados (lado derecho y superior/inferior) */}
