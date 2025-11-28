@@ -2,7 +2,7 @@ export default function CheckoutPayment() {
   return (
     <>
       {/* FORMA DE PAGO*/}
-      <div className="w-full xl:w-80  2xl:w-90">
+      <div className="w-full xl:w-65  2xl:w-90 ">
         <div>
           <h5 className="text-primary font-bold text-xl">FORMA DE PAGO</h5>
           <div className="w-full  border-b-2 border-gray"></div>

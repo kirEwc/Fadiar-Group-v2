@@ -1,8 +1,11 @@
 "use client";
 import { ChevronDown, Check } from "lucide-react";
 import { useState, useEffect, useRef } from "react";
+import { useRouter } from "next/navigation";
 import { InputField } from "../inputField/inputField";
 import PhoneInput from "../phoneInput/phoneInput";
+import { cart1Schema, Cart1FormData } from "../../validations/cart1Schema";
+import { z } from "zod";
 
 const provinces = ["La Habana", "Matanzas", "Santiago de Cuba"];
 const municipalitiesHavana = [
@@ -21,6 +24,7 @@ const municipalitiesHavana = [
 ];
 
 export default function Amount() {
+   const router = useRouter();
   const [openProvinces, setOpenProvinces] = useState(false);
   const [selectedProvinces, setSelectedProvinces] = useState("");
   const [openMunicipalitiesHavana, setOpenmunicipalitiesHavana] =
@@ -29,10 +33,13 @@ export default function Amount() {
     useState("");
 
   const [formData, setFormData] = useState({
-    phoneCountry: "",
-    identityCard: "",
     phone: "",
+    identityCard: "",
+    province: "",
+    municipality: "",
   });
+
+  const [errors, setErrors] = useState<Partial<Record<keyof Cart1FormData, string>>>({});
 
   const provincesRef = useRef<HTMLDivElement>(null);
   const municipalitiesRef = useRef<HTMLDivElement>(null);
@@ -68,15 +75,47 @@ export default function Amount() {
       ...prev,
       [name]: value,
     }));
+    // Limpiar error cuando se escribe
+    const fieldName = name as keyof Cart1FormData;
+    if (errors[fieldName]) {
+      setErrors((prev) => ({ ...prev, [fieldName]: undefined }));
+    }
   };
 
   // Función para manejar cambios en el teléfono
   const handlePhoneChange = (value: string, countryCode: string) => {
+    const fullPhone = countryCode + " " + value;
     setFormData((prev) => ({
       ...prev,
-      phone: value,
-      phoneCountry: countryCode,
+      phone: fullPhone,
     }));
+    // Limpiar error del teléfono cuando se escribe
+    if (errors.phone) {
+      setErrors((prev) => ({ ...prev, phone: undefined }));
+    }
+  };
+
+  // Función para manejar el envío del formulario
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    
+    // Validar con Zod
+    const result = cart1Schema.safeParse(formData);
+    
+    if (!result.success) {
+      // Mostrar errores
+      const fieldErrors: Partial<Record<keyof Cart1FormData, string>> = {};
+      result.error.issues.forEach((issue) => {
+        const field = issue.path[0] as keyof Cart1FormData;
+        fieldErrors[field] = issue.message;
+      });
+      setErrors(fieldErrors);
+      return;
+    }
+    console.log(formData);
+
+    // Si la validación es exitosa, navegar a cart2
+    // router.push('/cart2');
   };
 
   return (
@@ -108,6 +147,9 @@ export default function Amount() {
                 onChange={handlePhoneChange}
                 placeholder="Teléfono"
               />
+              {errors.phone && (
+                <p className="text-red-500 text-xs mt-1">{errors.phone}</p>
+              )}
             </div>
           </div>
           
@@ -122,6 +164,9 @@ export default function Amount() {
                 value={formData.identityCard}
                 onChange={handleInputChange}
               />
+              {errors.identityCard && (
+                <p className="text-red-500 text-xs mt-1">{errors.identityCard}</p>
+              )}
             </div>
         </div>
 
@@ -148,6 +193,9 @@ export default function Amount() {
               </span>
               <ChevronDown className="h-4 w-4 text-gray-500" />
             </div>
+            {errors.province && (
+              <p className="text-red-500 text-xs mt-1">{errors.province}</p>
+            )}
 
             {openProvinces && (
               <ul className="absolute w-full mt-2 bg-white border border-gray-200 rounded-2xl shadow-lg z-10 max-h-60 overflow-auto">
@@ -157,7 +205,12 @@ export default function Amount() {
                     className="px-4 py-2 cursor-pointer hover:bg-gray-100 transition-colors text-gray-700"
                     onClick={() => {
                       setSelectedProvinces(prov);
+                      setFormData((prev) => ({ ...prev, province: prov }));
                       setOpenProvinces(false);
+                      // Limpiar error cuando se selecciona
+                      if (errors.province) {
+                        setErrors((prev) => ({ ...prev, province: undefined }));
+                      }
                     }}
                   >
                     {prov}
@@ -193,6 +246,9 @@ export default function Amount() {
               </span>
               <ChevronDown className="h-4 w-4 text-gray-500" />
             </div>
+            {errors.municipality && (
+              <p className="text-red-500 text-xs mt-1">{errors.municipality}</p>
+            )}
 
             {openMunicipalitiesHavana && (
               <ul className="absolute w-full mt-2 bg-white border border-gray-200 rounded-2xl shadow-lg z-10 max-h-60 overflow-auto">
@@ -202,7 +258,12 @@ export default function Amount() {
                     className="px-4 py-2 cursor-pointer hover:bg-gray-100 transition-colors text-gray-700"
                     onClick={() => {
                       setSelectedMunicipalitiesHavana(muni);
+                      setFormData((prev) => ({ ...prev, municipality: muni }));
                       setOpenmunicipalitiesHavana(false);
+                      // Limpiar error cuando se selecciona
+                      if (errors.municipality) {
+                        setErrors((prev) => ({ ...prev, municipality: undefined }));
+                      }
                     }}
                   >
                     {muni}
@@ -258,11 +319,16 @@ export default function Amount() {
         </div>
       </div>
 
-      <div className="flex justify-center">
-        <button className="bg-[#022954] text-white py-4 px-20 text-base font-semibold rounded-xl hover:scale-103 transition cursor-pointer">
-          Confirmar Orden
-        </button>
-      </div>
+      <form onSubmit={handleSubmit}>
+        <div className="flex justify-center">
+          <button 
+            type="submit"
+            className="bg-[#022954] text-white py-4 px-20 text-base font-semibold rounded-xl hover:scale-103 transition cursor-pointer"
+          >
+            Confirmar Orden
+          </button>
+        </div>
+      </form>
     </div>
   );
 }
