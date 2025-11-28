@@ -1,9 +1,10 @@
 "use client";
+import { server_url } from "@/lib/apiClient";
 import { ShoppingCart, Trash2 } from "lucide-react";
 
 interface CardCart4Props {
   title: string;
-  brand: string;
+  brand?: string;
   price: string;
   image: string;
   actionIcon?: "cart" | "delete" | "none";
@@ -34,12 +35,12 @@ export default function CartCard({
         <div className="w-32 h-[124px] overflow-hidden rounded-2xl" >
           <img
             className="w-full h-full object-contain"
-            src={image}
+            src={`${server_url}/${image}`}
             alt={title}
           />
         </div>
 
-        <div className="flex-1 flex flex-col">
+        <div className="flex-1 flex flex-col ml-4">
           <div className="mb-3">
             <h3 className="text-primary font-bold  text-md sm:text-xl line-clamp-2">
               {title}
