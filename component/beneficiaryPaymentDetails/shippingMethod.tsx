@@ -1,5 +1,34 @@
+"use client";
+import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
+import cartStore from "../../store/cartStore";
+import { useBeneficiaryDetailsContext } from "../../contexts/BeneficiaryDetailsContext";
 
 export default function ShippingMethod(){
+    const [isClient, setIsClient] = useState(false);
+    const router = useRouter();
+    const { validateAllForms } = useBeneficiaryDetailsContext();
+
+    // Evitar error de hidratación
+    useEffect(() => {
+        setIsClient(true);
+    }, []);
+
+    // Obtener precios del carrito solo en el cliente
+    const subtotal = isClient ? cartStore.getState().getTotalPrice() : 0;
+    const total = isClient ? subtotal + 5 : 5;
+
+    const handleContinue = () => {
+        const isValid = validateAllForms();
+        if (isValid) {
+            router.push('/cart4');
+        }
+    };
+
+    const handleBack = () => {
+        router.back();
+    };
+
     return(
 
         <>
@@ -35,7 +64,7 @@ export default function ShippingMethod(){
           <div className="bg-[#F5F7FA] rounded-xl overflow-hidden">
             <div className="flex justify-between items-center p-6 text-[#022954]">
               <span className="text-md">Subtotal:</span>
-              <span className="font-medium text-xl">$ 582 USD</span>
+              <span className="font-medium text-xl">$ {subtotal} USD</span>
             </div>
              
 
@@ -49,7 +78,7 @@ export default function ShippingMethod(){
             <div className="flex justify-between items-center p-4 py-6 bg-[#E2E6EA]">
               <span className="font-bold text-[#022954] text-2xl">Total</span>
               <span className="text-2xl font-bold text-[#022954]">
-                $ 582 <span className="text-2xl font-normal">USD</span>
+                $ {total} <span className="text-2xl font-normal">USD</span>
               </span>
             </div>
           </div>
@@ -57,12 +86,18 @@ export default function ShippingMethod(){
 
         <div className="flex justify-between space-x-4">
           <div className="w-full">
-            <button className="bg-white text-primary border border-primary py-4 w-full font-semibold rounded-xl hover:scale-103 transition cursor-pointer">
+            <button 
+              onClick={handleBack}
+              className="bg-white text-primary border border-primary py-4 w-full font-semibold rounded-xl hover:scale-103 transition cursor-pointer"
+            >
               Atrás
             </button>
           </div>
           <div className="w-full">
-            <button className="bg-[#022954] text-white py-4 w-full font-semibold rounded-xl hover:scale-103 transition cursor-pointer">
+            <button 
+              onClick={handleContinue}
+              className="bg-[#022954] text-white py-4 w-full font-semibold rounded-xl hover:scale-103 transition cursor-pointer"
+            >
               Continuar
             </button>
           </div>

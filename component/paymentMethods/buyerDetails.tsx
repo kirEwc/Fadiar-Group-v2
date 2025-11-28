@@ -1,40 +1,30 @@
 "use client";
-import { useState } from "react";
+import { useEffect } from "react";
 import { InputField } from "../inputField/inputField";
 import PhoneInput from "../phoneInput/phoneInput";
+import { useBuyerDetailsContext } from "../../contexts/BuyerDetailsContext";
+import BuyerDetailsStore from "../../store/buyerDetailsStore";
 
 export default function BuyerDetails() {
-  // Form data state
-  const [formData, setFormData] = useState({
-    firstName: "",
-    lastName: "",
-    email: "",
-    phone: "",
-    phoneCountry: "",
-    address: "",
-    note: "",
-  });
+  const {
+    formData,
+    errors,
+    handleInputChange,
+    handlePhoneChange,
+    validateForm,
+    clearErrors,
+    setFormData,
+  } = useBuyerDetailsContext();
 
-  // Function to handle input changes
-  const handleInputChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
-  };
-
-  // Function to handle phone changes
-  const handlePhoneChange = (value: string, countryCode: string) => {
-    setFormData((prev) => ({
-      ...prev,
-      phone: value,
-      phoneCountry: countryCode,
-    }));
-  };
-
+  // Cargar datos del store al montar el componente
+  useEffect(() => {
+    const savedData = BuyerDetailsStore.getState().buyerDetails;
+    
+    // Solo cargar si hay datos guardados y son diferentes a los actuales
+    if (savedData && JSON.stringify(savedData) !== JSON.stringify(formData)) {
+      setFormData(savedData);
+    }
+  }, []); // Array de dependencias vacío para que solo se ejecute una vez
 
   return (
     <>
@@ -48,43 +38,69 @@ export default function BuyerDetails() {
         <div className="w-full space-y-6 mt-4">
           {/* 2 column grid */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <InputField
-              type="text"
-              placeholder="Nombre"
-              name="firstName"
-              value={formData.firstName}
-              onChange={handleInputChange}
-            />
-            <InputField
-              type="text"
-              placeholder="Apellidos"
-              name="lastName"
-              value={formData.lastName}
-              onChange={handleInputChange}
-            />
-            <InputField
-              type="email"
-              placeholder="Correo Electrónico"
-              name="email"
-              value={formData.email}
-              onChange={handleInputChange}
-            />
+            <div>
+              <InputField
+                type="text"
+                placeholder="Nombre"
+                name="firstName"
+                value={formData.firstName}
+                onChange={handleInputChange}
+              />
+              {errors.firstName && (
+                <p className="text-red-500 text-xs mt-1">{errors.firstName}</p>
+              )}
+            </div>
+            <div>
+              <InputField
+                type="text"
+                placeholder="Apellidos"
+                name="lastName"
+                value={formData.lastName}
+                onChange={handleInputChange}
+              />
+              {errors.lastName && (
+                <p className="text-red-500 text-xs mt-1">{errors.lastName}</p>
+              )}
+            </div>
+            <div>
+              <InputField
+                type="email"
+                placeholder="Correo Electrónico"
+                name="email"
+                value={formData.email}
+                onChange={handleInputChange}
+              />
+              {errors.email && (
+                <p className="text-red-500 text-xs mt-1">{errors.email}</p>
+              )}
+            </div>
 
             {/* Phone with flag */}
-            <PhoneInput
-              value={formData.phone}
-              onChange={handlePhoneChange}
-              placeholder="Teléfono"
-            />
+            <div>
+              <PhoneInput
+                phoneValue={formData.phoneValue}
+                countryCode={formData.phoneCountry}
+                onChange={handlePhoneChange}
+                placeholder="Teléfono"
+              />
+              {errors.phoneValue && (
+                <p className="text-red-500 text-xs mt-1">{errors.phoneValue}</p>
+              )}
+            </div>
           </div>
 
-          <InputField
-            type="text"
-            placeholder="Dirección"
-            name="address"
-            value={formData.address}
-            onChange={handleInputChange}
-          />
+          <div>
+            <InputField
+              type="text"
+              placeholder="Dirección"
+              name="address"
+              value={formData.address}
+              onChange={handleInputChange}
+            />
+            {errors.address && (
+              <p className="text-red-500 text-xs mt-1">{errors.address}</p>
+            )}
+          </div>
 
           {/* Note */}
           <textarea

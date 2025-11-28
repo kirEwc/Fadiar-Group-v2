@@ -1,23 +1,27 @@
 "use client";
-import { useState } from "react";
+import { useEffect } from "react";
 import { InputField } from "../inputField/inputField";
+import { useBeneficiaryDetailsContext } from "../../contexts/BeneficiaryDetailsContext";
+import BeneficiaryDetailsStore from "../../store/beneficiaryDetailsStore";
 
 export default function DeliveryMethod() {
-  const [formData, setFormData] = useState({
-    address: "",
-    note: "",
-  });
+  const {
+    formData,
+    errors,
+    handleInputChange,
+    clearErrors,
+    setFormData,
+  } = useBeneficiaryDetailsContext();
 
-  // Function to handle input changes
-  const handleInputChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
-  };
+  // Cargar datos del store al montar el componente
+  useEffect(() => {
+    const savedData = BeneficiaryDetailsStore.getState().beneficiaryDetails;
+    
+    // Solo cargar si hay datos guardados y son diferentes a los actuales
+    if (savedData && JSON.stringify(savedData) !== JSON.stringify(formData)) {
+      setFormData(savedData);
+    }
+  }, []); // Array de dependencias vacío para que solo se ejecute una vez
 
   return (
     <>
@@ -39,6 +43,7 @@ export default function DeliveryMethod() {
             value={formData.address}
             onChange={handleInputChange}
           />
+          {errors.address && <p className="text-red-500 text-xs mt-1">{errors.address}</p>}
 
           <textarea
             placeholder="Nota"
@@ -48,6 +53,7 @@ export default function DeliveryMethod() {
             onChange={handleInputChange}
             className="w-full rounded-2xl px-4 py-3 bg-[#F5F7FA] text-gray-700 placeholder:text-gray-500 resize-none focus:outline-none focus:ring-2 focus:ring-accent"
           />
+          {errors.note && <p className="text-red-500 text-xs mt-1">{errors.note}</p>}
         </div>
       </div>
     </>

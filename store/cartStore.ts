@@ -1,5 +1,6 @@
+
 import { create } from "zustand";
-import { persist, createJSONStorage } from "zustand/middleware";
+import { persist, createJSONStorage, PersistOptions } from "zustand/middleware";
 
 export type CartItem = {
   productId: number | string;
@@ -21,9 +22,12 @@ export type CartState = {
   clearCart: () => void;
   getItemQuantity: (productId: number | string) => number;
   getTotalItems: () => number;
+  getTotalPrice: () => number;
 };
 
-const cartStore = create<CartState>()(
+type CartStore = CartState;
+
+const cartStore = create<CartStore>()(
   persist(
     (set, get) => ({
       items: [],
@@ -79,6 +83,13 @@ const cartStore = create<CartState>()(
       getTotalItems: () => {
         return get().items.reduce((total, item) => total + item.quantity, 0);
       },
+
+      getTotalPrice: () => {
+        return get().items.reduce((total, item) => {
+          const price = parseFloat(String(item.price).replace(/[^0-9.]/g, ''));
+          return total + (price * item.quantity);
+        }, 0);
+      },
     }),
     {
       name: "cart-storage",
@@ -94,6 +105,5 @@ const cartStore = create<CartState>()(
     }
   )
 );
-
 
 export default cartStore;

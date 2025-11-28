@@ -1,4 +1,27 @@
+"use client";
+import { useState, useEffect } from "react";
+import BuyerDetailsStore from "../../store/buyerDetailsStore";
+
 export default function CreditCards() {
+  const [selectedMethod, setSelectedMethod] = useState("Tarjetas de crédito o débito");
+
+  // Cargar método de pago del store al montar
+  useEffect(() => {
+    const storeData = BuyerDetailsStore.getState().buyerDetails;
+    const savedMethod = storeData.paymentMethod;
+    
+    console.log("Método de pago del store:", savedMethod);
+    
+    if (savedMethod && savedMethod !== selectedMethod) {
+      setSelectedMethod(savedMethod);
+    }
+  }, []); // Solo ejecutar al montar
+
+  // Guardar método de pago en el store cuando cambie
+  useEffect(() => {
+    BuyerDetailsStore.getState().setPaymentMethod(selectedMethod);
+  }, [selectedMethod]);
+
   return (
     <>
       <div >
@@ -11,6 +34,9 @@ export default function CreditCards() {
                 <input
                   type="radio"
                   name="metodo"
+                  value="Tarjetas de crédito o débito"
+                  checked={selectedMethod === "Tarjetas de crédito o débito"}
+                  onChange={(e) => setSelectedMethod(e.target.value)}
                   className="peer absolute opacity-0"
                 />
 
@@ -47,6 +73,9 @@ export default function CreditCards() {
                 <input
                   type="radio"
                   name="metodo"
+                  value="Saldo TropiPay"
+                  checked={selectedMethod === "Saldo TropiPay"}
+                  onChange={(e) => setSelectedMethod(e.target.value)}
                   className="peer absolute opacity-0"
                 />
 

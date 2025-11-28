@@ -5,7 +5,10 @@ import { useRouter } from "next/navigation";
 import { InputField } from "../inputField/inputField";
 import PhoneInput from "../phoneInput/phoneInput";
 import { cart1Schema, Cart1FormData } from "../../validations/cart1Schema";
-import { z } from "zod";
+import { useStore } from "zustand";
+import cartStore from "../../store/cartStore";
+import MatterCart1Store from "@/store/matterCart1Store";
+
 
 const provinces = ["La Habana", "Matanzas", "Santiago de Cuba"];
 const municipalitiesHavana = [
@@ -31,13 +34,13 @@ export default function Amount() {
     useState(false);
   const [selectedMunicipalitiesHavana, setSelectedMunicipalitiesHavana] =
     useState("");
-
-  const [formData, setFormData] = useState({
-    phone: "",
-    identityCard: "",
-    province: "",
-    municipality: "",
-  });
+  const [isClient, setIsClient] = useState(false);
+  
+  const getTotalPrice = useStore(cartStore, (state) => state.getTotalPrice);
+  const totalPrice = getTotalPrice();
+  
+  const formData = useStore(MatterCart1Store, (state) => state.formData);
+  const updateFormData = useStore(MatterCart1Store, (state) => state.updateFormData);
 
   const [errors, setErrors] = useState<Partial<Record<keyof Cart1FormData, string>>>({});
 
@@ -66,15 +69,28 @@ export default function Amount() {
     };
   }, []);
 
+  useEffect(() => {
+    setIsClient(true);
+    // Sync local state with form data from store
+    setSelectedProvinces(formData.province);
+    setSelectedMunicipalitiesHavana(formData.municipality);
+  }, [formData.province, formData.municipality]);
+
+  // Efecto para asegurar que los datos del store se carguen al montar
+  useEffect(() => {
+    if (isClient && formData) {
+      // Forzar actualización si los datos del store están disponibles
+      setSelectedProvinces(formData.province);
+      setSelectedMunicipalitiesHavana(formData.municipality);
+    }
+  }, [isClient, formData]);
+
   // Función para manejar cambios en los inputs
   const handleInputChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
     const { name, value } = e.target;
-    setFormData((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
+    updateFormData({ [name]: value });
     // Limpiar error cuando se escribe
     const fieldName = name as keyof Cart1FormData;
     if (errors[fieldName]) {
@@ -83,18 +99,17 @@ export default function Amount() {
   };
 
   // Función para manejar cambios en el teléfono
-  const handlePhoneChange = (value: string, countryCode: string) => {
-    const fullPhone = countryCode + " " + value;
-    setFormData((prev) => ({
-      ...prev,
-      phone: fullPhone,
-    }));
+  const handlePhoneChange = (phoneValue: string, countryCode: string) => {
+    updateFormData({ phoneValue, countryCode });
     // Limpiar error del teléfono cuando se escribe
-    if (errors.phone) {
-      setErrors((prev) => ({ ...prev, phone: undefined }));
+    if (errors.phoneValue) {
+      setErrors((prev) => ({ ...prev, phoneValue: undefined }));
     }
   };
 
+
+
+  
   // Función para manejar el envío del formulario
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -112,11 +127,21 @@ export default function Amount() {
       setErrors(fieldErrors);
       return;
     }
+    
+    // Guardar datos del formulario en el store
+    MatterCart1Store.getState().setFormData(formData);
+    
     console.log(formData);
 
     // Si la validación es exitosa, navegar a cart2
-    // router.push('/cart2');
+    router.push('/cart2');
   };
+
+
+
+
+
+
 
   return (
     <div className="max-h-full   bg-white font-sans text-[#022954]">
@@ -127,7 +152,7 @@ export default function Amount() {
         </h2>
         <div className="flex justify-between text-xl items-center text-gray-500">
           <span>Subtotal</span>
-          <span>$ 582 USD</span>
+          <span>$ {isClient ? totalPrice.toFixed(2) : '0.00'} USD</span>
         </div>
       </div>
 
@@ -143,12 +168,13 @@ export default function Amount() {
             <div className="relative">
               {/* Teléfono con bandera */}
               <PhoneInput
-                value={formData.phone}
+                phoneValue={formData.phoneValue}
+                countryCode={formData.countryCode}
                 onChange={handlePhoneChange}
                 placeholder="Teléfono"
               />
-              {errors.phone && (
-                <p className="text-red-500 text-xs mt-1">{errors.phone}</p>
+              {errors.phoneValue && (
+                <p className="text-red-500 text-xs mt-1">{errors.phoneValue}</p>
               )}
             </div>
           </div>
@@ -205,7 +231,7 @@ export default function Amount() {
                     className="px-4 py-2 cursor-pointer hover:bg-gray-100 transition-colors text-gray-700"
                     onClick={() => {
                       setSelectedProvinces(prov);
-                      setFormData((prev) => ({ ...prev, province: prov }));
+                      updateFormData({ province: prov });
                       setOpenProvinces(false);
                       // Limpiar error cuando se selecciona
                       if (errors.province) {
@@ -258,7 +284,7 @@ export default function Amount() {
                     className="px-4 py-2 cursor-pointer hover:bg-gray-100 transition-colors text-gray-700"
                     onClick={() => {
                       setSelectedMunicipalitiesHavana(muni);
-                      setFormData((prev) => ({ ...prev, municipality: muni }));
+                      updateFormData({ municipality: muni });
                       setOpenmunicipalitiesHavana(false);
                       // Limpiar error cuando se selecciona
                       if (errors.municipality) {
@@ -280,6 +306,8 @@ export default function Amount() {
               type="checkbox"
               id="delivery"
               className="peer h-4 w-4 shrink-0 rounded-sm border border-gray-400 ring-offset-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#022954] focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 checked:bg-[#022954] checked:border-[#022954] appearance-none"
+              checked={formData.delivery}
+              onChange={(e) => updateFormData({ delivery: e.target.checked })}
             />
             <Check className="absolute h-3 w-3 text-white pointer-events-none opacity-0 peer-checked:opacity-100 left-0.5" />
           </div>
@@ -306,14 +334,14 @@ export default function Amount() {
         <div className="bg-[#F5F7FA] rounded-xl overflow-hidden">
           <div className="flex justify-between items-center p-4 text-[#022954]">
             <span className="text-xl">Subtotal</span>
-            <span className="text-xl">$ 582 USD</span>
+            <span className="text-xl">$ {isClient ? totalPrice.toFixed(2) : '0.00'} USD</span>
           </div>
           <div className="flex justify-between items-center p-4 bg-[#E2E6EA]">
             <span className="font-bold text-[#022954] text-2xl">
               Total a pagar
             </span>
             <span className="text-3xl font-bold text-[#022954]">
-              $ 582 <span className="text-base font-normal">USD</span>
+              $ {isClient ? totalPrice.toFixed(2) : '0.00'} <span className="text-base font-normal">USD</span>
             </span>
           </div>
         </div>

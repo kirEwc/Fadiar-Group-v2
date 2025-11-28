@@ -1,38 +1,29 @@
 "use client";
-import { useState } from "react";
+import { useEffect } from "react";
 import { InputField } from "../inputField/inputField";
 import PhoneInput from "../phoneInput/phoneInput";
+import { useBeneficiaryDetailsContext } from "../../contexts/BeneficiaryDetailsContext";
+import BeneficiaryDetailsStore from "../../store/beneficiaryDetailsStore";
 
 export default function BeneficiaryDetails() {
-  // Estados para los datos del formulario
-  const [formData, setFormData] = useState({
-    firstName: "",
-    lastName: "",
-    email: "",
-    phone: "",
-    phoneCountry: "",
-    identityCard: "",
-  });
+  const {
+    formData,
+    errors,
+    handleInputChange,
+    handlePhoneChange,
+    clearErrors,
+    setFormData,
+  } = useBeneficiaryDetailsContext();
 
-  // Función para manejar cambios en los inputs
-  const handleInputChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
-  };
-
-  // Función para manejar cambios en el teléfono
-  const handlePhoneChange = (value: string, countryCode: string) => {
-    setFormData((prev) => ({
-      ...prev,
-      phone: value,
-      phoneCountry: countryCode,
-    }));
-  };
+  // Cargar datos del store al montar el componente
+  useEffect(() => {
+    const savedData = BeneficiaryDetailsStore.getState().beneficiaryDetails;
+    
+    // Solo cargar si hay datos guardados y son diferentes a los actuales
+    if (savedData && JSON.stringify(savedData) !== JSON.stringify(formData)) {
+      setFormData(savedData);
+    }
+  }, []); // Array de dependencias vacío para que solo se ejecute una vez
 
   return (
     <>
@@ -54,6 +45,7 @@ export default function BeneficiaryDetails() {
             value={formData.firstName}
             onChange={handleInputChange}
           />
+          {errors.firstName && <p className="text-red-500 text-xs mt-1">{errors.firstName}</p>}
 
           <InputField
             type="text"
@@ -62,6 +54,7 @@ export default function BeneficiaryDetails() {
             value={formData.lastName}
             onChange={handleInputChange}
           />
+          {errors.lastName && <p className="text-red-500 text-xs mt-1">{errors.lastName}</p>}
 
           <InputField
             type="gmail"
@@ -70,13 +63,16 @@ export default function BeneficiaryDetails() {
             value={formData.email}
             onChange={handleInputChange}
           />
+          {errors.email && <p className="text-red-500 text-xs mt-1">{errors.email}</p>}
 
           {/* Teléfono con bandera */}
           <PhoneInput
-            value={formData.phone}
+            phoneValue={formData.phoneValue}
+            countryCode={formData.phoneCountry}
             onChange={handlePhoneChange}
             placeholder="Teléfono"
           />
+          {errors.phoneValue && <p className="text-red-500 text-xs mt-1">{errors.phoneValue}</p>}
 
           <InputField
             type="text"
@@ -85,6 +81,7 @@ export default function BeneficiaryDetails() {
             value={formData.identityCard}
             onChange={handleInputChange}
           />
+          {errors.identityCard && <p className="text-red-500 text-xs mt-1">{errors.identityCard}</p>}
         </div>
 
       </div>

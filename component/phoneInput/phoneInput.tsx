@@ -11,14 +11,16 @@ interface Country {
 }
 
 interface PhoneInputProps {
-  value?: string;
-  onChange?: (value: string, countryCode: string) => void;
+  phoneValue?: string;
+  countryCode?: string;
+  onChange?: (phoneValue: string, countryCode: string) => void;
   placeholder?: string;
   defaultCountry?: { name: string; code: string; phoneCode: string };
 }
 
 export default function PhoneInput({
-  value = "",
+  phoneValue = "",
+  countryCode = "+53",
   onChange,
   placeholder = "Teléfono",
   defaultCountry = { name: "Cuba", code: "CU", phoneCode: "+53" },
@@ -27,7 +29,7 @@ export default function PhoneInput({
   const [filteredCountries, setFilteredCountries] = useState<Country[]>([]);
   const [selectedCountry, setSelectedCountry] = useState(defaultCountry);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-  const [phoneValue, setPhoneValue] = useState(value);
+  const [inputPhoneValue, setInputPhoneValue] = useState(phoneValue);
   const [searchQuery, setSearchQuery] = useState("");
   const dropdownRef = useRef<HTMLDivElement>(null);
 
@@ -93,9 +95,24 @@ export default function PhoneInput({
     };
   }, [isDropdownOpen]);
 
+  // Sincronizar inputPhoneValue cuando el phoneValue prop cambia
+  useEffect(() => {
+    setInputPhoneValue(phoneValue);
+  }, [phoneValue]);
+
+  // Sincronizar selectedCountry cuando el countryCode prop cambia
+  useEffect(() => {
+    if (countries.length > 0) {
+      const country = countries.find(c => c.phoneCode === countryCode);
+      if (country) {
+        setSelectedCountry(country);
+      }
+    }
+  }, [countryCode, countries]);
+
   const handlePhoneChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newValue = e.target.value;
-    setPhoneValue(newValue);
+    setInputPhoneValue(newValue);
     if (onChange) {
       onChange(newValue, selectedCountry.phoneCode);
     }
@@ -106,7 +123,7 @@ export default function PhoneInput({
     setIsDropdownOpen(false);
     setSearchQuery(""); // Limpiar búsqueda al seleccionar
     if (onChange) {
-      onChange(phoneValue, country.phoneCode);
+      onChange(inputPhoneValue, country.phoneCode);
     }
   };
 
@@ -137,7 +154,7 @@ export default function PhoneInput({
         <input
           type="text"
           placeholder={placeholder}
-          value={phoneValue}
+          value={inputPhoneValue}
           onChange={handlePhoneChange}
           className="flex-1 min-w-0 bg-transparent outline-none text-gray-700 placeholder:text-gray-500"
         />

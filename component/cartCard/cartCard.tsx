@@ -13,6 +13,8 @@ interface CardCart4Props {
   padding?:string;
   bgColor?: string;
   hideQuantitySelector?: boolean;
+  productId?: number | string;
+  onDelete?: (productId: number | string) => void;
 }
 
 export default function CartCard({
@@ -25,7 +27,9 @@ export default function CartCard({
   width = "w-88",
   padding="p-2",
   bgColor = "bg-white",
-  hideQuantitySelector = false
+  hideQuantitySelector = false,
+  productId,
+  onDelete
 }: CardCart4Props) {
   return (
     <>
@@ -76,7 +80,10 @@ export default function CartCard({
 
             <div>
               {actionIcon === "delete" ? (
-                <Trash2 className="w-6 h-6 text-[#1E1E1E] cursor-pointer" />
+                <Trash2 
+                  className="w-6 h-6 text-[#1E1E1E] cursor-pointer hover:text-red-500 transition-colors" 
+                  onClick={() => productId && onDelete?.(productId)}
+                />
               ) : actionIcon === "cart" ? (
                 <button className="p-2.5 px-8 border border-primary rounded-xl cursor-pointer">
                   <ShoppingCart className="w-5 h-5 text-primary" />

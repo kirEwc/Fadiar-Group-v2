@@ -8,12 +8,12 @@ import { SectionAbout3 } from "@/section/aboutUS/sectionAbout3";
 import { SectionAbout4 } from "@/section/aboutUS/sectionAbout4";
 import useCartStore from "@/store/cartStore";
 
-
 export default function Cart1() {
   const items = useCartStore((state) => state.items); 
+  const removeItem = useCartStore((state) => state.removeItem); 
 
   console.log(items);
-  
+
   return (
     <div>
       <div className="md:px-25">
@@ -39,14 +39,14 @@ export default function Cart1() {
             <div className="w-full flex flex-col gap-y-3 lg:w-140">
               <div className="flex flex-col gap-y-4">
                 {items.length === 0 ? (
-                  <p className="text-gray-400 text-sm">
+                  <p className="text-gray-400 text-md xl:text-2xl">
                     Tu carrito está vacío.
                   </p>
                 ) : (
                   items.map((item) => (
                     <CartCard
                       key={item.productId}
-                      // brand={item.brand}
+                      brand={item.brand}
                       price={item.price}
                       image={item.image}
                       title={item.title}
@@ -54,6 +54,8 @@ export default function Cart1() {
                       width="w-full"
                       padding="p-3 sm:p-4"
                       actionIcon="delete"
+                      productId={item.productId}
+                      onDelete={removeItem}
                     />
                   ))
                 )}
