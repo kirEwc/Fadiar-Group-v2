@@ -1,10 +1,11 @@
 "use client";
 import { useEffect, useState } from "react";
-import { ShoppingCart, Trash2 } from "lucide-react";
+import { Trash2 } from "lucide-react";
 import { server_url } from "@/lib/apiClient";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import useCartStore from "@/store/cartStore";
+import ShoppingCartIcon from "../icons";
 
 interface CardProps {
   category?: string;
@@ -156,7 +157,7 @@ export default function Card2({
                 <>
                   <div className="flex items-center rounded-2xl border border-gray-200 bg-white">
                     <button
-                      className="px-2.5 py-2 text-yellow-500"
+                      className="px-2.5 py-2 text-yellow-500 hover:bg-gray-50 cursor-pointer"
                       aria-label="Restar"
                       onClick={adjustQuantity(-1)}
                     >
@@ -166,7 +167,7 @@ export default function Card2({
                       {quantity}
                     </span>
                     <button
-                      className="px-2.5 py-2 text-yellow-500"
+                      className="px-2.5 py-2 text-yellow-500 hover:bg-gray-50 cursor-pointer"
                       aria-label="Sumar"
                       onClick={adjustQuantity(1)}
                     >
@@ -175,22 +176,11 @@ export default function Card2({
                   </div>
 
                   <button
-                    className="rounded-2xl border border-[#022954] p-2.5 px-5"
+                    className="rounded-2xl border border-[#022954] hover:bg-gray-50 p-2.5 px-5"
                     onClick={handleAddToCart}
                   >
-                    <svg
-                      className="w-5 h-5 text-[#022954]"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"
-                      />
-                    </svg>
+                  <ShoppingCartIcon className="h-5 w-5 text-primary" />
+
                   </button>
                 </>
               ) : quantityProducts && quantityProducts > 0 ? (
@@ -289,7 +279,7 @@ export default function Card2({
                     className="rounded-xl border border-primary p-2.5 px-6"
                     onClick={handleAddToCart}
                   >
-                    <ShoppingCart className="h-5 w-5 text-primary" />
+                    <ShoppingCartIcon className="h-5 w-5 text-primary" />
                   </button>
                 </div>
               ) : quantityProducts && quantityProducts > 0 ? (
