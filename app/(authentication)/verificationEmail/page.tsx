@@ -20,10 +20,10 @@ export default function VerificationEmail() {
           return (
             <span
               key={i}
-              className="absolute left-5 h-1.5 bg-primary rounded-full animate-blink"
+              className="absolute left-0 sm:left-5 h-1.5 bg-primary rounded-full animate-blink"
               style={{
                 width: `${width}px`,
-                transformOrigin: "170px",
+                transformOrigin: "180px",
                 transform: `rotate(${rotation}deg)`,
                 animationDelay: `${delay}s`,
               }}
@@ -42,7 +42,7 @@ export default function VerificationEmail() {
             <FloatingLabelInput
               type="text"
               label="Correo"
-              required
+              
             />
 
             <button
