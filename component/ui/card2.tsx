@@ -42,6 +42,7 @@ export default function Card2({
 }: CardProps) {
   const router = useRouter();
   const addOrUpdateItem = useCartStore((state) => state.addOrUpdateItem);
+  const removeItem = useCartStore((state) => state.removeItem);
   const [quantity, setQuantity] = useState(Math.max(1, quantityProducts ?? 1));
 
   useEffect(() => {
@@ -73,13 +74,30 @@ export default function Card2({
     }
 
     addOrUpdateItem({
-      productId: productId ?? title,
+      productId: productId,
       title,
+      brand,
+      category,
+      warranty,
       price,
       temporal_price,
       image,
       quantity,
     });
+
+    // Opcional: mostrar feedback visual o toast
+    console.log(`Added ${quantity} x ${title} to cart`);
+  };
+
+  const handleRemoveFromCart = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    if (!productId && productId !== 0) {
+      console.warn("Product without ID cannot be removed");
+      return;
+    }
+
+    removeItem(productId);
+    console.log(`Removed ${title} from cart`);
   };
 
   const warrantyNumber = +(warranty ?? "0");
@@ -94,9 +112,9 @@ export default function Card2({
           }`}
           style={{ height: "calc(2 * 240px + 0.75rem)" }}
         >
-          {/* primer section */}
+          {/* Imagen */}
           <div
-            className="relative w-full overflow-hidden rounded-2xl bg-gray-50 shrink-0"
+            className="relative w-full overflow-hidden rounded-2xl bg-gray-50 flex-shrink-0"
             style={{ height: "190px" }}
           >
             <Image
@@ -108,8 +126,8 @@ export default function Card2({
             />
           </div>
 
-          {/* segundo section */}
-          <div className="flex flex-col gap-2 shrink-0">
+          {/* Info del producto */}
+          <div className="flex flex-col gap-2 flex-shrink-0">
             <p className="text-sm text-[#777777] line-clamp-1">{category}</p>
 
             <div className="space-y-1">
@@ -120,7 +138,7 @@ export default function Card2({
             </div>
           </div>
 
-          {/* tercer section */}
+          {/* Precio y acciones */}
           <div className="flex flex-1 flex-col justify-end gap-3 min-h-0">
             {warrantyNumber > 0 ? (
               <p className="text-sm font-medium text-[#D69F04]">
@@ -129,7 +147,8 @@ export default function Card2({
             ) : (
               <span className="h-6" />
             )}
-            {temporal_price !== null ? (
+
+            {temporal_price !== null && temporal_price !== undefined ? (
               <div className="flex flex-wrap items-baseline justify-between gap-x-3 gap-y-1">
                 <p className="flex items-baseline text-2xl font-bold text-[#022954]">
                   ${temporal_price}
@@ -149,6 +168,7 @@ export default function Card2({
                 </span>
               </div>
             )}
+
             <div
               className="mt-auto flex flex-wrap items-center justify-between gap-3 pt-2"
               onClick={handleButtonClick}
@@ -157,17 +177,17 @@ export default function Card2({
                 <>
                   <div className="flex items-center rounded-2xl border border-gray-200 bg-white">
                     <button
-                      className="px-2.5 py-2 text-yellow-500 hover:bg-gray-50 cursor-pointer"
+                      className="px-2.5 py-2 text-yellow-500 hover:bg-gray-50 transition-colors"
                       aria-label="Restar"
                       onClick={adjustQuantity(-1)}
                     >
                       −
                     </button>
-                    <span className="px-2 py-1 text-sm font-semibold border-x border-gray-200">
+                    <span className="px-2 py-1 text-sm font-semibold border-x border-gray-200 min-w-[2rem] text-center">
                       {quantity}
                     </span>
                     <button
-                      className="px-2.5 py-2 text-yellow-500 hover:bg-gray-50 cursor-pointer"
+                      className="px-2.5 py-2 text-yellow-500 hover:bg-gray-50 transition-colors"
                       aria-label="Sumar"
                       onClick={adjustQuantity(1)}
                     >
@@ -176,17 +196,24 @@ export default function Card2({
                   </div>
 
                   <button
-                    className="rounded-2xl border border-[#022954] hover:bg-gray-50 p-2.5 px-5"
+                    className="rounded-2xl border border-[#022954] hover:bg-[#022954] hover:text-white transition-colors p-2.5 px-5"
                     onClick={handleAddToCart}
                   >
-                  <ShoppingCartIcon className="h-5 w-5 text-primary" />
-
+                    <ShoppingCartIcon className="h-5 w-5" />
                   </button>
                 </>
-              ) : quantityProducts && quantityProducts > 0 ? (
-                <p className="text-sm text-[#777777]">
-                  Cantidad: {quantityProducts}
-                </p>
+              ) : actionIcon === "delete" ? (
+                <>
+                  <p className="text-sm text-[#777777]">
+                    Cantidad: {quantityProducts ?? quantity}
+                  </p>
+                  <button
+                    className="rounded-2xl border border-red-500 hover:bg-red-50 p-2.5 px-5 transition-colors"
+                    onClick={handleRemoveFromCart}
+                  >
+                    <Trash2 className="h-5 w-5 text-red-500" />
+                  </button>
+                </>
               ) : null}
             </div>
           </div>
@@ -234,7 +261,7 @@ export default function Card2({
               <span className="h-6" />
             )}
 
-            {temporal_price !== null ? (
+            {temporal_price !== null && temporal_price !== undefined ? (
               <div className="flex flex-wrap items-baseline justify-between gap-x-3 gap-y-1">
                 <p className="flex items-baseline text-2xl font-bold text-[#022954]">
                   ${temporal_price}
@@ -263,32 +290,44 @@ export default function Card2({
                 <div className="flex items-center gap-3">
                   <div className="flex items-center rounded-xl border border-gray-200 font-bold">
                     <button
-                      className="px-3 py-2 text-accent"
+                      className="px-3 py-2 text-accent hover:bg-gray-50 transition-colors"
                       aria-label="Restar"
                       onClick={adjustQuantity(-1)}
                     >
                       −
                     </button>
-                    <span className="px-4 py-1 border-x border-gray-300">{quantity}</span>
-                    <button className="px-3 py-2 text-accent" aria-label="Sumar" onClick={adjustQuantity(1)}>
+                    <span className="px-4 py-1 border-x border-gray-300 min-w-[2.5rem] text-center">
+                      {quantity}
+                    </span>
+                    <button
+                      className="px-3 py-2 text-accent hover:bg-gray-50 transition-colors"
+                      aria-label="Sumar"
+                      onClick={adjustQuantity(1)}
+                    >
                       +
                     </button>
                   </div>
 
                   <button
-                    className="rounded-xl border border-primary p-2.5 px-6"
+                    className="rounded-xl border border-primary hover:bg-primary hover:text-white transition-colors p-2.5 px-6"
                     onClick={handleAddToCart}
                   >
-                    <ShoppingCartIcon className="h-5 w-5 text-primary" />
+                    <ShoppingCartIcon className="h-5 w-5" />
                   </button>
                 </div>
-              ) : quantityProducts && quantityProducts > 0 ? (
-                <p className="text-sm text-[#777777]">Cantidad: {quantityProducts}</p>
+              ) : actionIcon === "delete" ? (
+                <div className="flex items-center justify-between w-full">
+                  <p className="text-sm text-[#777777]">
+                    Cantidad: {quantityProducts ?? quantity}
+                  </p>
+                  <button
+                    className="rounded-xl border border-red-500 hover:bg-red-50 p-2.5 px-6 transition-colors"
+                    onClick={handleRemoveFromCart}
+                  >
+                    <Trash2 className="h-5 w-5 text-red-500" />
+                  </button>
+                </div>
               ) : null}
-
-              {actionIcon === "delete" && (
-                <Trash2 className="h-6 w-6 cursor-pointer text-[#1E1E1E]" />
-              )}
             </div>
           </div>
         </div>
