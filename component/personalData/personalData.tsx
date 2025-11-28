@@ -77,7 +77,8 @@ export default function PersonalData() {
             <div className="flex flex-col gap-2">
               <label htmlFor="phone">Teléfono</label>
               <PhoneInput
-                value={formData.phone}
+                phoneValue={formData.phone}
+                countryCode={formData.phoneCountry}
                 onChange={handlePhoneChange}
                 placeholder="Teléfono"
               />
