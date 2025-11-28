@@ -1,10 +1,10 @@
 export default function CreditCards() {
   return (
     <>
-      <div>
+      <div >
         <h5 className="text-primary font-bold text-xl">01 - Forma de pago</h5>
 
-        <div className="w-full lg:w-90 2xl:w-100 h-36 bg-snow mt-5 border border-gray rounded-xl p-4 shadow-sm font-bold flex">
+        <div className="w-full lg:w-90 xl:w-80 2xl:w-100 h-36 bg-snow mt-5 border border-gray rounded-xl p-4 shadow-sm font-bold flex">
           <div>
             <div>
               <label className="flex items-center gap-3 cursor-pointer relative">
@@ -40,7 +40,7 @@ export default function CreditCards() {
           </div>
         </div>
 
-        <div className="w-full lg:w-90 2xl:w-100 h-36 bg-snow mt-5 border border-gray rounded-xl p-6 shadow-sm font-bold flex">
+        <div className="w-full lg:w-90 xl:w-80 2xl:w-100 h-36 bg-snow mt-5 border border-gray rounded-xl p-6 shadow-sm font-bold flex">
           <div>
             <div>
               <label className="flex items-center gap-3 cursor-pointer relative">

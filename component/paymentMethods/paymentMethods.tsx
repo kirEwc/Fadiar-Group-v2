@@ -5,7 +5,7 @@ import CheckoutPayment from "./checkoutPayment";
 export default function PaymentMethods() {
   return (
     <>
-      <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-4 mx-4 sm:mx-2">
+      <div className="grid grid-cols-1 lg:grid-cols-2 xl:flex xl:gap-3 mx-4">
         <div className="order-1">
           <CreditCards />
         </div>

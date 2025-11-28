@@ -39,7 +39,7 @@ export default function BuyerDetails() {
   return (
     <>
       <div >
-        <h5 className="text-primary font-bold text-xl">
+        <h5 className="text-primary font-bold text-xl ">
           02 - Datos del comprador
         </h5>
         <p className="text-[#777777] text-md mt-4">
