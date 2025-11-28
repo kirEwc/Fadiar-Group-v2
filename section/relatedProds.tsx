@@ -1,4 +1,4 @@
-import Card from "@/component/ui/card";
+import Card2 from "@/component/ui/card2";
 import { useMemo } from "react";
 
 interface Product {
@@ -35,7 +35,7 @@ export default function RelatedProds({ products = [] }: RelatedProdsProps) {
 
       <div className="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-3">
         {visibleProducts.map((product) => (
-          <Card
+          <Card2
             key={product.id}
             productId={product.id}
             category={product.categoria?.name}

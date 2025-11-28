@@ -1,5 +1,5 @@
 "use client";
-import Card from "@/component/ui/card";
+import Card2 from "@/component/ui/card2";
 import CardSkeleton from "@/component/ui/skeletonCard";
 import { server_url } from "@/lib/apiClient";
 import { useEffect, useState } from "react";
@@ -95,7 +95,7 @@ export default function NineOffers() {
     const offer = offers[index];
 
     return (
-      <Card
+      <Card2
         key={offer.id}
         productId={offer.id}
         category={offer.categoria?.name}
@@ -110,31 +110,44 @@ export default function NineOffers() {
     );
   };
 
+  const cardIndexes = Array.from({ length: 9 }, (_, idx) => idx);
+
   return (
-    <main className="mx-5 lg:mx-20">
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-3">
-        
+    <main className="mx-5 lg:mx-20 my-20">
+      <div className="flex flex-col gap-1 mb-8">
+        <p className="text-[20px] font-medium text-primary">¡No pierdas la oportunidad!</p>
+        <h2 className="text-[24px] font-bold text-accent">Nuestras Ofertas</h2>
+      </div>
+
+      {/* Mobile / Tablet: cards stacked two-by-two */}
+      <div className="grid grid-cols-2 gap-3 lg:hidden">
+        {cardIndexes.map((cardIndex) => (
+          <div key={`mobile-offer-${cardIndex}`}>{renderOfferCard(cardIndex, "vertical")}</div>
+        ))}
+      </div>
+
+      {/* Desktop layout */}
+      <div className="hidden gap-3 lg:grid lg:grid-cols-3">
         {/* Columna Izquierda - 1/3 */}
-        <div className="flex flex-col gap-3">
+        <div className="flex flex-col gap-3 ">
           {renderOfferCard(0, "horizontal")}
-          <div className="grid grid-cols-2 gap-3">
+          <div className="grid grid-cols-2 gap-3 justify-between w-full">
             {renderOfferCard(1, "vertical")}
             {renderOfferCard(2, "vertical")}
           </div>
         </div>
 
         {/* Columna Derecha - 2/3 */}
-        <div className="lg:col-span-2 flex flex-col gap-3">
-          
+        <div className="flex flex-col gap-3 lg:col-span-2">
           {/* Fila Superior */}
           <div className="grid grid-cols-1 lg:grid-cols-4 gap-3">
             {renderOfferCard(3, "vertical")}
-            
+
             <div className="lg:col-span-2 flex flex-col gap-3">
               {renderOfferCard(4, "horizontal")}
               {renderOfferCard(5, "horizontal")}
             </div>
-            
+
             {renderOfferCard(6, "vertical")}
           </div>
 
@@ -143,9 +156,7 @@ export default function NineOffers() {
             {renderOfferCard(7, "horizontal")}
             {renderOfferCard(8, "horizontal")}
           </div>
-
         </div>
-
       </div>
     </main>
   );
