@@ -101,9 +101,9 @@ export default function VerificationCodeEmail() {
   };
 
   return (
-    <div className="h-full md:min-h-screen flex items-center justify-center bg-primary p-4">
+    <div className="h-full md:min-h-screen flex items-center justify-center bg-cover bg-center bg-no-repeat bg-[url('/images/authenticationBackground.png')] p-4">
       {/* Container principal con animación circular */}
-      <div className="relative w-[400px] h-[400px] flex items-center justify-center rounded-full overflow-hidden">
+      <div className="relative w-[400px] h-[500px] flex items-center justify-center rounded-full overflow-hidden">
         {/* Spans animados en círculo - 270 grados (lado derecho y superior/inferior) */}
         {[...Array(38)].map((_, i) => {
           // Calcular ancho: más pequeño al inicio y final, más grande en el centro
@@ -128,16 +128,16 @@ export default function VerificationCodeEmail() {
         })}
 
         {/* Login Box */}
-        <div className="absolute w-4/5 max-w-[320px] z-10 p-5 rounded-3xl">
+        <div className="absolute left-12 w-4/5 max-w-[320px] z-10 p-5 rounded-3xl">
           <form className="w-full px-2.5" onSubmit={handleSubmit}>
             <h2 className="text-3xl text-[#f4f4f4] text-center mb-2.5 font-semibold">
-              Confirmar correo
+              Verifiar correo
             </h2>
 
             {/* Code Input */}
             <FloatingLabelInput
               type="text"
-              label="Código de confirmación"
+              label="Código de verificación"
               value={code}
               onChange={(e) => {
                 setCode(e.target.value);

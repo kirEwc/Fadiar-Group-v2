@@ -10,7 +10,7 @@ export const SectionAbout1 = () => {
           <h1 className="text-3xl text-primary font-bold">About Us</h1>
         </div>
 
-        <div className="flex flex-col lg:flex-row items-stretch justify-center gap-5 sm:gap-20 2xl:gap-25 my-5">
+        <div className="flex flex-col lg:flex-row items-stretch justify-center gap-5 sm:gap-20 2xl:gap-25 my-5 text-sm sm:text-lg">
           <div className="lg:w-2/3 flex flex-col">
             <div className="h-full flex flex-col justify-between">
               <p>

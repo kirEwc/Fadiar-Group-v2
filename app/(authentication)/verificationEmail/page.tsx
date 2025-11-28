@@ -5,7 +5,7 @@ import Link from "next/link";
 
 export default function VerificationEmail() {
   return (
-    <div className="h-full md:min-h-screen flex items-center justify-center bg-primary p-4">
+    <div className="h-full md:min-h-screen flex items-center justify-center bg-cover bg-center bg-no-repeat bg-[url('/images/authenticationBackground.png')] p-4">
       {/* Container principal con animación circular */}
       <div className="relative w-[400px] h-[400px] flex items-center justify-center rounded-full overflow-hidden">
         {/* Spans animados en círculo - 270 grados (lado derecho y superior/inferior) */}
@@ -20,10 +20,10 @@ export default function VerificationEmail() {
           return (
             <span
               key={i}
-              className="absolute left-5 h-1.5 bg-primary rounded-full animate-blink"
+              className="absolute left-0 sm:left-5 h-1.5 bg-primary rounded-full animate-blink"
               style={{
                 width: `${width}px`,
-                transformOrigin: "170px",
+                transformOrigin: "180px",
                 transform: `rotate(${rotation}deg)`,
                 animationDelay: `${delay}s`,
               }}
@@ -42,7 +42,7 @@ export default function VerificationEmail() {
             <FloatingLabelInput
               type="text"
               label="Correo"
-              required
+              
             />
 
             <button
