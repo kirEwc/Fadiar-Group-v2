@@ -37,7 +37,9 @@ export default function Amount() {
   const [isClient, setIsClient] = useState(false);
   
   const getTotalPrice = useStore(cartStore, (state) => state.getTotalPrice);
+  const getTotalItems = useStore(cartStore, (state) => state.getTotalItems);
   const totalPrice = getTotalPrice();
+  const totalItems = getTotalItems();
   
   const formData = useStore(MatterCart1Store, (state) => state.formData);
   const updateFormData = useStore(MatterCart1Store, (state) => state.updateFormData);
@@ -113,6 +115,11 @@ export default function Amount() {
   // Función para manejar el envío del formulario
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    
+    // Verificar que el carrito contenga productos
+    if (totalItems === 0) {
+      return;
+    }
     
     // Validar con Zod
     const result = cart1Schema.safeParse(formData);

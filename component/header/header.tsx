@@ -7,10 +7,18 @@ import Image from "next/image";
 import "@fontsource/just-me-again-down-here";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useState, useEffect } from "react";
+import useCartStore from '@/store/cartStore';
 
 export default function Header() {
   const pathname = usePathname();
   const isCart4 = pathname === "/cart4";
+  const [mounted, setMounted] = useState(false);
+  const totalItems = useCartStore((state) => state.getTotalItems());
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   return (
     <div className="relative w-full bg-white z-50">
@@ -37,9 +45,16 @@ export default function Header() {
         </div>
 
         <div className="flex items-center gap-4">
-          <Link href="/cart1">
+
+            <Link href="/cart1" className="relative">
             <TablerShoppingCart className="cursor-pointer" />
+            {mounted && totalItems > 0 && (
+              <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
+                {totalItems > 99 ? '99+' : totalItems}
+              </span>
+            )}
           </Link>
+
           <UserDropdown />
         </div>
       </div>
