@@ -215,7 +215,7 @@ export default function Card2({
             </div>
 
             <div className="mb-1 space-y-1">
-              <h3 className="text-md font-bold text-primary sm:text-lg line-clamp-2">
+              <h3 className="text-md font-bold text-primary sm:text-lg line-clamp-1">
                 {title}
               </h3>
               <p className="text-sm text-primary sm:text-md line-clamp-1">

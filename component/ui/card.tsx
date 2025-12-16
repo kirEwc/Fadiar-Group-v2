@@ -139,7 +139,7 @@ export default function Card({
             <p className="text-[#777777] text-sm mb-2">{category}</p>
 
             <div className="mb-4">
-              <h3 className="text-[#022954] font-semibold text-lg line-clamp-2">
+              <h3 className="text-[#022954] font-semibold text-lg line-clamp-1">
                 {title}
               </h3>
               <p className="text-[#022954] text-md">{brand}</p>
