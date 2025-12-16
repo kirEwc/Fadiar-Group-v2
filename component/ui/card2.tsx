@@ -114,7 +114,7 @@ export default function Card2({
         >
           {/* Imagen */}
           <div
-            className="relative w-full overflow-hidden rounded-2xl bg-gray-50 flex-shrink-0"
+            className="relative w-full overflow-hidden rounded-2xl bg-gray-50 shrink-0"
             style={{ height: "190px" }}
           >
             <Image
@@ -127,8 +127,10 @@ export default function Card2({
           </div>
 
           {/* Info del producto */}
-          <div className="flex flex-col gap-2 flex-shrink-0">
+          <div className="flex flex-col gap-2 shrink-0">
+            <div>
             <p className="text-sm text-[#777777] line-clamp-1">{category}</p>
+            </div>
 
             <div className="space-y-1">
               <h3 className="text-lg font-semibold text-[#022954] line-clamp-2">
@@ -149,20 +151,20 @@ export default function Card2({
             )}
 
             {temporal_price !== null && temporal_price !== undefined ? (
-              <div className="flex flex-wrap items-baseline justify-between gap-x-3 gap-y-1">
-                <p className="flex items-baseline text-2xl font-bold text-[#022954]">
+              <div className="flex flex-wrap items-baseline justify-between xl:gap-x-1 xl:gap-y-1 2xl:gap-x-3 2xl:gap-y-1">
+                <p className="flex items-baseline xl:text-xl 2xl:text-2xl font-bold text-[#022954]">
                   ${temporal_price}
                   <span className="ml-1 text-base font-normal text-[#022954]">
                     USD
                   </span>
                 </p>
-                <p className="text-md text-[#777777] line-through">
+                <p className="xl:text-md 2xl:text-lg text-[#777777] line-through">
                   ${price} USD
                 </p>
               </div>
             ) : (
               <div className="flex flex-wrap items-baseline gap-2 text-[#022954]">
-                <p className="text-2xl font-bold">${price}</p>
+                <p className="xl:text-2xl 2xl:text-3xl font-bold">${price}</p>
                 <span className="text-base font-normal">
                   {currency?.currency ?? "USD"}
                 </span>
@@ -176,18 +178,18 @@ export default function Card2({
               {actionIcon === "cart" ? (
                 <>
                   <div className="flex items-center rounded-2xl border border-gray-200 bg-white">
-                    <button
-                      className="px-2.5 py-2 text-yellow-500 hover:bg-gray-50 transition-colors"
+                   <button
+                      className="xl:px-2 xl:py-1.5 2xl:px-3 2xl:py-2  text-accent hover:bg-gray-50 transition-colors"
                       aria-label="Restar"
                       onClick={adjustQuantity(-1)}
                     >
                       −
                     </button>
-                    <span className="px-2 py-1 text-sm font-semibold border-x border-gray-200 min-w-[2rem] text-center">
+                    <span className="xl:px-2 2xl:px-4 py-1 border-x border-gray-300 min-w-10 text-center">
                       {quantity}
                     </span>
                     <button
-                      className="px-2.5 py-2 text-yellow-500 hover:bg-gray-50 transition-colors"
+                      className="xl:px-2 xl:py-1.5 2xl:px-3 2xl:py-2  text-accent hover:bg-gray-50 transition-colors"
                       aria-label="Sumar"
                       onClick={adjustQuantity(1)}
                     >
@@ -196,7 +198,7 @@ export default function Card2({
                   </div>
 
                   <button
-                    className="rounded-2xl border border-[#022954] hover:bg-[#022954] hover:text-white transition-colors p-2.5 px-5"
+                    className="rounded-xl border border-primary hover:bg-primary hover:text-white transition-colors xl:py-2 xl:px-4 2xl:py-2.5 2xl:px-6"
                     onClick={handleAddToCart}
                   >
                     <ShoppingCartIcon className="h-5 w-5" />
@@ -219,9 +221,10 @@ export default function Card2({
           </div>
         </div>
       ) : (
+        // Card Horizontal
         <div
           onClick={productId ? handleCardClick : undefined}
-          className={`bg-white flex w-full flex-col gap-4 rounded-2xl border border-gray-200 p-3 shadow-sm sm:flex-row sm:gap-6 ${
+          className={`bg-white flex w-full flex-col gap-2 rounded-2xl border border-gray-200 p-3 shadow-sm sm:flex-row  ${
             productId ? "cursor-pointer transition-shadow hover:shadow-md" : ""
           }`}
           style={{ height: "240px" }}
@@ -231,7 +234,7 @@ export default function Card2({
             style={{ minHeight: "160px" }}
           >
             <Image
-              className="h-full w-full object-contain"
+              className="h-full w-48 2xl:w-full object-contain"
               alt={title}
               width={500}
               height={500}
@@ -262,20 +265,20 @@ export default function Card2({
             )}
 
             {temporal_price !== null && temporal_price !== undefined ? (
-              <div className="flex flex-wrap items-baseline justify-between gap-x-3 gap-y-1">
-                <p className="flex items-baseline text-2xl font-bold text-[#022954]">
+              <div className="flex flex-wrap items-baseline justify-between xl:gap-x-1 xl:gap-y-1 2xl:gap-x-3 2xl:gap-y-1">
+                <p className="flex items-baseline xl:text-xl 2xl:text-2xl font-bold text-[#022954]">
                   ${temporal_price}
                   <span className="ml-1 text-base font-normal text-[#022954]">
                     USD
                   </span>
                 </p>
-                <p className="text-md text-[#777777] line-through">
+                <p className="xl:text-md 2xl:text-lg text-[#777777] line-through">
                   ${price} USD
                 </p>
               </div>
             ) : (
               <div className="flex flex-wrap items-baseline gap-2 text-[#022954]">
-                <p className="text-2xl font-bold">${price}</p>
+                <p className="xl:text-xl 2xl:text-2xl font-bold">${price}</p>
                 <span className="text-base font-normal">
                   {currency?.currency ?? "USD"}
                 </span>
@@ -290,17 +293,17 @@ export default function Card2({
                 <div className="flex items-center gap-3">
                   <div className="flex items-center rounded-xl border border-gray-200 font-bold">
                     <button
-                      className="px-3 py-2 text-accent hover:bg-gray-50 transition-colors"
+                      className="xl:px-2 xl:py-1.5 2xl:px-3 2xl:py-2  text-accent hover:bg-gray-50 transition-colors"
                       aria-label="Restar"
                       onClick={adjustQuantity(-1)}
                     >
                       −
                     </button>
-                    <span className="px-4 py-1 border-x border-gray-300 min-w-[2.5rem] text-center">
+                    <span className="xl:px-2 2xl:px-4 py-1 border-x border-gray-300 min-w-10 text-center">
                       {quantity}
                     </span>
                     <button
-                      className="px-3 py-2 text-accent hover:bg-gray-50 transition-colors"
+                      className="xl:px-2 xl:py-1.5 2xl:px-3 2xl:py-2  text-accent hover:bg-gray-50 transition-colors"
                       aria-label="Sumar"
                       onClick={adjustQuantity(1)}
                     >
@@ -309,7 +312,7 @@ export default function Card2({
                   </div>
 
                   <button
-                    className="rounded-xl border border-primary hover:bg-primary hover:text-white transition-colors p-2.5 px-6"
+                    className="rounded-xl border border-primary hover:bg-primary hover:text-white transition-colors xl:py-2 xl:px-4 2xl:py-2.5 2xl:px-6"
                     onClick={handleAddToCart}
                   >
                     <ShoppingCartIcon className="h-5 w-5" />
@@ -330,6 +333,7 @@ export default function Card2({
               ) : null}
             </div>
           </div>
+
         </div>
       )}
     </>
