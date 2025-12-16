@@ -101,9 +101,9 @@ export const SectionMasRecientes = ({
     return (
         <>
         <div id="Mas recientes" className="w-full h-auto mt-20 my-30">
-              <div className="flex flex-col items-start mb-5 ml-20">
-              <h2 className="text-[24px] font-bold text-[#022954]">Más recientes</h2>
-              <h1 className="text-[20px] font-bold text-accent mb-2">Últimos productos</h1>
+              <div className="flex flex-col items-start mb-5 ml-7 sm:ml-20">
+              <h2 className="text-[20px] font-bold text-[#022954]">Más recientes</h2>
+              <h1 className="text-[24px] font-bold text-accent mb-2">Últimos productos</h1>
               </div>
 
                 <div className="relative px-5 xl:px-20">
@@ -121,7 +121,8 @@ export const SectionMasRecientes = ({
                           warranty={product.warranty}
                           price={product.price}
                           image={product.img}
-                          position="vertical"                   
+                          position="vertical"
+                          productId={product.id}                   
                         />
                       </div>
                     )) : (

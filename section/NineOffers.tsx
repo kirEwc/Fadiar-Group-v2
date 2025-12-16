@@ -126,8 +126,22 @@ export default function NineOffers() {
         ))}
       </div>
 
-      {/* Desktop layout */}
-      <div className="hidden gap-3 lg:grid lg:grid-cols-3">
+      {/* lg to xl: all cards vertical */}
+      <div className="hidden gap-3 lg:grid lg:grid-cols-3 xl:hidden">
+        {[0, 1, 2].map((cardIndex) => (
+          <div key={`lg-offer-${cardIndex}`} className="flex flex-col gap-3">
+            {renderOfferCard(cardIndex, "vertical")}
+          </div>
+        ))}
+        {[3, 4, 5, 6, 7, 8].map((cardIndex) => (
+          <div key={`lg-offer-${cardIndex}`} className="flex flex-col gap-3">
+            {renderOfferCard(cardIndex, "vertical")}
+          </div>
+        ))}
+      </div>
+
+      {/* xl and up: mixed layout */}
+      <div className="hidden gap-3 xl:grid xl:grid-cols-3">
         {/* Columna Izquierda - 1/3 */}
         <div className="flex flex-col gap-3 ">
           {renderOfferCard(0, "horizontal")}
@@ -138,12 +152,12 @@ export default function NineOffers() {
         </div>
 
         {/* Columna Derecha - 2/3 */}
-        <div className="flex flex-col gap-3 lg:col-span-2">
+        <div className="flex flex-col gap-3 xl:col-span-2">
           {/* Fila Superior */}
-          <div className="grid grid-cols-1 lg:grid-cols-4 gap-3">
+          <div className="grid grid-cols-1 xl:grid-cols-4 gap-3">
             {renderOfferCard(3, "vertical")}
 
-            <div className="lg:col-span-2 flex flex-col gap-3">
+            <div className="xl:col-span-2 flex flex-col gap-3">
               {renderOfferCard(4, "horizontal")}
               {renderOfferCard(5, "horizontal")}
             </div>
@@ -152,7 +166,7 @@ export default function NineOffers() {
           </div>
 
           {/* Fila Inferior */}
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-3">
+          <div className="grid grid-cols-1 xl:grid-cols-2 gap-3">
             {renderOfferCard(7, "horizontal")}
             {renderOfferCard(8, "horizontal")}
           </div>

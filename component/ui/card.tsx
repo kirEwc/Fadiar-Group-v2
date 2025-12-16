@@ -43,10 +43,11 @@ export default function Card({
   const router = useRouter();
   const addOrUpdateItem = useCartStore((state) => state.addOrUpdateItem);
   const removeItem = useCartStore((state) => state.removeItem);
-  
+
   const isCartAction = actionIcon === "cart";
   const isDeleteAction = actionIcon === "delete";
-  const hasExternalQuantity = !isCartAction && quantityProducts && quantityProducts > 0;
+  const hasExternalQuantity =
+    !isCartAction && quantityProducts && quantityProducts > 0;
 
   const [quantity, setQuantity] = useState(Math.max(1, quantityProducts ?? 1));
 
@@ -73,12 +74,14 @@ export default function Card({
 
   const handleAddToCart = (e: React.MouseEvent) => {
     e.stopPropagation();
+
+    
     if (!productId && productId !== 0) {
       console.warn("Product without ID cannot be added to cart");
       return;
     }
 
-    addOrUpdateItem({
+    const itemToAdd = {
       productId: productId,
       title,
       brand,
@@ -88,9 +91,11 @@ export default function Card({
       temporal_price,
       image,
       quantity,
-    });
+    };
+    
+    addOrUpdateItem(itemToAdd);
 
-    console.log(`Added ${quantity} x ${title} to cart`);
+  
   };
 
   const handleRemoveFromCart = (e: React.MouseEvent) => {
@@ -111,7 +116,7 @@ export default function Card({
       {position === "vertical" ? (
         <div
           onClick={productId ? handleCardClick : undefined}
-          className={`bg-white max-w-[184px] md:max-w-[250px] p-2 md:p-3 border border-gray-300 rounded-2xl shadow-sm h-[500px] flex flex-col justify-between ${
+          className={`bg-white max-w-[184px] md:max-w-[250px] p-2 md:p-3 border border-gray-300 rounded-2xl shadow-sm h-[460px] flex flex-col justify-between ${
             productId ? "cursor-pointer hover:shadow-md transition-shadow" : ""
           }`}
         >
@@ -173,33 +178,33 @@ export default function Card({
             )}
 
             <div
-              className="mt-auto pt-4 flex items-center justify-between gap-x-2"
+              className="mt-auto flex flex-wrap items-center justify-between xl:gap-3 pt-2 font-bold"
               onClick={handleButtonClick}
             >
               {isCartAction ? (
                 <>
-                  <div className="flex items-center rounded-2xl border border-gray-200">
+                  <div className="flex items-center rounded-xl border border-gray-200 bg-white cursor-default ">
                     <button
-                      className="px-2.5 py-2 text-yellow-500 hover:bg-gray-50 transition-colors"
+                      className="px-2 py-1.5 2xl:px-3 2xl:py-2  text-accent hover:bg-gray-50 transition-colors"
                       onClick={adjustQuantity(-1)}
                       aria-label="Restar"
                     >
                       −
                     </button>
-                    <span className="px-1 md:px-4 py-1 border-x border-gray-300 min-w-[2rem] text-center">
+                    <span className="xl:px-2 2xl:px-4 py-1 border-x border-gray-300 min-w-10 text-center">
                       {quantity}
                     </span>
                     <button
-                      className="px-2.5 md:px-3 md:py-2 text-yellow-500 hover:bg-gray-50 transition-colors"
-                      onClick={adjustQuantity(1)}
+                      className="py-1.5 px-2 xl:py-1.5 2xl:px-3 2xl:py-2  text-accent hover:bg-gray-50 transition-colors"
                       aria-label="Sumar"
+                      onClick={adjustQuantity(1)}
                     >
                       +
                     </button>
                   </div>
 
                   <button
-                    className="p-2.5 px-4.5 md:px-7 border border-[#022954] rounded-2xl hover:bg-[#022954] hover:text-white transition-colors"
+                    className="rounded-xl  border border-primary hover:bg-primary hover:text-white transition-colors py-1.5  px-2.5 xl:py-2 xl:px-4 2xl:py-2.5 2xl:px-5"
                     onClick={handleAddToCart}
                   >
                     <ShoppingCartIcon className="h-5 w-5" />
@@ -218,7 +223,9 @@ export default function Card({
                   </button>
                 </>
               ) : hasExternalQuantity ? (
-                <p className="text-[#777777] text-sm">Cantidad: {quantityProducts}</p>
+                <p className="text-[#777777] text-sm">
+                  Cantidad: {quantityProducts}
+                </p>
               ) : null}
             </div>
           </div>
@@ -280,52 +287,54 @@ export default function Card({
             )}
 
             <div
-              className="mt-auto flex items-center justify-between gap-2"
+              className="mt-auto flex items-center justify-between xl:gap-3 pt-2 font-bold"
               onClick={handleButtonClick}
             >
               {isCartAction ? (
-                <div className="flex items-center gap-3">
-                  <div className="flex items-center rounded-xl font-bold border border-gray-200">
+                <>
+                  <div className="flex items-center rounded-xl border border-gray-200 bg-white cursor-default ">
                     <button
-                      className="px-3 py-2 text-accent hover:bg-gray-50 transition-colors"
+                      className="px-2 py-1.5 2xl:px-3 2xl:py-2  text-accent hover:bg-gray-50 transition-colors"
                       onClick={adjustQuantity(-1)}
                       aria-label="Restar"
                     >
                       −
                     </button>
-                    <span className="px-4 my-1 border-x border-gray-300 min-w-[2.5rem] text-center">
+                    <span className="xl:px-2 2xl:px-4 py-1 border-x border-gray-300 min-w-10 text-center">
                       {quantity}
                     </span>
                     <button
-                      className="px-3 py-2 text-accent hover:bg-gray-50 transition-colors"
-                      onClick={adjustQuantity(1)}
+                      className="py-1.5 px-2 xl:py-1.5 2xl:px-3 2xl:py-2  text-accent hover:bg-gray-50 transition-colors"
                       aria-label="Sumar"
+                      onClick={adjustQuantity(1)}
                     >
                       +
                     </button>
                   </div>
 
                   <button
-                    className="p-2.5 px-8 border border-primary rounded-xl hover:bg-primary hover:text-white transition-colors"
+                    className="rounded-xl  border border-primary hover:bg-primary hover:text-white transition-colors py-1.5  px-2 xl:py-2 xl:px-4 2xl:py-2.5 2xl:px-5"
                     onClick={handleAddToCart}
                   >
                     <ShoppingCartIcon className="h-5 w-5" />
                   </button>
-                </div>
+                </>
               ) : isDeleteAction ? (
-                <div className="flex items-center justify-between w-full">
+                <>
                   <p className="text-[#777777] text-sm">
                     Cantidad: {quantityProducts ?? quantity}
                   </p>
                   <button
-                    className="p-2.5 px-8 border border-red-500 rounded-xl hover:bg-red-50 transition-colors"
+                    className="p-2.5 px-4.5 md:px-7 border border-red-500 rounded-2xl hover:bg-red-50 transition-colors"
                     onClick={handleRemoveFromCart}
                   >
                     <Trash2 className="w-5 h-5 text-red-500" />
                   </button>
-                </div>
+                </>
               ) : hasExternalQuantity ? (
-                <p className="text-[#777777] text-sm">Cantidad: {quantityProducts}</p>
+                <p className="text-[#777777] text-sm">
+                  Cantidad: {quantityProducts}
+                </p>
               ) : null}
             </div>
           </div>

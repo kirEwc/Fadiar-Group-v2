@@ -7,6 +7,8 @@ import { SectionAbout4 } from "@/section/aboutUS/sectionAbout4";
 import { server_url } from "@/lib/apiClient";
 import { PackageX, Search, Home, ArrowLeft } from 'lucide-react';
 import RelatedProds from "@/section/relatedProds";
+import ShoppingCartIcon from "@/component/icons";
+import useCartStore from "@/store/cartStore";
 
 interface Product {
   id: number;
@@ -24,6 +26,12 @@ interface Product {
   specs?: Array<{ name: string; description: string }>;
 }
 
+
+
+
+
+
+
 export default function Product() {
   const { id } = useParams<{ id: string }>();
   const [qty, setQty] = useState(1);
@@ -31,6 +39,7 @@ export default function Product() {
   const [isLoading, setIsLoading] = useState(true);
   const [selectedImage, setSelectedImage] = useState<string>("");
   const [allProducts, setAllProducts] = useState<Product[]>([]);
+  const addOrUpdateItem = useCartStore((state) => state.addOrUpdateItem);
 
   const relatedProducts = useMemo(() => {
     if (!product) return [];
@@ -198,8 +207,28 @@ export default function Product() {
   const warrantyNumber = +(product.warranty ?? "0");
   const warrantyMonths = warrantyNumber > 0 ? warrantyNumber / 30 : 0;
   
+  const handleAddToCart = () => {
+    if (!product) return;
+
+    const itemToAdd = {
+      productId: product.id,
+      title: product.name,
+      brand: product.brand,
+      category: product.categoria?.name,
+      warranty: product.warranty,
+      price: product.price,
+      temporal_price: product.temporal_price,
+      image: product.img,
+      quantity: qty,
+    };
+
+    addOrUpdateItem(itemToAdd);
+    console.log(`Added ${qty} x ${product.name} to cart`);
+  };
+
   // Crear array de imágenes (usar la imagen principal y duplicarla para las miniaturas si no hay más)
   const images = [product.img, product.img, product.img];
+
 
   return (
     <main>
@@ -300,21 +329,12 @@ export default function Product() {
                 </button>
               </div>
 
-              <button className="p-2.5 px-8 border border-[#022954] rounded-xl">
-                <svg
-                  className="w-5 h-5 text-[#022954]"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"
-                  />
-                </svg>
-              </button>
+               <button
+                            className="rounded-xl border border-primary hover:bg-primary hover:text-white transition-colors py-2 px-4 2xl:py-2.5 2xl:px-6"
+                            onClick={handleAddToCart}
+                          >
+                            <ShoppingCartIcon className="h-5 w-5" />
+                          </button>
             </div>
 
             {/* Tabla de propiedades */}

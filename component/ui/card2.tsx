@@ -1,6 +1,5 @@
 "use client";
 import { useEffect, useState } from "react";
-import { Trash2 } from "lucide-react";
 import { server_url } from "@/lib/apiClient";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
@@ -16,7 +15,6 @@ interface CardProps {
   image: string;
   position?: "horizontal" | "vertical";
   maxWidthVertical?: string;
-  actionIcon?: "cart" | "delete" | "none";
   quantityProducts?: number;
   temporal_price?: string;
   productId?: string | number;
@@ -33,8 +31,6 @@ export default function Card2({
   price,
   image,
   position = "horizontal",
-  maxWidthVertical = "480px",
-  actionIcon = "cart",
   quantityProducts,
   temporal_price,
   productId,
@@ -42,7 +38,6 @@ export default function Card2({
 }: CardProps) {
   const router = useRouter();
   const addOrUpdateItem = useCartStore((state) => state.addOrUpdateItem);
-  const removeItem = useCartStore((state) => state.removeItem);
   const [quantity, setQuantity] = useState(Math.max(1, quantityProducts ?? 1));
 
   useEffect(() => {
@@ -89,17 +84,6 @@ export default function Card2({
     console.log(`Added ${quantity} x ${title} to cart`);
   };
 
-  const handleRemoveFromCart = (e: React.MouseEvent) => {
-    e.stopPropagation();
-    if (!productId && productId !== 0) {
-      console.warn("Product without ID cannot be removed");
-      return;
-    }
-
-    removeItem(productId);
-    console.log(`Removed ${title} from cart`);
-  };
-
   const warrantyNumber = +(warranty ?? "0");
 
   return (
@@ -107,14 +91,13 @@ export default function Card2({
       {position === "vertical" ? (
         <div
           onClick={productId ? handleCardClick : undefined}
-          className={`bg-white w-full max-w-full p-3 border border-gray-200 rounded-2xl shadow-sm flex flex-col justify-between gap-3 ${
+          className={`bg-white w-full max-w-full p-2 sm:p-3 border border-gray-200 rounded-2xl shadow-sm flex flex-col justify-between gap-3 ${
             productId ? "cursor-pointer transition-shadow hover:shadow-md" : ""
-          }`}
-          style={{ height: "calc(2 * 240px + 0.75rem)" }}
+          } sm:h-[calc(2*240px+0.75rem)]`}
         >
           {/* Imagen */}
           <div
-            className="relative w-full overflow-hidden rounded-2xl bg-gray-50 shrink-0"
+            className="relative  w-full overflow-hidden rounded-2xl bg-gray-50 shrink-0"
             style={{ height: "190px" }}
           >
             <Image
@@ -129,11 +112,11 @@ export default function Card2({
           {/* Info del producto */}
           <div className="flex flex-col gap-2 shrink-0">
             <div>
-            <p className="text-sm text-[#777777] line-clamp-1">{category}</p>
+              <p className="text-sm text-[#777777] line-clamp-1">{category}</p>
             </div>
 
             <div className="space-y-1">
-              <h3 className="text-lg font-semibold text-[#022954] line-clamp-2">
+              <h3 className="text-lg font-semibold text-[#022954] truncate">
                 {title}
               </h3>
               <p className="text-md text-[#022954] line-clamp-1">{brand}</p>
@@ -152,7 +135,7 @@ export default function Card2({
 
             {temporal_price !== null && temporal_price !== undefined ? (
               <div className="flex flex-wrap items-baseline justify-between xl:gap-x-1 xl:gap-y-1 2xl:gap-x-3 2xl:gap-y-1">
-                <p className="flex items-baseline xl:text-xl 2xl:text-2xl font-bold text-[#022954]">
+                <p className="flex flex-wrap items-baseline xl:text-xl 2xl:text-2xl font-bold text-[#022954]">
                   ${temporal_price}
                   <span className="ml-1 text-base font-normal text-[#022954]">
                     USD
@@ -172,51 +155,35 @@ export default function Card2({
             )}
 
             <div
-              className="mt-auto flex flex-wrap items-center justify-between gap-3 pt-2"
+              className="mt-auto flex flex-wrap items-center justify-between xl:gap-3 pt-2 font-bold"
               onClick={handleButtonClick}
             >
-              {actionIcon === "cart" ? (
-                <>
-                  <div className="flex items-center rounded-2xl border border-gray-200 bg-white">
-                   <button
-                      className="xl:px-2 xl:py-1.5 2xl:px-3 2xl:py-2  text-accent hover:bg-gray-50 transition-colors"
-                      aria-label="Restar"
-                      onClick={adjustQuantity(-1)}
-                    >
-                      −
-                    </button>
-                    <span className="xl:px-2 2xl:px-4 py-1 border-x border-gray-300 min-w-10 text-center">
-                      {quantity}
-                    </span>
-                    <button
-                      className="xl:px-2 xl:py-1.5 2xl:px-3 2xl:py-2  text-accent hover:bg-gray-50 transition-colors"
-                      aria-label="Sumar"
-                      onClick={adjustQuantity(1)}
-                    >
-                      +
-                    </button>
-                  </div>
+              <div className="flex items-center rounded-xl border border-gray-200 bg-white cursor-default ">
+                <button
+                  className="px-2 py-1.5 2xl:px-3 2xl:py-2  text-accent hover:bg-gray-50 transition-colors"
+                  aria-label="Restar"
+                  onClick={adjustQuantity(-1)}
+                >
+                  −
+                </button>
+                <span className=" xl:px-2 2xl:px-4 py-1 border-x border-gray-300 min-w-10 text-center">
+                  {quantity}
+                </span>
+                <button
+                  className="py-1.5 px-2 xl:py-1.5 2xl:px-3 2xl:py-2  text-accent hover:bg-gray-50 transition-colors"
+                  aria-label="Sumar"
+                  onClick={adjustQuantity(1)}
+                >
+                  +
+                </button>
+              </div>
 
-                  <button
-                    className="rounded-xl border border-primary hover:bg-primary hover:text-white transition-colors xl:py-2 xl:px-4 2xl:py-2.5 2xl:px-6"
-                    onClick={handleAddToCart}
-                  >
-                    <ShoppingCartIcon className="h-5 w-5" />
-                  </button>
-                </>
-              ) : actionIcon === "delete" ? (
-                <>
-                  <p className="text-sm text-[#777777]">
-                    Cantidad: {quantityProducts ?? quantity}
-                  </p>
-                  <button
-                    className="rounded-2xl border border-red-500 hover:bg-red-50 p-2.5 px-5 transition-colors"
-                    onClick={handleRemoveFromCart}
-                  >
-                    <Trash2 className="h-5 w-5 text-red-500" />
-                  </button>
-                </>
-              ) : null}
+              <button
+                className="rounded-xl  border border-primary hover:bg-primary hover:text-white transition-colors py-1.5  px-2.5 xl:py-2 xl:px-4 2xl:py-2.5 2xl:px-5"
+                onClick={handleAddToCart}
+              >
+                <ShoppingCartIcon className="h-5 w-5" />
+              </button>
             </div>
           </div>
         </div>
@@ -224,13 +191,13 @@ export default function Card2({
         // Card Horizontal
         <div
           onClick={productId ? handleCardClick : undefined}
-          className={`bg-white flex w-full flex-col gap-2 rounded-2xl border border-gray-200 p-3 shadow-sm sm:flex-row  ${
+          className={`bg-white flex w-full  gap-2 rounded-2xl border border-gray-200 p-3 shadow-sm sm:flex-row  ${
             productId ? "cursor-pointer transition-shadow hover:shadow-md" : ""
           }`}
           style={{ height: "240px" }}
         >
           <div
-            className="relative w-full overflow-hidden rounded-2xl bg-gray-50 sm:w-40 sm:shrink-0 lg:w-48"
+            className="relative  overflow-hidden rounded-2xl bg-gray-50 w-40 sm:shrink-0 lg:w-48"
             style={{ minHeight: "160px" }}
           >
             <Image
@@ -243,11 +210,11 @@ export default function Card2({
           </div>
 
           <div className="flex flex-1 flex-col overflow-hidden min-w-0">
-            <p className="mb-2 text-sm text-[#777777] line-clamp-1">
-              {category}
-            </p>
+            <div>
+              <p className="text-sm text-[#777777] line-clamp-1">{category}</p>
+            </div>
 
-            <div className="mb-3 space-y-1">
+            <div className="mb-1 space-y-1">
               <h3 className="text-md font-bold text-primary sm:text-lg line-clamp-2">
                 {title}
               </h3>
@@ -286,54 +253,39 @@ export default function Card2({
             )}
 
             <div
-              className="mt-auto flex flex-wrap items-center justify-between gap-3"
+              className="mt-auto flex flex-wrap items-center justify-between gap-3 font-bold"
               onClick={handleButtonClick}
             >
-              {actionIcon === "cart" ? (
-                <div className="flex items-center gap-3">
-                  <div className="flex items-center rounded-xl border border-gray-200 font-bold">
-                    <button
-                      className="xl:px-2 xl:py-1.5 2xl:px-3 2xl:py-2  text-accent hover:bg-gray-50 transition-colors"
-                      aria-label="Restar"
-                      onClick={adjustQuantity(-1)}
-                    >
-                      −
-                    </button>
-                    <span className="xl:px-2 2xl:px-4 py-1 border-x border-gray-300 min-w-10 text-center">
-                      {quantity}
-                    </span>
-                    <button
-                      className="xl:px-2 xl:py-1.5 2xl:px-3 2xl:py-2  text-accent hover:bg-gray-50 transition-colors"
-                      aria-label="Sumar"
-                      onClick={adjustQuantity(1)}
-                    >
-                      +
-                    </button>
-                  </div>
+              <div className="flex items-center justify-between w-full">
+                <div className="flex items-center rounded-xl border border-gray-200 font-bold cursor-default">
+                  <button
+                    className="px-2 py-1.5 2xl:px-3 2xl:py-2  text-accent hover:bg-gray-50 transition-colors"
+                    aria-label="Restar"
+                    onClick={adjustQuantity(-1)}
+                  >
+                    −
+                  </button>
+                  <span className="px-2 2xl:px-4 py-1 border-x border-gray-300 min-w-10 text-center">
+                    {quantity}
+                  </span>
+                  <button
+                    className="px-2 py-1.5 2xl:px-3 2xl:py-2  text-accent hover:bg-gray-50 transition-colors"
+                    aria-label="Sumar"
+                    onClick={adjustQuantity(1)}
+                  >
+                    +
+                  </button>
+                </div>
 
-                  <button
-                    className="rounded-xl border border-primary hover:bg-primary hover:text-white transition-colors xl:py-2 xl:px-4 2xl:py-2.5 2xl:px-6"
-                    onClick={handleAddToCart}
-                  >
-                    <ShoppingCartIcon className="h-5 w-5" />
-                  </button>
-                </div>
-              ) : actionIcon === "delete" ? (
-                <div className="flex items-center justify-between w-full">
-                  <p className="text-sm text-[#777777]">
-                    Cantidad: {quantityProducts ?? quantity}
-                  </p>
-                  <button
-                    className="rounded-xl border border-red-500 hover:bg-red-50 p-2.5 px-6 transition-colors"
-                    onClick={handleRemoveFromCart}
-                  >
-                    <Trash2 className="h-5 w-5 text-red-500" />
-                  </button>
-                </div>
-              ) : null}
+                <button
+                  className="rounded-xl border border-primary hover:bg-primary hover:text-white transition-colors py-2 px-4 2xl:py-2.5 2xl:px-6"
+                  onClick={handleAddToCart}
+                >
+                  <ShoppingCartIcon className="h-5 w-5" />
+                </button>
+              </div>
             </div>
           </div>
-
         </div>
       )}
     </>

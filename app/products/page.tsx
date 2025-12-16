@@ -3,32 +3,16 @@
 import SectionPromoHome1 from "@/section/home/sectionPromoHome1";
 import { FilterSection } from "@/component/ui/filterModal";
 import { useEffect, useState, useMemo } from "react";
-import Card from "@/component/ui/card";
 import Pagination from "@/component/ui/pagination";
 import { SectionAbout4 } from "@/section/aboutUS/sectionAbout4";
 import { server_url } from "@/lib/apiClient";
 import Pot from "@/section/pot/pot";
 import { SectionMasRecientes } from "@/section/masRecientes";
 import CardSkeleton from "@/component/ui/skeletonCard";
+import Card2 from "@/component/ui/card2";
+import { Product } from "@/type/product";
 
 
-export type Product = {
-  id: number;
-  category: {
-    id: number;
-    name: string;
-  };
-  name: string;
-  brand: string;
-  warranty: string;
-  price: string;
-  temporal_price?: string;
-  img: string;
-  categoria?: {
-    id: number;
-    name: string;
-  };
-};
 
 export default function Products(){
     const [category, setCategory] = useState<string[]>([]);
@@ -395,7 +379,7 @@ useEffect(() => {
                   
                   
 
-                <div id="products" className="mt-20 mx-5 lg:mx-0 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 lg:mt-0 xl:grid-cols-4 2xl:grid-cols-5 gap-4 xl:mr-20 auto-rows-fr">
+                <div id="products" className="mt-20 mx-5 lg:mx-0 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 lg:mt-0 xl:grid-cols-4 2xl:grid-cols-5 gap-4 xl:mr-15 auto-rows-fr">
                   {isLoading ? (
                     // Mostrar 15 skeletons mientras carga
                     Array.from({ length: itemsPerPage }).map((_, index) => (
@@ -406,7 +390,7 @@ useEffect(() => {
                     ))
                   ) : paginatedProducts && paginatedProducts.length > 0 ? (
                     paginatedProducts.map((product) => (
-                      <Card
+                      <Card2
                         key={product.id}
                         productId={product.id}
                         category={product.categoria?.name}
