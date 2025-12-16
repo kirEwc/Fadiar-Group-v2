@@ -17,6 +17,7 @@ import { Product } from "@/type/product";
 export default function Products(){
     const [category, setCategory] = useState<string[]>([]);
     const [price, setPrice] = useState<[number, number]>([0, 200]);
+    const [tempPrice, setTempPrice] = useState<[number, number]>([0, 200]);
     const [brands, setBrands] = useState<string[]>([]);
     const [relevant, setRelevant] = useState<string[]>([]);
     const [isFilterOpen, setIsFilterOpen] = useState(false);
@@ -92,9 +93,16 @@ useEffect(() => {
   if (priceRange.min !== 0 || priceRange.max !== 200) {
     if (price[0] === 0 && price[1] === 200) {
       setPrice([priceRange.min, priceRange.max]);
+      setTempPrice([priceRange.min, priceRange.max]);
     }
   }
 }, [priceRange.min, priceRange.max]);
+
+// Función para aplicar el filtro de precio cuando el usuario termina de ajustar
+const applyPriceFilter = (newPrice: [number, number]) => {
+  setTempPrice(newPrice);
+  setPrice(newPrice);
+};
 
 // Aplicar filtros a los productos
 const filteredProducts = useMemo(() => {
@@ -150,20 +158,26 @@ const filteredProducts = useMemo(() => {
   return filtered;
 }, [allProducts, category, brands, price, relevant, priceRange]);
 
-// Calcular productos paginados desde productos filtrados
-const paginatedProducts = useMemo(() => {
-  const startIndex = (currentPage - 1) * itemsPerPage;
-  const endIndex = startIndex + itemsPerPage;
-  return filteredProducts.slice(startIndex, endIndex);
-}, [filteredProducts, currentPage]);
-
 // Calcular total de páginas basado en productos filtrados
 const totalPages = useMemo(() => {
   return Math.ceil(filteredProducts.length / itemsPerPage);
 }, [filteredProducts.length, itemsPerPage]);
 
-
-
+// Calcular productos paginados desde productos filtrados
+const paginatedProducts = useMemo(() => {
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const endIndex = startIndex + itemsPerPage;
+  let pageProducts = filteredProducts.slice(startIndex, endIndex);
+  
+  // Si es la última página y hay menos productos que itemsPerPage, rellenar con productos de la primera página
+  if (currentPage === totalPages && pageProducts.length < itemsPerPage && filteredProducts.length > 0) {
+    const neededItems = itemsPerPage - pageProducts.length;
+    const firstPageProducts = filteredProducts.slice(0, neededItems);
+    pageProducts = [...pageProducts, ...firstPageProducts];
+  }
+  
+  return pageProducts;
+}, [filteredProducts, currentPage, totalPages, itemsPerPage]);
 
 const getAllProducts = async () => {
   setIsLoading(true);
@@ -217,6 +231,7 @@ useEffect(() => {
 
     const resetPrice = () => {
       setPrice([priceRange.min, priceRange.max]);
+      setTempPrice([priceRange.min, priceRange.max]);
     };
 
     return(
@@ -241,9 +256,10 @@ useEffect(() => {
                   type="range"
                   min={priceRange.min}
                   max={priceRange.max}
-                  valueMin={price[0]}
-                  valueMax={price[1]}
-                  onChange={setPrice}
+                  valueMin={tempPrice[0]}
+                  valueMax={tempPrice[1]}
+                  onChange={setTempPrice}
+                  onApply={applyPriceFilter}
                 />
 
                 {/* Marcas */}
@@ -389,20 +405,26 @@ useEffect(() => {
                       />
                     ))
                   ) : paginatedProducts && paginatedProducts.length > 0 ? (
-                    paginatedProducts.map((product) => (
-                      <Card2
-                        key={product.id}
-                        productId={product.id}
-                        category={product.categoria?.name}
-                        title={product.name}
-                        brand={product.brand}
-                        warranty={product.warranty}
-                        price={product.price}
-                        image={product.img}
-                        temporal_price={product?.temporal_price}
-                        position="vertical"
-                      />
-                    ))
+                    paginatedProducts.map((product, index) => {
+                      // Crear una clave única combinando el ID del producto con su índice
+                      // Esto asegura que cada producto tenga una clave única incluso si los IDs están duplicados
+                      const uniqueKey = `${product.id}-${index}`;
+                      
+                      return (
+                        <Card2
+                          key={uniqueKey}
+                          productId={product.id}
+                          category={product.categoria?.name}
+                          title={product.name}
+                          brand={product.brand}
+                          warranty={product.warranty}
+                          price={product.price}
+                          image={product.img}
+                          temporal_price={product?.temporal_price}
+                          position="vertical"
+                        />
+                      );
+                    })
                   ) : (
                     <p className="col-span-full text-center text-gray-500">No se encontraron productos</p>
                   )}
@@ -414,8 +436,7 @@ useEffect(() => {
                       currentPage={currentPage}
                       onPageChange={(page) => {
                         setCurrentPage(page);
-                        // Scroll al inicio de los productos cuando cambia la página
-                        window.scrollTo({ top: 0, behavior: 'smooth' });
+                                         
                       }}
                     />
                   </div>

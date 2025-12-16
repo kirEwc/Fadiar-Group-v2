@@ -25,6 +25,7 @@ interface FilterSectionProps {
 
   // Handlers
   onChange?: (value: any) => void;
+  onApply?: (value: any) => void; // Se llama cuando termina de ajustar el rango
 }
 
 export const FilterSection: React.FC<FilterSectionProps> = ({
@@ -38,6 +39,7 @@ export const FilterSection: React.FC<FilterSectionProps> = ({
   valueMin = min,
   valueMax = max,
   onChange,
+  onApply,
 }) => {
   const trackRef = useRef<HTMLDivElement>(null);
   const [isDraggingMin, setIsDraggingMin] = useState(false);
@@ -111,6 +113,10 @@ export const FilterSection: React.FC<FilterSectionProps> = ({
     const handleEnd = () => {
       setIsDraggingMin(false);
       setIsDraggingMax(false);
+      // Llamar a onApply cuando el usuario termina de ajustar el rango
+      if (type === "range") {
+        onApply?.([valueMin, valueMax]);
+      }
     };
 
     if (isDraggingMin || isDraggingMax) {
@@ -182,7 +188,7 @@ export const FilterSection: React.FC<FilterSectionProps> = ({
           options.map((opt, index) => (
             <label
               key={(opt as any).key || opt.value || index}
-              className="flex items-center gap-2.5 text-sm text-[#3A4B66] mb-3 cursor-pointer hover:text-[#1A2B49] transition-colors"
+              className="flex items-center gap-2.5 text-sm text-[#3A4B66] mb-3 cursor-pointer hover:text-[#1A2B49] transition-colors "
             >
               <input
                 type="radio"
@@ -193,7 +199,8 @@ export const FilterSection: React.FC<FilterSectionProps> = ({
               />
               {opt.label}
             </label>
-          ))}
+          )
+          )}
 
           {/* RANGE */}
           {type === "range" && (
@@ -258,14 +265,9 @@ export const FilterSection: React.FC<FilterSectionProps> = ({
                 }}
               >
                 {/* Thumb visual */}
-                <div className="w-4 h-4 bg-white border-2 border-[#17243b] rounded-full shadow-md hover:shadow-lg"></div>
-                {/* Tooltip max */}
-                {isDraggingMax && (
-                  <div className="absolute -top-9 left-1/2 -translate-x-1/2 bg-gray-800 text-white text-xs px-2 py-1 rounded whitespace-nowrap pointer-events-none" style={{ zIndex: 70 }}>
-                    ${valueMax.toLocaleString()}
-                  </div>
-                )}
+                <div className="w-4 h-4 bg-white border-2 border-[#17243b] rounded-full shadow-md hover:shadow-lg"></div>       
               </div>
+              
             </div>
           </div>
 
