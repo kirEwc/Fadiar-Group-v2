@@ -295,7 +295,7 @@ useEffect(() => {
                   <Pot/>
                 </div>
 
-                   <div id={"list"} className="mt-20 px-4 md:px-0">
+                   <div id={"list"} className="mt-20 px-4 xl:px-0">
                       {/* Header con título y botón de filtros */}
                       <div className="flex w-full justify-between items-start mb-4">
                         <div className="flex-1">
@@ -395,7 +395,7 @@ useEffect(() => {
                   
                   
 
-                <div id="products" className="mt-20 mx-5 lg:mx-0 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 lg:mt-0 xl:grid-cols-4 2xl:grid-cols-5 gap-4 xl:mr-15 auto-rows-fr">
+                <div id="products" className="mt-20 mx-4 xl:mx-0 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 lg:mt-0 xl:grid-cols-4 2xl:grid-cols-5 gap-4 xl:mr-15 auto-rows-fr">
                   {isLoading ? (
                     // Mostrar 15 skeletons mientras carga
                     Array.from({ length: itemsPerPage }).map((_, index) => (

@@ -340,15 +340,15 @@ export default function Amount() {
         </h3>
         <div className="bg-[#F5F7FA] rounded-xl overflow-hidden">
           <div className="flex justify-between items-center p-4 text-[#022954]">
-            <span className="text-xl">Subtotal</span>
-            <span className="text-xl">$ {isClient ? totalPrice.toFixed(2) : '0.00'} USD</span>
+            <span className="sm:text-xl">Subtotal</span>
+            <span className="sm:text-xl">$ {isClient ? totalPrice.toFixed(2) : '0.00'} USD</span>
           </div>
           <div className="flex justify-between items-center p-4 bg-[#E2E6EA]">
-            <span className="font-bold text-[#022954] text-2xl">
+            <span className="font-bold text-[#022954] text-xl sm:text-2xl">
               Total a pagar
             </span>
-            <span className="text-3xl font-bold text-[#022954]">
-              $ {isClient ? totalPrice.toFixed(2) : '0.00'} <span className="text-base font-normal">USD</span>
+            <span className="text-xl sm:text-3xl font-bold text-[#022954]">
+              $ {isClient ? totalPrice.toFixed(2) : '0.00'} <span className="text-xl sm:text-3xl">USD</span>
             </span>
           </div>
         </div>

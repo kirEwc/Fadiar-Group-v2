@@ -2,21 +2,9 @@
 import Card2 from "@/component/ui/card2";
 import CardSkeleton from "@/component/ui/skeletonCard";
 import { server_url } from "@/lib/apiClient";
+import { Product } from "@/type/product";
 import { useEffect, useState } from "react";
 
-interface Product {
-  id: number;
-  categoria?: {
-    id: number;
-    name: string;
-  };
-  name: string;
-  brand: string;
-  warranty: string;
-  price: string;
-  img: string;
-  temporal_price?: string;
-}
 
 export default function NineOffers() {
   const [offers, setOffers] = useState<Product[]>([]);
@@ -119,21 +107,23 @@ export default function NineOffers() {
         <h2 className="text-[24px] font-bold text-accent">Nuestras Ofertas</h2>
       </div>
 
-      {/* Mobile / Tablet: cards stacked two-by-two */}
-      <div className="grid grid-cols-2 gap-3 lg:hidden">
+      {/* sm to lg: 3 cards per row */}
+      <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 lg:hidden">
         {cardIndexes.map((cardIndex) => (
-          <div key={`mobile-offer-${cardIndex}`}>{renderOfferCard(cardIndex, "vertical")}</div>
+          <div key={`mobile-offer-${cardIndex}`}>
+            {renderOfferCard(cardIndex, "vertical")}
+          </div>
         ))}
       </div>
 
-      {/* lg to xl: all cards vertical */}
-      <div className="hidden gap-3 lg:grid lg:grid-cols-3 xl:hidden">
-        {[0, 1, 2].map((cardIndex) => (
+      {/* lg to xl: 4 cards per row */}
+      <div className="hidden gap-3 lg:grid lg:grid-cols-4 xl:hidden">
+        {[0, 1, 2, 3].map((cardIndex) => (
           <div key={`lg-offer-${cardIndex}`} className="flex flex-col gap-3">
             {renderOfferCard(cardIndex, "vertical")}
           </div>
         ))}
-        {[3, 4, 5, 6, 7, 8].map((cardIndex) => (
+        {[4, 5, 6, 7, 8].map((cardIndex) => (
           <div key={`lg-offer-${cardIndex}`} className="flex flex-col gap-3">
             {renderOfferCard(cardIndex, "vertical")}
           </div>
