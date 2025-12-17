@@ -1,7 +1,7 @@
 "use client";
 import { useParams } from "next/navigation";
 import Image from "next/image";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState, Suspense } from "react";
 import { SectionMasRecientes } from "@/section/masRecientes";
 import { SectionAbout4 } from "@/section/aboutUS/sectionAbout4";
 import { server_url } from "@/lib/apiClient";
@@ -9,6 +9,7 @@ import { PackageX, Search, Home, ArrowLeft } from 'lucide-react';
 import RelatedProds from "@/section/relatedProds";
 import ShoppingCartIcon from "@/component/icons";
 import useCartStore from "@/store/cartStore";
+import { SearchParamsProvider } from "./SearchParamsProvider";
 
 interface Product {
   id: number;
@@ -28,12 +29,7 @@ interface Product {
 
 
 
-
-
-
-
-export default function Product() {
-  const { id } = useParams<{ id: string }>();
+function ProductContent({ id }: { id: string | null }) {
   const [qty, setQty] = useState(1);
   const [product, setProduct] = useState<Product | null>(null);
   const [isLoading, setIsLoading] = useState(true);
@@ -368,5 +364,32 @@ export default function Product() {
           <SectionMasRecientes/>
         </div>
     </main>
+  );
+}
+
+export default function Product() {
+  return (
+    <Suspense fallback={
+      <main>
+        <div className="px-4 md:px-20 2xl:px-36 mt-10">
+          <div className="animate-pulse">
+            <div className="h-8 bg-gray-200 rounded w-1/4 mb-4"></div>
+            <div className="h-10 bg-gray-200 rounded w-1/2 mb-10"></div>
+            <div className="flex flex-col md:flex-row gap-16">
+              <div className="md:w-1/3 h-[400px] bg-gray-200 rounded-xl"></div>
+              <div className="md:w-2/3 space-y-4">
+                <div className="h-6 bg-gray-200 rounded w-1/3"></div>
+                <div className="h-10 bg-gray-200 rounded w-1/2"></div>
+                <div className="h-8 bg-gray-200 rounded w-1/4"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </main>
+    }>
+      <SearchParamsProvider>
+        {(id) => <ProductContent id={id} />}
+      </SearchParamsProvider>
+    </Suspense>
   );
 }
